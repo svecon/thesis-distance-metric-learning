@@ -45,6 +45,11 @@
 \usepackage{paralist}       % improved enumerate and itemize
 \usepackage[usenames]{xcolor}  % typesetting in color
 
+%%% User-defined packages
+\usepackage{amssymb}
+\usepackage[inline]{enumitem}
+\DeclareMathOperator{\tr}{tr}
+
 %%% Basic information on the thesis
 
 % Thesis title in English (exactly as in the formal assignment)
@@ -218,6 +223,103 @@ An~example citation: \cite{Andel07}
 \addcontentsline{toc}{chapter}{Conclusion}
 
 This worked, this didn't work. What we did.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{Test}
+hello world \\ hello world2
+$x=5$
+$\frac{5}{6}$
+$\dfrac{5}{6}$
+\[111\]
+$$121$$
+
+
+% Example 1
+\ldots when Einstein introduced his formula
+\begin{equation}
+e = m \cdot c^2 \; ,
+\end{equation}
+which is at the same time the most widely known
+and the least well understood physical formula.
+% Example 2
+\ldots from which follows Kirchhoff’s current law:
+\begin{equation}
+\sum_{k=1}^{n} I_k = 0 \; .
+\end{equation}
+Kirchhoff’s voltage law can be derived \ldots
+% Example 3
+\ldots which has several advantages.
+\begin{equation}
+I_D = I_F - I_R
+\end{equation}
+is the core of a very different transistor model. \ldots
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Notation}
+
+\begin{tabbing}
+\hspace{200pt}\=\kill
+$\mathbb{R}$ \> Set of real numbers \\
+$\mathbb{R}^d$ \> Set of d-dimensional real-valued vectors \\
+$\mathbb{R}^{c \times d}$ \> Set of c$\times$d real-valued matrices \\
+$\mathbb{S}^{d \times d}_+$ \> Cone of symmetric PSD d$\times$d real-valued matrices \\
+$\textbf{x}$ \> An arbitrary vector \\
+$\textbf{\textit{M}}$ \> An arbitrary matrix \\
+$\textbf{\textit{I}}$ \> Identity matrix \\
+$\textbf{\textit{M}} \succeq 0$ \> PSD matrix M \\
+$\parallel \cdot \parallel_p$ \> p-norm \\
+$\parallel \cdot \parallel_\mathcal{F}$ \> Frobenius norm \\
+$\parallel \cdot \parallel_*$ \> Nuclear norm \\
+$\tr(\textbf{\textit{M}})$ \> Trace of matrix M \\
+$[t]_+ = max(0, 1-t)$ \> Hinge loss function \\
+$\xi$ \> Slack variable \\
+$\Sigma$ \> Finite alphabet \\
+
+$\mathcal{X} \subseteq \mathbb{R}^d$ \> Input (instance) space \\
+$\widehat{\mathcal{Y}} = \{ 1, \ldots ,\widehat{c} \}$ \> Set of $\widehat{c}$ output labels (ground truth) \\
+$\mathcal{Y} = \{ 1, \ldots ,c \} \subseteq \widehat{\mathcal{Y}}$ \> Set of $c$ known output labels \\
+% $x$ \> String of finite size
+$z=(x,y) \in \mathcal{X} \times \mathcal{Y}$ \> An arbitrary labeled instance \\
+$\mathcal{L}=\{z_i=(x_i, y_i)\}^n_{i=1}$ \> Set of $n$ labeled training instances \\
+$\mathcal{U} = \{x_i \}^m_{i=1}$ \> Set of $m$ unlabeled training instances \\
+$\overline{z} = (x, \overline{y}) \in \mathcal{X} \times \widehat{\mathcal{Y}} $ \> An arbitrary instance with predicted label \\
+$\overline{\mathcal{Z}} = \{\overline{z_i} = (x_i, \overline{y_i}) \}^m_{i=1}$ \> Set of $m$ training instances with predicted labels \\
+$\mathcal{S} = \{ (x_i, x_j) \mid y_i = y_j \}$ \> Set of must-link constraints \\
+$\mathcal{D} = \{ (x_i, x_j) \mid y_i \neq y_j \}$ \> Set of cannot-link constraints \\
+$\mathcal{R} = \{ (x_i, x_j, x_k) \mid y_i = y_j \wedge y_i \neq y_k \}$ \> Set of relative constraints \\
+\end{tabbing} 
+
+\section{Goals}
+
+\subsection{Foundation stone}
+
+Many researches devoted to learn a Mahalanobis distance metric, which has mostly been used to improve the performance of kNN classification. Most of the research has been focused on learning this metric from labeled training instances.
+
+In this thesis, we review existing state-of-the-art methods for learning global Mahalanobis distance metric (Xing, LMNN, NCA, ...) and multiple local Mahalanobis distance metrics (PLML, ...) and compare them on several popular datasets. Learning the full Mahalanobis metric means learning $d^2$ parameters and so we also try to restrict the existing methods to learn only a diagonal of the Mahalanobis distance metric with $d$ parameters.
+
+There was no unified library containing the algorithms for learning the distance metrics and so we created a library with unified interface according to the current standards.
+
+\subsection{Nice to have}
+
+In the next part of our work we apply the known methods from supervised setting to semi-supervised where we have both labeled and unlabeled training instances. The idea is to use the Mahalanobis metric distance learnt from labeled pairs for clustering the unlabeled instances. It is possible (and very likely) that the unlabeled instances contain more classes.
+
+We examine this for methods using global metrics and also for methods using multiple local distance metrics where we needed to adapt existing clustering algorithms for our multi-metric setting.
+
+\subsection{Moonshot}
+
+In the last section of the thesis we examined an iterative distance metric learning process consisting of these steps:
+\begin{enumerate*}
+\item{learning a distance metric from the labeled data}
+\item{applying a non-supervised clustering method to obtain new labels (and possibldifferent number of classes)}
+\item{repeat}
+\end{enumerate*}
+.
+
+\subsection{Not included}
+
+online metrics? - usually global
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
