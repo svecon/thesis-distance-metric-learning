@@ -111,13 +111,117 @@ Abstract. %TODO
 \tableofcontents
 
 %%% Each chapter is kept in a separate file
-\include{preface}
-\include{chap01_competition}
-\include{chap01}
-\include{chap02}
-\include{chap03_mahalanobis}
-\include{epilog}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\include{preface}
+%\include{chap01_competition}
+%\include{chap01}
+%\include{chap02}
+%\include{chap03_mahalanobis}
+%\include{epilog}
+
+\chapter*{Introduction}
+\addcontentsline{toc}{chapter}{Introduction}
+
+The need for measuring distance or similarity between data is ubiquitous in machine learning and creating custom metrics by hand is very difficult process. This has led to an introduction of distance metric learning where we learn distance metrics or similarities from data themselves.
+
+One of the popular metrics is Mahalanobis distance, which generalizes Euclidean distance with a parameter matrix. We examine methods for learning this Mahalanobis distance and compare their performance on common datasets.
+
+% Úvod do problematiky
+% - Co už se udělalo
+% - Co je známo
+% - Co není známo
+% - Co a pro Co a proč chceme naší prací objasnit naší prací objasnit
+% - Jasná definice cíle práce
+% - Struktura práce
+
+% Related works
+% - Co už udělali jiní
+% - Co nového hodlá udělat autor
+
+% v úvodu
+% samostatná kapitola za úvodem samostatná kapitola za úvodem
+% v závěru článku
+
+\section*{Motivation}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Methods}
+
+In this work we chose to examine the following methods:
+
+\begin{enumerate}
+\item Simple Covariance Metric
+\item Xing
+\item Large Margin Nearest Neighbor (LMNN)
+\item Information Theoretic Metric Learning (ITML)
+\item Sparse Determinant Metric Learning (SDML)
+\item Least Squares Metric Learning (LSML)
+\item Neighborhood Components Analysis (NCA)
+\item Local Fisher Discriminant Analysis (LFDA)
+\item Relative Components Analysis (RCA)
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Experiments}
+
+Datasets that we used for our experiments from 
+
+https://archive.ics.uci.edu/ml/datasets/:
+
+We chose the basic datasets that were mentioned in the original papers.
+
+balance-scale, breast-cancer-wisconsin, ionosphere, iris, mice-protein, pima-indians-diabetes, sonar, soybean-large, wine
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Discussion}
+
+Graphs, performace, caveats, what worked, what didnt work...
+
+LMNN, ITML, SDML take too long to calculate
+
+LMNN and LFDA perform very well
+
+LMNN has too many hyper parameters
+
+Simple Covariance metric was impossible to calculate on certain datasets
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Mahalanobis metric}
+
+\begin{align*}
+  d(x,y)_{A} &= \sqrt{(x-y)^{T}A(x-y)} \\
+         &= \sqrt{(x-y)^{T}L^{T}L(x-y)} \\
+         &= \sqrt{(Lx-Ly)^{T}(Lx-Ly)} \\
+         &= d(Lx, Ly)
+\end{align*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Title of the first chapter}
+
+An~example citation: \cite{Andel07}
+
+\section{Title of the first subchapter of the first chapter}
+
+\section{Title of the second subchapter of the first chapter}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter*{Conclusion}
+\addcontentsline{toc}{chapter}{Conclusion}
+
+This worked, this didn't work. What we did.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% Bibliography
 \include{bibliography}
