@@ -127,7 +127,7 @@ Abstract. %TODO
 %\include{chap03_mahalanobis}
 %\include{epilog}
 
-\chapter*{Introduction}
+\chapter{Introduction} \label{introduction}
 \addcontentsline{toc}{chapter}{Introduction}
 
 The need for measuring distance or similarity between data is ubiquitous in machine learning and creating custom metrics by hand is very difficult process. This has led to an introduction of distance metric learning where we learn distance metrics or similarities from data themselves.
@@ -151,6 +151,86 @@ One of the popular metrics is Mahalanobis distance, which generalizes Euclidean 
 % v závěru článku
 
 \section*{Motivation}
+
+\section*{Methodology}
+\section*{Thesis structure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Notation}
+
+More notation at http://www.deeplearningbook.org/contents/notation.html
+
+\noindent Numbered equation:
+\begin{equation*}\label{my favorite equation}
+  e^{i\pi}=-1
+\end{equation*}
+
+\section{Math references} \label{mathrefs}
+As mentioned in section \autoref{introduction}, different elements can 
+be referenced within a document
+ 
+\subsection{powers series} \label{subsection}
+ 
+\begin{equation} \label{eq:1}
+\sum_{i=0}^{\infty} a_i x^i
+\end{equation}
+ 
+The equation \ref{eq:1} is a typical power series.
+ 
+In the subsection \ref{subsection} at the page \pageref{eq:1} an 
+example of a power series was presented.
+
+\begin{tabbing}
+\hspace{200pt}\=\kill
+$\mathbb{R}$ \> Set of real numbers \\
+$\mathbb{R}^d$ \> Set of d-dimensional real-valued vectors \\
+$\mathbb{R}^{c \times d}$ \> Set of c$\times$d real-valued matrices \\
+$\mathbb{S}^{d \times d}_+$ \> Cone of symmetric PSD d$\times$d real-valued matrices \\
+$\textbf{x}$ \> An arbitrary vector \\
+$\textbf{\textit{M}}$ \> An arbitrary matrix \\
+$\textbf{\textit{I}}$ \> Identity matrix \\
+$\textbf{\textit{M}} \succeq 0$ \> PSD matrix M \\
+$\parallel \cdot \parallel_p$ \> p-norm \\
+$\parallel \cdot \parallel_\mathcal{F}$ \> Frobenius norm \\
+$\parallel \cdot \parallel_*$ \> Nuclear norm \\
+$\tr(\textbf{\textit{M}})$ \> Trace of matrix M \\
+$[t]_+ = max(0, 1-t)$ \> Hinge loss function \\
+$\xi$ \> Slack variable \\
+$\Sigma$ \> Finite alphabet \\
+
+$\mathcal{X} \subseteq \mathbb{R}^d$ \> Input (instance) space \\
+$\mathcal{Y} = \{ 1, \ldots ,c \}$ \> Set of $c$ output labels (ground truth) \\
+$\widehat{\mathcal{Y}} = \{ 1, \ldots ,\widehat{c} \} \subseteq \mathcal{Y}$ \> Set of $\widehat{c}$ known output labels \\
+% $x$ \> String of finite size
+$z=(x,y) \in \mathcal{X} \times \mathcal{Y}$ \> An arbitrary labeled instance \\
+$\mathcal{L}=\{z_i=(x_i, y_i)\}^n_{i=1}$ \> Set of $n$ labeled training instances \\
+$\mathcal{U} = \{x_i \}^m_{i=1}$ \> Set of $m$ unlabeled training instances \\
+$\overline{z} = (x, \overline{y}) \in \mathcal{X} \times \widehat{\mathcal{Y}} $ \> An arbitrary instance with predicted label \\
+$\overline{\mathcal{Z}} = \{\overline{z_i} = (x_i, \overline{y_i}) \}^m_{i=1}$ \> Set of $m$ training instances with predicted labels \\
+$\mathcal{S} = \{ (x_i, x_j) \mid y_i = y_j \}$ \> Set of must-link constraints \\
+$\mathcal{D} = \{ (x_i, x_j) \mid y_i \neq y_j \}$ \> Set of cannot-link constraints \\
+$\mathcal{R} = \{ (x_i, x_j, x_k) \mid y_i = y_j \wedge y_i \neq y_k \}$ \> Set of relative constraints \\
+\end{tabbing} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Mahalanobis metric}
+
+\begin{align*}
+  d(x,y)_{A} &= \sqrt{(x-y)^{T}A(x-y)} \\
+         &= \sqrt{(x-y)^{T}L^{T}L(x-y)} \\
+         &= \sqrt{(Lx-Ly)^{T}(Lx-Ly)} \\
+         &= d(Lx, Ly)
+\end{align*}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{SVD decomposition}
+
+proof that $A^TA$ is PSD matrix
+
+% http://www.deeplearningbook.org/contents/linear_algebra.html
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -227,32 +307,15 @@ Simple Covariance metric was impossible to calculate on certain datasets
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Mahalanobis metric}
+\chapter{Experiments}
 
-\begin{align*}
-  d(x,y)_{A} &= \sqrt{(x-y)^{T}A(x-y)} \\
-         &= \sqrt{(x-y)^{T}L^{T}L(x-y)} \\
-         &= \sqrt{(Lx-Ly)^{T}(Lx-Ly)} \\
-         &= d(Lx, Ly)
-\end{align*}
+Little intro.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Datasets}
 
-\chapter{SVD decomposition}
+\section{Preprocessing data}
 
-proof that $A^TA$ is PSD matrix
-
-% http://www.deeplearningbook.org/contents/linear_algebra.html
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\chapter{Title of the first chapter}
-
-An~example citation: \cite{Andel07}
-
-\section{Title of the first subchapter of the first chapter}
-
-\section{Title of the second subchapter of the first chapter}
+\section{Dimensionality reduction}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -260,6 +323,8 @@ An~example citation: \cite{Andel07}
 \addcontentsline{toc}{chapter}{Conclusion}
 
 This worked, this didn't work. What we did.
+
+\chapter*{Recommendations for future work}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -270,6 +335,20 @@ $\frac{5}{6}$
 $\dfrac{5}{6}$
 \[111\]
 $$121$$
+
+
+
+An~example citation: \cite{Andel07}
+
+\section{Title of the first subchapter of the first chapter}
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=30mm]{img/logo-en}
+    \caption{Logo of MFF UK}
+    \label{fig:mff}
+\end{figure}
 
 
 % Example 1
@@ -293,42 +372,6 @@ I_D = I_F - I_R
 is the core of a very different transistor model. \ldots
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\chapter{Notation}
-
-More notation at http://www.deeplearningbook.org/contents/notation.html
-
-\begin{tabbing}
-\hspace{200pt}\=\kill
-$\mathbb{R}$ \> Set of real numbers \\
-$\mathbb{R}^d$ \> Set of d-dimensional real-valued vectors \\
-$\mathbb{R}^{c \times d}$ \> Set of c$\times$d real-valued matrices \\
-$\mathbb{S}^{d \times d}_+$ \> Cone of symmetric PSD d$\times$d real-valued matrices \\
-$\textbf{x}$ \> An arbitrary vector \\
-$\textbf{\textit{M}}$ \> An arbitrary matrix \\
-$\textbf{\textit{I}}$ \> Identity matrix \\
-$\textbf{\textit{M}} \succeq 0$ \> PSD matrix M \\
-$\parallel \cdot \parallel_p$ \> p-norm \\
-$\parallel \cdot \parallel_\mathcal{F}$ \> Frobenius norm \\
-$\parallel \cdot \parallel_*$ \> Nuclear norm \\
-$\tr(\textbf{\textit{M}})$ \> Trace of matrix M \\
-$[t]_+ = max(0, 1-t)$ \> Hinge loss function \\
-$\xi$ \> Slack variable \\
-$\Sigma$ \> Finite alphabet \\
-
-$\mathcal{X} \subseteq \mathbb{R}^d$ \> Input (instance) space \\
-$\widehat{\mathcal{Y}} = \{ 1, \ldots ,\widehat{c} \}$ \> Set of $\widehat{c}$ output labels (ground truth) \\
-$\mathcal{Y} = \{ 1, \ldots ,c \} \subseteq \widehat{\mathcal{Y}}$ \> Set of $c$ known output labels \\
-% $x$ \> String of finite size
-$z=(x,y) \in \mathcal{X} \times \mathcal{Y}$ \> An arbitrary labeled instance \\
-$\mathcal{L}=\{z_i=(x_i, y_i)\}^n_{i=1}$ \> Set of $n$ labeled training instances \\
-$\mathcal{U} = \{x_i \}^m_{i=1}$ \> Set of $m$ unlabeled training instances \\
-$\overline{z} = (x, \overline{y}) \in \mathcal{X} \times \widehat{\mathcal{Y}} $ \> An arbitrary instance with predicted label \\
-$\overline{\mathcal{Z}} = \{\overline{z_i} = (x_i, \overline{y_i}) \}^m_{i=1}$ \> Set of $m$ training instances with predicted labels \\
-$\mathcal{S} = \{ (x_i, x_j) \mid y_i = y_j \}$ \> Set of must-link constraints \\
-$\mathcal{D} = \{ (x_i, x_j) \mid y_i \neq y_j \}$ \> Set of cannot-link constraints \\
-$\mathcal{R} = \{ (x_i, x_j, x_k) \mid y_i = y_j \wedge y_i \neq y_k \}$ \> Set of relative constraints \\
-\end{tabbing} 
 
 \section{Goals}
 
