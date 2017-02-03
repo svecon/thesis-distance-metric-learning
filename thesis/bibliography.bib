@@ -11,6 +11,10 @@
 %
 %  ===========================================================================
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%% General papers %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 % Deep learning book
 @unpublished{Goodfellow-et-al-2016-Book,
     title={Deep Learning},
@@ -21,7 +25,7 @@
 }
 
 % Bellet survey
-% https://arxiv.org/abs/1306.6709
+% https://arxiv.org/pdf/1306.6709.pdf
 @article{bellet2013survey,
   title={A survey on metric learning for feature vectors and structured data},
   author={Bellet, Aur{\'e}lien and Habrard, Amaury and Sebban, Marc},
@@ -37,6 +41,10 @@
   booktitle={Proceedings of the Computer Vision and Pattern Recognition Conference},
   year={2007}
 }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%% Metric learning papers %%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Mahalanobis
 @article{mahalanobis1936generalized,
@@ -138,7 +146,9 @@
 }
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%% Evolutionary papers %%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % jDE + Mahalanobis
 % http://ieeexplore.ieee.org/abstract/document/6735277/
@@ -162,6 +172,36 @@
   year={2015},
   publisher={人工知能学会}
 }
+
+
+% CMA-ES
+% https://www.lri.fr/~hansen/cmaesintro.html
+% https://pdfs.semanticscholar.org/3f83/8d5b3a18d8acfe87cf7570405d1b8df7b30a.pdf
+@inproceedings{hansen1996adapting,
+  title={Adapting arbitrary normal mutation distributions in evolution strategies: The covariance matrix adaptation},
+  author={Hansen, Nikolaus and Ostermeier, Andreas},
+  booktitle={Evolutionary Computation, 1996., Proceedings of IEEE International Conference on},
+  pages={312--317},
+  year={1996},
+  organization={IEEE}
+}
+
+% jDE: Self-Adapting Control Parameters in Differential Evolution
+% https://www.researchgate.net/profile/Marjan_Mernik/publication/3418914_Self-Adapting_Control_Parameters_in_Differential_Evolution_A_Comparative_Study_on_Numerical_Benchmark_Problems/links/02bfe50f4c67124ef4000000.pdf
+@article{brest2006self,
+  title={Self-adapting control parameters in differential evolution: A comparative study on numerical benchmark problems},
+  author={Brest, Janez and Greiner, Sao and Boskovic, Borko and Mernik, Marjan and Zumer, Viljem},
+  journal={IEEE transactions on evolutionary computation},
+  volume={10},
+  number={6},
+  pages={646--657},
+  year={2006},
+  publisher={IEEE}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%% Interesting, but not necessary? %%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Kernel construction for classification (SVM)
 % http://ocean.sci-hub.cc/db9fc6a86e1cb0fe205b8fd116177179/10.1007@1184093043.pdf
@@ -193,4 +233,36 @@
   pages={147--156},
   year={2002},
   publisher={Springer}
+}
+
+% Metric Learning for Kernel Regression
+% http://www.jmlr.org/proceedings/papers/v2/weinberger07a/weinberger07a.pdf
+@inproceedings{weinberger2007metric,
+  title={Metric Learning for Kernel Regression.},
+  author={Weinberger, Kilian Q and Tesauro, Gerald},
+  booktitle={AISTATS},
+  pages={612--619},
+  year={2007}
+}
+
+% Evolutionary Multi-objective Distance Metric Learning for Multi-label Clustering
+% http://ocean.sci-hub.cc/720be8a7177ada89e820d4be628466c9/megano2015.pdf
+@inproceedings{megano2015evolutionary,
+  title={Evolutionary multi-objective distance metric learning for multi-label clustering},
+  author={Megano, Taishi and Fukui, Ken-ichi and Numao, Masayuki and Ono, Satoshi},
+  booktitle={Evolutionary Computation (CEC), 2015 IEEE Congress on},
+  pages={2945--2952},
+  year={2015},
+  organization={IEEE}
+}
+
+% Which Distance Metric is Right: An Evolutionary K-Means View
+% https://pdfs.semanticscholar.org/53cc/0966b730eae900acd976bd3d656e63744e5b.pdf
+@inproceedings{liu2012distance,
+  title={Which distance metric is right: An evolutionary k-means view},
+  author={Liu, Chuanren and Hu, Tianming and Ge, Yong and Xiong, Hui},
+  booktitle={Proceedings of the 2012 SIAM International Conference on Data Mining},
+  pages={907--918},
+  year={2012},
+  organization={SIAM}
 }
