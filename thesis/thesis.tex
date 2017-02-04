@@ -150,36 +150,49 @@ One of the popular metrics is Mahalanobis distance, which generalizes Euclidean 
 % samostatná kapitola za úvodem samostatná kapitola za úvodem
 % v závěru článku
 
-\section*{Motivation}
-
-\section*{Methodology}
-\section*{Thesis structure}
+\section{Motivation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Notation}
+\section{Goals}
 
-More notation at http://www.deeplearningbook.org/contents/notation.html
+\subsection{Foundation stone}
 
-\noindent Numbered equation:
-\begin{equation*}\label{my favorite equation}
-  e^{i\pi}=-1
-\end{equation*}
+Many researches devoted to learn a Mahalanobis distance metric, which has mostly been used to improve the performance of kNN classification. Most of the research has been focused on learning this metric from labeled training instances.
 
-\section{Math references} \label{mathrefs}
-As mentioned in section \autoref{introduction}, different elements can 
-be referenced within a document
- 
-\subsection{powers series} \label{subsection}
- 
-\begin{equation} \label{eq:1}
-\sum_{i=0}^{\infty} a_i x^i
-\end{equation}
- 
-The equation \ref{eq:1} is a typical power series.
- 
-In the subsection \ref{subsection} at the page \pageref{eq:1} an 
-example of a power series was presented.
+In this thesis, we review existing state-of-the-art methods for learning global Mahalanobis distance metric (Xing, LMNN, NCA, ...) and multiple local Mahalanobis distance metrics (PLML, ...) and compare them on several popular datasets. Learning the full Mahalanobis metric means learning $d^2$ parameters and so we also try to restrict the existing methods to learn only a diagonal of the Mahalanobis distance metric with $d$ parameters.
+
+There was no unified library containing the algorithms for learning the distance metrics and so we created a library with unified interface according to the current standards.
+
+\subsection{Nice to have}
+
+In the next part of our work we apply the known methods from supervised setting to semi-supervised where we have both labeled and unlabeled training instances. The idea is to use the Mahalanobis metric distance learnt from labeled pairs for clustering the unlabeled instances. It is possible (and very likely) that the unlabeled instances contain more classes.
+
+We examine this for methods using global metrics and also for methods using multiple local distance metrics where we needed to adapt existing clustering algorithms for our multi-metric setting.
+
+\subsection{Moonshot}
+
+In the last section of the thesis we examined an iterative distance metric learning process consisting of these steps:
+\begin{enumerate*}
+\item{learning a distance metric from the labeled data}
+\item{applying a non-supervised clustering method to obtain new labels (and possibldifferent number of classes)}
+\item{repeat}
+\end{enumerate*}
+.
+
+\subsection{Not included}
+
+online metrics? - usually global
+
+\section{Methodology}
+\section{Thesis structure}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Notation} \label{notation}
+
+% More inspiration:
+% http://www.deeplearningbook.org/contents/notation.html
 
 \begin{tabbing}
 \hspace{200pt}\=\kill
@@ -188,13 +201,13 @@ $\mathbb{R}^d$ \> Set of d-dimensional real-valued vectors \\
 $\mathbb{R}^{c \times d}$ \> Set of c$\times$d real-valued matrices \\
 $\mathbb{S}^{d \times d}_+$ \> Cone of symmetric PSD d$\times$d real-valued matrices \\
 $\textbf{x}$ \> An arbitrary vector \\
-$\textbf{\textit{M}}$ \> An arbitrary matrix \\
+$\bm{M}$ \> An arbitrary matrix \\
 $\textbf{\textit{I}}$ \> Identity matrix \\
-$\textbf{\textit{M}} \succeq 0$ \> PSD matrix M \\
+$\bm{M} \succeq 0$ \> PSD matrix M \\
 $\parallel \cdot \parallel_p$ \> p-norm \\
 $\parallel \cdot \parallel_\mathcal{F}$ \> Frobenius norm \\
 $\parallel \cdot \parallel_*$ \> Nuclear norm \\
-$\tr(\textbf{\textit{M}})$ \> Trace of matrix M \\
+$\tr(\bm{M})$ \> Trace of matrix M \\
 $[t]_+ = max(0, 1-t)$ \> Hinge loss function \\
 $\xi$ \> Slack variable \\
 $\Sigma$ \> Finite alphabet \\
@@ -215,20 +228,51 @@ $\mathcal{R} = \{ (x_i, x_j, x_k) \mid y_i = y_j \wedge y_i \neq y_k \}$ \> Set 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Mahalanobis metric}
+\chapter{Metric learning}
+
+\subsection{Applications}
+\subsection{Related Topics}
+
+\subsection{Key Properties of Metric Learning Algorithms}
+
+Learning paradigms: supervised, semi-supervised, unsupervised
+
+Form of metrics: global (linear), non-linear, local
+
+Scalability
+
+Optimality of a solution (global optimum, local optimum)
+
+Dimensionality reduction
+
+\section{Supervised Mahalanobis Metric Learning}
+
+Definition of a metric
+
+Euclidean metric
+
+Minkowski metric
+
+Mahalanobis metric
+
+\begin{equation}
+d_{Mahalanobis}(\textbf{x},\textbf{y}) = \sqrt{(\textbf{x}-\textbf{y})^T\bm{\Omega}^{-1}(\textbf{x}-\textbf{y})} 
+\end{equation}
+
+\cite{mahalanobis1936generalized}
 
 \begin{align*}
-  d(x,y)_{A} &= \sqrt{(x-y)^{T}A(x-y)} \\
-         &= \sqrt{(x-y)^{T}L^{T}L(x-y)} \\
-         &= \sqrt{(Lx-Ly)^{T}(Lx-Ly)} \\
-         &= d(Lx, Ly)
+  d_{\bm{M}}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{M}(\textbf{x}-\textbf{y})} \\
+         &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{L}^{T}\bm{L}(\textbf{x}-\textbf{y})} \\
+         &= \sqrt{(\bm{L}\textbf{x}-\bm{L}\textbf{y})^{T}(\bm{L}\textbf{x}-\bm{L}\textbf{y})} \\
+         &= d(\bm{L}\textbf{x}, \bm{L}\textbf{y})
 \end{align*}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{SVD decomposition}
+\subsection{SVD decomposition}
 
-proof that $A^TA$ is PSD matrix
+proof that $L^TL$ is PSD matrix
 
 % http://www.deeplearningbook.org/contents/linear_algebra.html
 
@@ -240,14 +284,15 @@ In this work we chose to examine the following methods:
 
 \begin{enumerate}
 \item Simple Covariance Metric
-\item Xing
-\item Large Margin Nearest Neighbor (LMNN)
-\item Information Theoretic Metric Learning (ITML)
-\item Sparse Determinant Metric Learning (SDML)
-\item Least Squares Metric Learning (LSML)
-\item Neighborhood Components Analysis (NCA)
-\item Local Fisher Discriminant Analysis (LFDA)
-\item Relative Components Analysis (RCA)
+\item Xing \cite{xing2002distance}
+\item Large Margin Nearest Neighbor (LMNN) \cite{weinberger2009distance}
+\item Information Theoretic Metric Learning (ITML) \cite{davis2007information}
+\item Sparse Determinant Metric Learning (SDML) \cite{qi2009efficient}
+\item Least Squares Metric Learning (LSML) \cite{liu2012metric}
+\item Neighborhood Components Analysis (NCA) \cite{jacobgoldberger2004neighbourhood}
+\item Local Fisher Discriminant Analysis (LFDA) \cite{sugiyama2007dimensionality}
+\item Relative Components Analysis (RCA) \cite{shental2002adjustment}
+\item \cite{fukui2013evolutionary}
 \end{enumerate}
 
 - Teoretická analýza
@@ -257,6 +302,7 @@ Zmínit lokální metriky, online, ...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Experiments}
+Little intro.
 
 Datasets that we used for our experiments from 
 
@@ -270,7 +316,7 @@ Avast dataset?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Trivial toy dataset}
+\section{Trivial toy dataset}
 
 	*** **** *** *** *** * ** **** * * **** ***
 	-  -   -    -    -   -   -    -    -     -
@@ -285,11 +331,23 @@ Avast dataset?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Hierarchical Grid search}
+\section{Hierarchical Grid search}
 
 how it works - scheme
 
 how cross-validation is in memory
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Datasets}
+
+Short info about all datasets we used.
+
+Table with \#classes, \#dimensions, \#samples.
+
+\section{Preprocessing data}
+
+\section{Dimensionality reduction}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -307,18 +365,6 @@ Simple Covariance metric was impossible to calculate on certain datasets
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Experiments}
-
-Little intro.
-
-\section{Datasets}
-
-\section{Preprocessing data}
-
-\section{Dimensionality reduction}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 
@@ -328,7 +374,29 @@ This worked, this didn't work. What we did.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter*{Test}
+\chapter*{Test} \label{subsection}
+
+
+\noindent Numbered equation:
+\begin{equation*}\label{my favorite equation}
+  e^{i\pi}=-1
+\end{equation*}
+
+\begin{equation} \label{eq:1}
+\sum_{i=0}^{\infty} a_i x^i
+\end{equation} 
+The equation \ref{eq:1} is a typical power series.
+
+
+\section{Math references} \label{mathrefs}
+As mentioned in section \autoref{introduction}, different elements can 
+be referenced within a document
+
+ 
+In the subsection \ref{subsection} at the page \pageref{eq:1} an 
+example of a power series was presented.
+
+
 hello world \\ hello world2
 $x=5$
 $\frac{5}{6}$
@@ -373,38 +441,6 @@ Kirchhoff’s voltage law can be derived \ldots
 I_D = I_F - I_R
 \end{equation}
 is the core of a very different transistor model. \ldots
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Goals}
-
-\subsection{Foundation stone}
-
-Many researches devoted to learn a Mahalanobis distance metric, which has mostly been used to improve the performance of kNN classification. Most of the research has been focused on learning this metric from labeled training instances.
-
-In this thesis, we review existing state-of-the-art methods for learning global Mahalanobis distance metric (Xing, LMNN, NCA, ...) and multiple local Mahalanobis distance metrics (PLML, ...) and compare them on several popular datasets. Learning the full Mahalanobis metric means learning $d^2$ parameters and so we also try to restrict the existing methods to learn only a diagonal of the Mahalanobis distance metric with $d$ parameters.
-
-There was no unified library containing the algorithms for learning the distance metrics and so we created a library with unified interface according to the current standards.
-
-\subsection{Nice to have}
-
-In the next part of our work we apply the known methods from supervised setting to semi-supervised where we have both labeled and unlabeled training instances. The idea is to use the Mahalanobis metric distance learnt from labeled pairs for clustering the unlabeled instances. It is possible (and very likely) that the unlabeled instances contain more classes.
-
-We examine this for methods using global metrics and also for methods using multiple local distance metrics where we needed to adapt existing clustering algorithms for our multi-metric setting.
-
-\subsection{Moonshot}
-
-In the last section of the thesis we examined an iterative distance metric learning process consisting of these steps:
-\begin{enumerate*}
-\item{learning a distance metric from the labeled data}
-\item{applying a non-supervised clustering method to obtain new labels (and possibldifferent number of classes)}
-\item{repeat}
-\end{enumerate*}
-.
-
-\subsection{Not included}
-
-online metrics? - usually global
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
