@@ -230,8 +230,21 @@ $\mathcal{R} = \{ (x_i, x_j, x_k) \mid y_i = y_j \wedge y_i \neq y_k \}$ \> Set 
 
 \chapter{Metric learning}
 
+Introduction
+
 \section{Applications}
+
+Looking at metric learning as a "data transformation/preprocessing".
+
+Computer vision
+Information retrieval
+Bioinformatics
+
 \section{Related Topics}
+
+Kernel learning
+Multiple kernel learning
+Dimensionality reduction
 
 \section{Key Properties of Metric Learning Algorithms}
 
@@ -249,9 +262,22 @@ Dimensionality reduction
 
 Definition of a metric
 
+% https://numerics.mathdotnet.com/distance.html
+\begin{equation} 
+d_{\mathbf{2}} : (x, y) \mapsto \|x-y\|_2 = \sqrt{\sum_{i=1}^{n} (x_i-y_i)^2}
+\end{equation}
+
 Euclidean metric
 
 Minkowski metric
+\begin{equation}
+d_{\mathbf{p}} : (x, y) \mapsto \|x-y\|_p = \bigg(\sum_{i=1}^{n} |x_i-y_i|^p\bigg)^\frac{1}{p}
+\end{equation}
+
+Chebyshev Distance: p goes to infinity
+\begin{equation}
+d_{\mathbf{\infty}} : (x, y) \mapsto \|x-y\|_\infty = \lim_{p \rightarrow \infty}\bigg(\sum_{i=1}^{n} |x_i-y_i|^p\bigg)^\frac{1}{p} = \max_{i} |x_i-y_i|
+\end{equation}
 
 Mahalanobis metric
 
@@ -373,6 +399,10 @@ How hyperparameters influence the successrate. [graphs]
 how it works - scheme
 
 how cross-validation is in memory
+
+\section{Metric learning in metric\_learn package}
+
+Description of modules, fitnesses, transformers, ...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
