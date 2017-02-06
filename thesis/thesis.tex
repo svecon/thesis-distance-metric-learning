@@ -49,6 +49,8 @@
 \usepackage{amssymb}
 \usepackage[inline]{enumitem}
 \DeclareMathOperator{\tr}{tr}
+\usepackage{float}
+\usepackage{booktabs}
 
 %%% Basic information on the thesis
 
@@ -372,6 +374,25 @@ Avast dataset?
 
 Short info about all datasets we used.
 
+
+
+\begin{table}[h] \label{tab:datasets} \centering
+\begin{tabular}{llr}
+\hline
+\multicolumn{3}{c}{Item} \\
+% \cline{1-2}
+Animal    & Description & Price (\$) \\
+\hline
+Gnat      & per gram    & 13.65      \\
+          & each        & 0.01       \\
+Gnu       & stuffed     & 92.50      \\
+Emu       & stuffed     & 33.33      \\
+Armadillo & frozen      & 8.99       \\
+\hline
+\end{tabular}
+\caption{Datasets}
+\end{table}
+
 Table with \#classes, \#dimensions, \#samples.
 
 \section{Preprocessing data}
@@ -403,6 +424,12 @@ how cross-validation is in memory
 \section{Metric learning in metric\_learn package}
 
 Description of modules, fitnesses, transformers, ...
+
+\begin{figure}[h!] \label{fig:implementation-modules}
+	\centering
+    \includegraphics[width=0.2\textwidth]{img/notfound}
+    \caption{Interaction between modules for Metric evolution}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -469,7 +496,7 @@ $$121$$
 \section{Title of the first subchapter of the first chapter}
 
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
     \includegraphics[width=30mm]{img/logo-en}
     \caption{Logo of MFF UK}
@@ -477,17 +504,17 @@ $$121$$
 \end{figure}
 
 
-\begin{figure} \label{fig:foo} \centering
-    \includegraphics[width=1.0\textwidth]{img/dim-reduction/foo}
-    \caption{Logo of MFF UK}
-\end{figure}
+% \begin{figure}[ht] \label{fig:foo} \centering
+%     \includegraphics[width=1.0\textwidth]{img/dim-reduction/matplotlib}
+%     \caption{Logo of MFF UK}
+% \end{figure}
 
-\begin{figure}
-    \centering
-    \includegraphics[width=1.0\textwidth]{img/dim-reduction/balance-scale-plot}
-    \caption{Logo of MFF UK}
-    \label{fig:xxx}
-\end{figure}
+% \begin{figure}[ht]
+%     \centering
+%     \includegraphics[width=1.0\textwidth]{img/dim-reduction/plotly}
+%     \caption{Logo of MFF UK}
+%     \label{fig:xxx}
+% \end{figure}
 
 
 % Example 1
