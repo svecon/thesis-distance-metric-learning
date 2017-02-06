@@ -287,7 +287,7 @@ In this work we chose to examine the following methods:
 \item Information Theoretic Metric Learning (ITML) \cite{davis2007information}
 \item Sparse Determinant Metric Learning (SDML) \cite{qi2009efficient}
 \item Least Squares Metric Learning (LSML) \cite{liu2012metric}
-\item Neighborhood Components Analysis (NCA) \cite{jacobgoldberger2004neighbourhood}
+\item Neighborhood Components Analysis (NCA) \\ \cite{jacobgoldberger2004neighbourhood}
 \item Local Fisher Discriminant Analysis (LFDA) \cite{sugiyama2007dimensionality}
 \item Relative Components Analysis (RCA) \cite{shental2002adjustment}
 \item \cite{fukui2013evolutionary}
@@ -302,6 +302,8 @@ Zmínit lokální metriky, online, ...
 CMAES + kNN
 
 full matrix, diagonal matrix, neural network shape
+
+k-Means for dimensionality reduction
 
 \subsection{Evolutionary algorithms}
 \subsection{Evolutionary strategy (ES)}
@@ -340,14 +342,6 @@ Avast dataset?
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Hierarchical Grid search}
-
-how it works - scheme
-
-how cross-validation is in memory
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Datasets}
 
 Short info about all datasets we used.
@@ -356,7 +350,29 @@ Table with \#classes, \#dimensions, \#samples.
 
 \section{Preprocessing data}
 
+\section{Classification}
+
+Table of all results
+
+\subsection{Hyperparameters}
+
+How hyperparameters influence the successrate. [graphs]
+
 \section{Dimensionality reduction}
+
+\subsection{Direct comparison with other methods}
+
+\subsection{Preprocessing for t-SNE}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Implementation}
+
+\section{Hierarchical Grid search}
+
+how it works - scheme
+
+how cross-validation is in memory
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -428,6 +444,19 @@ $$121$$
     \includegraphics[width=30mm]{img/logo-en}
     \caption{Logo of MFF UK}
     \label{fig:mff}
+\end{figure}
+
+
+\begin{figure} \label{fig:foo} \centering
+    \includegraphics[width=1.0\textwidth]{img/dim-reduction/foo}
+    \caption{Logo of MFF UK}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=1.0\textwidth]{img/dim-reduction/balance-scale-plot}
+    \caption{Logo of MFF UK}
+    \label{fig:xxx}
 \end{figure}
 
 
