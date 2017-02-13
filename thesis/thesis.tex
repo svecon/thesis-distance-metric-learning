@@ -335,7 +335,9 @@ In this work we chose to examine the following methods:
 
 Zmínit lokální metriky, online, ...
 
-\section{Our new method}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Our new method}
 
 CMAES + kNN
 
@@ -350,22 +352,13 @@ simple evolution, jDE, CMAES, ...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Experiments}
-Little intro.
-
-Datasets that we used for our experiments from 
-
-https://archive.ics.uci.edu/ml/datasets/:
-
-We chose the basic datasets that were mentioned in the original papers.
-
-balance-scale, breast-cancer-wisconsin, ionosphere, iris, mice-protein, pima-indians-diabetes, sonar, soybean-large, wine
-
-Avast dataset?
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Experiments and Examples}
+[Little intro.]
+[Avast dataset?]
 
 \section{Trivial toy dataset}
+
+[show]
 
 	*** **** *** *** *** * ** **** * * **** ***
 	-  -   -    -    -   -   -    -    -     -
@@ -377,37 +370,65 @@ Avast dataset?
 	--------
 	--------
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Datasets}
+We chose to experiment on classification datasets that were most common among all related works, particularily \cite{xing2002distance}, \cite{weinberger2009distance}, \cite{jacobgoldberger2004neighbourhood} and \cite{fukui2013evolutionary}. We found that most common among all these papers was balance-scale, breast-cancer-wisconsin, ionosphere, iris, mice-protein, pima-indians-diabetes, sonar, soybean-large and wine dataset. All these datasets were obtained from the well-known UCI Machine Learning Repository \footnote{\url{https://archive.ics.uci.edu/ml/datasets/}}. Even among these datasets we have ionosphere, mice-protein, sonar and soybean-large that all have high dimensionality, however they are all small in terms of number of samples and so we decided to keep them among the small datasets.
 
-Short info about all datasets we used.
-
-
-
-\begin{table}[h] \label{tab:datasets} \centering
-\begin{tabular}{llr}
+\begin{table}[ht] \label{tab:datasets} \centering
+\begin{tabular}{lrrr}
 \hline
-\multicolumn{3}{c}{Item} \\
+% \multicolumn{4}{c}{Item} \\
 % \cline{1-2}
-Animal    & Description & Price (\$) \\
+Datasets & \#~samples & \#~dimensions & \#~classes \\
 \hline
-Gnat      & per gram    & 13.65      \\
-          & each        & 0.01       \\
-Gnu       & stuffed     & 92.50      \\
-Emu       & stuffed     & 33.33      \\
-Armadillo & frozen      & 8.99       \\
+balance-scale           & 625   & 4    & 3  \\
+breast-cancer-wisconsin & 699   & 9    & 2  \\
+ionosphere              & 351   & 34   & 2  \\
+iris                    & 150   & 4    & 3  \\
+mice-protein            & 1080  & 77   & 8  \\
+pima-indians-diabetes   & 768   & 8    & 2  \\
+sonar                   & 208   & 60   & 2  \\
+soybean-large           & 307   & 35   & 19 \\
+wine                    & 178   & 13   & 3  \\
 \hline
 \end{tabular}
-\caption{Datasets}
+\caption{Small UCI datasets summary}
 \end{table}
 
-Table with \#classes, \#dimensions, \#samples.
+We also wanted to test whether the algorithms scale well on datasets that are larger  in terms of dimensionality and number of samples. For these experiments we picked MNIST, digits6, digits10 and ofaces datasets. These datasets were obtained using Python library Scikit-Learn.org \footnote{\url{http://scikit-learn.org/stable/datasets/}}.
+
+Table \ref{tab:datasets} summarizes small datasets and table \ref{tab:big-datasets} summarizes large datasets that we experimented on. Both table show number of samples, dimensionality and number of distinct classes for each dataset.
+
+[Short info about all datasets we used? Multivariate, Real / Integer / Categorical, Missing data? %TODO ]
+
+\begin{table}[ht] \label{tab:big-datasets} \centering
+\begin{tabular}{lrrr}
+\hline
+% \multicolumn{4}{c}{Item} \\
+% \cline{1-2}
+Datasets & \#~instances & \#~dimensions & \#~classes \\
+\hline
+digits6                 & 1083  & 64   & 6  \\
+digits10                & 1797  & 64   & 10 \\
+letters                 & 20000 & 16   & 26 \\
+mnist                   & 70000 & 784  & 10 \\
+ofaces                  & 400   & 4096 & 40 \\
+\hline
+\end{tabular}
+\caption{Larger datasets summary}
+\end{table}
 
 \section{Preprocessing data}
+Some of the algorithms have missing attributes. There are several strategies for dealing with missing attributes, such as removing affected samples, filling missing values with zeros, or with a random value, mean, median or the most frequent value. We chose to fill missing values using the mean for any given attribute as we found it behaves well with all chosen datasets.
+
+Another difficulty with the datasets is that many of them do not have normalized attributes and their attribute values are unbounded and highly variable. We were curious if the algorithms are able to deal with this problem alone and so we chose to benchmark the original unnormalized version of the datasets as well as  normalizing them. The datasets were normalized using standardization defined in equation \ref{eq:stand}, where $\mu$ is a mean vector for of each of the attributes and $\sigma$ is a vector of their standard deviations.
+
+\begin{equation} \label{eq:stand}
+\hat{X} = \frac{X-\mu}{\sigma}
+\end{equation}
 
 \section{Classification}
+
+Experimental Settings
 
 Table of all results
 
@@ -514,15 +535,15 @@ $$121$$
 \end{figure}
 
 
-% \begin{figure}[ht] \label{fig:foo}
-% 	\centering
-% 	% \hspace*{-10mm}
-%     \fbox{
-%     \includegraphics[width=1.0\textwidth]{img/test}
-%     }
-%     % trim={<left> <lower> <right> <upper>}
-%     \caption{Logo of MFF UK}
-% \end{figure}
+ \begin{figure}[ht] \label{fig:foo}
+ 	\centering
+ 	% \hspace*{-10mm}
+     %\fbox{
+     \includegraphics[width=1.0\textwidth]{img/balance-scale}
+     %}
+     % trim={<left> <lower> <right> <upper>}
+     \caption{Logo of MFF UK}
+ \end{figure}
 
 % \begin{figure}[ht]
 %     \centering
