@@ -49,8 +49,8 @@
 \usepackage{amssymb}
 \usepackage[inline]{enumitem}
 \DeclareMathOperator{\tr}{tr}
-\usepackage{float}
-\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{dcolumn}
 
 %%% Basic information on the thesis
 
@@ -345,8 +345,8 @@ full matrix, diagonal matrix, neural network shape
 
 k-Means for dimensionality reduction
 
-\subsection{Evolutionary algorithms}
-\subsection{Evolutionary strategy (ES)}
+\section{Evolutionary algorithms}
+\section{Evolutionary strategy (ES)}
 
 simple evolution, jDE, CMAES, ...
 
@@ -373,7 +373,7 @@ simple evolution, jDE, CMAES, ...
 \section{Datasets}
 We chose to experiment on classification datasets that were most common among all related works, particularily \cite{xing2002distance}, \cite{weinberger2009distance}, \cite{jacobgoldberger2004neighbourhood} and \cite{fukui2013evolutionary}. We found that most common among all these papers was balance-scale, breast-cancer-wisconsin, ionosphere, iris, mice-protein, pima-indians-diabetes, sonar, soybean-large and wine dataset. All these datasets were obtained from the well-known UCI Machine Learning Repository \footnote{\url{https://archive.ics.uci.edu/ml/datasets/}}. Even among these datasets we have ionosphere, mice-protein, sonar and soybean-large that all have high dimensionality, however they are all small in terms of number of samples and so we decided to keep them among the small datasets.
 
-\begin{table}[ht] \label{tab:datasets} \centering
+\begin{table}[ht] \centering
 \begin{tabular}{lrrr}
 \hline
 % \multicolumn{4}{c}{Item} \\
@@ -391,16 +391,16 @@ soybean-large           & 307   & 35   & 19 \\
 wine                    & 178   & 13   & 3  \\
 \hline
 \end{tabular}
-\caption{Small UCI datasets summary}
+\caption{Small UCI datasets summary} \label{tab:datasets}
 \end{table}
 
 We also wanted to test whether the algorithms scale well on datasets that are larger  in terms of dimensionality and number of samples. For these experiments we picked MNIST, digits6, digits10 and ofaces datasets. These datasets were obtained using Python library Scikit-Learn.org \footnote{\url{http://scikit-learn.org/stable/datasets/}}.
 
-Table \ref{tab:datasets} summarizes small datasets and table \ref{tab:big-datasets} summarizes large datasets that we experimented on. Both table show number of samples, dimensionality and number of distinct classes for each dataset.
+Table \ref{tab:datasets} summarizes small datasets and table \ref{tab:datasets-big} summarizes large datasets that we experimented on. Both table show number of samples, dimensionality and number of distinct classes for each dataset.
 
 [Short info about all datasets we used? Multivariate, Real / Integer / Categorical, Missing data? %TODO ]
 
-\begin{table}[ht] \label{tab:big-datasets} \centering
+\begin{table}[ht] \centering
 \begin{tabular}{lrrr}
 \hline
 % \multicolumn{4}{c}{Item} \\
@@ -414,7 +414,7 @@ mnist                   & 70000 & 784  & 10 \\
 ofaces                  & 400   & 4096 & 40 \\
 \hline
 \end{tabular}
-\caption{Larger datasets summary}
+\caption{Larger datasets summary} \label{tab:datasets-big} 
 \end{table}
 
 \section{Preprocessing data}
@@ -430,7 +430,18 @@ Another difficulty with the datasets is that many of them do not have normalized
 
 Experimental Settings
 
-Table of all results
+[add results for larger datasets]
+
+\begin{table}[ht] \centering
+%{\tiny\renewcommand{\arraystretch}{1.0}
+% \hspace*{-36.73627pt}
+\begin{tabular}{lcccccccccc}
+\toprule
+\input{results/errors-small-dataset}
+\bottomrule
+\end{tabular} %}
+\caption{Error rates (in \%) on small datasets} \label{tab:errors-small}
+\end{table}
 
 \subsection{Hyperparameters}
 
