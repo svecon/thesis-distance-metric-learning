@@ -314,7 +314,7 @@ proof that $L^TL$ is PSD matrix
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Related work}
+\chapter{Related work} \label{chap:related-work}
 
 In this work we chose to examine the following methods:
 
@@ -337,7 +337,7 @@ Zmínit lokální metriky, online, ...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Our new method}
+\chapter{Our new method} \label{chap:our-method}
 
 CMAES + kNN
 
@@ -353,24 +353,12 @@ simple evolution, jDE, CMAES, ...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Experiments and Examples}
-[Little intro.]
-[Avast dataset?]
+We performed three different experiments to assess the performance of metric learning algorithms. In section \ref{chap:trivial-dataset} we showcase, where the metric learning algorithms perform very well on a trivial dataset. In section \ref{chap:experiment-knn} we use learnt metric in k-Nearest~Neighbour classificator and compare classification errors on various datasets, which are described in \ref{chap:datasets}. In the next experiment in section \ref{chap:experiment-fitness} we compare different evolutionary algorithms together with various fitnesses and show how well they generalize. As the last experiment in section \ref{chap:experiment-dim-reduction} we use metric learning algorithms for dimensionality reduction and compare the resulting embeddings.
 
-\section{Trivial toy dataset}
+\section{Experimental settings} 
+In our experiments we compare metric learning algorithms listed in section \ref{chap:related-work}. Most of these algorithms are implemented in an open-sourced Python \textit{metric-learn} library \footnote{\url{https://github.com/all-umass/metric-learn}}. Only our evolutionary method described in section \ref{chap:our-method} and \cite{fukui2013evolutionary} are missing in this library. Therefore we designed a modular interface and implemented these two methods as a part of the \textit{metric-learn} library. The~implementation is described in section \ref{chap:implementation}.
 
-[show]
-
-	*** **** *** *** *** * ** **** * * **** ***
-	-  -   -    -    -   -   -    -    -     -
-
-
-	********
-	********
-
-	--------
-	--------
-
-\section{Datasets}
+\subsection{Datasets} \label{chap:datasets}
 We chose to experiment on classification datasets that were most common among all related works, particularily \cite{xing2002distance}, \cite{weinberger2009distance}, \cite{jacobgoldberger2004neighbourhood} and \cite{fukui2013evolutionary}. We found that most common among all these papers was balance-scale, breast-cancer-wisconsin, ionosphere, iris, mice-protein, pima-indians-diabetes, sonar, soybean-large and wine dataset. All these datasets were obtained from the well-known UCI Machine Learning Repository \footnote{\url{https://archive.ics.uci.edu/ml/datasets/}}. Even among these datasets we have ionosphere, mice-protein, sonar and soybean-large that all have high dimensionality, however they are all small in terms of number of samples and so we decided to keep them among the small datasets.
 
 \begin{table}[ht] \centering
@@ -417,7 +405,7 @@ ofaces                  & 400   & 4096 & 40 \\
 \caption{Larger datasets summary} \label{tab:datasets-big} 
 \end{table}
 
-\section{Preprocessing data}
+\subsection{Preprocessing data}
 Some of the algorithms have missing attributes. There are several strategies for dealing with missing attributes, such as removing affected samples, filling missing values with zeros, or with a random value, mean, median or the most frequent value. We chose to fill missing values using the mean for any given attribute as we found it behaves well with all chosen datasets.
 
 Another difficulty with the datasets is that many of them do not have normalized attributes and their attribute values are unbounded and highly variable. We were curious if the algorithms are able to deal with this problem alone and so we chose to benchmark the original unnormalized version of the datasets as well as  normalizing them. The datasets were normalized using standardization defined in equation \ref{eq:stand}, where $\mu$ is a mean vector for of each of the attributes and $\sigma$ is a vector of their standard deviations.
@@ -426,7 +414,21 @@ Another difficulty with the datasets is that many of them do not have normalized
 \hat{X} = \frac{X-\mu}{\sigma}
 \end{equation}
 
-\section{Classification}
+\section{Trivial toy dataset} \label{chap:trivial-dataset}
+
+[show]
+
+	*** **** *** *** *** * ** **** * * **** ***
+	-  -   -    -    -   -   -    -    -     -
+
+
+	********
+	********
+
+	--------
+	--------
+
+\section{Classification} \label{chap:experiment-knn}
 
 Experimental Settings
 
@@ -447,7 +449,11 @@ Experimental Settings
 
 How hyperparameters influence the successrate. [graphs]
 
-\section{Dimensionality reduction}
+
+\section{Generalization of evolutionary algorithms} \label{chap:experiment-fitness}
+
+
+\section{Dimensionality reduction} \label{chap:experiment-dim-reduction}
 
 \subsection{Direct comparison with other methods}
 
@@ -455,7 +461,7 @@ How hyperparameters influence the successrate. [graphs]
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Implementation}
+\chapter{Implementation} \label{chap:implementation}
 
 \section{Hierarchical Grid search}
 
