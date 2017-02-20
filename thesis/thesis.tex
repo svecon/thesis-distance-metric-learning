@@ -405,7 +405,7 @@ ofaces                  & 400   & 4096 & 40 \\
 \caption{Larger datasets summary} \label{tab:datasets-big} 
 \end{table}
 
-\subsection{Preprocessing data}
+\subsection{Preprocessing data} \label{chap:preprocessing}
 Some of the algorithms have missing attributes. There are several strategies for dealing with missing attributes, such as removing affected samples, filling missing values with zeros, or with a random value, mean, median or the most frequent value. We chose to fill missing values using the mean for any given attribute as we found it behaves well with all chosen datasets.
 
 Another difficulty with the datasets is that many of them do not have normalized attributes and their attribute values are unbounded and highly variable. We were curious if the algorithms are able to deal with this problem alone and so we chose to benchmark the original unnormalized version of the datasets as well as  normalizing them. The datasets were normalized using standardization defined in equation \ref{eq:stand}, where $\mu$ is a mean vector for of each of the attributes and $\sigma$ is a vector of their standard deviations.
@@ -430,20 +430,26 @@ Another difficulty with the datasets is that many of them do not have normalized
 
 \section{Experiment: Classification} \label{chap:experiment-knn}
 
-Experimental Settings
+In this experiment we wanted to see how much does learnt metric help in classification task compared to standard Euclidean distance. We chose k-Nearest~Neighbour (kNN) classifier, which is one of the simplest and yet powerful classifiers and it is very easy to modify to use a custom metric.
+
+To assess performance of the metric learning algorithms we used datasets listed in section \ref{chap:datasets} and used 10-fold cross validation for each algorithm. For each fold data were first preprocessed and standardized as described in section \ref{chap:preprocessing}, then the metric was trained using one of the methods and finally the metric was evaluated using kNN algorithm.
+
+We also wanted to test, how does standardization influence the learnt metrics and whether the metric learning algorithms can handle unnormalized data and so we also tried all these experiments again, but without standardizing the data.
+
+Every metric learning algorithm has a set of hyperparameters which highly influence the learnt metric. For each hyperparameter we selected sensible values in the range that would make most sense. All hyperparameters for each algorithm are described in table \ref{tab:hyperparams}. The performance of kNN classifier hugely depends on its number of neighbours hyperparameter. We chose to try values 1, 2, 4, 8, 16, 32, 64, 128 for this parameter.
 
 \input{results/hyperparameters}
 
+Even for these sensibly chosen hyperparameter values there are thousands of possible combinations for every single algorithm. Let’s consider LMNN algorithm. There are 10 folds, 8 possible values for kNN hyperparameter, LMNN itself has 4 hyperparameters with 6, 3, 4 and 3 values, which means there would be $10*8*(6*3*4*3)=17280$ different models to train if we used a simple grid search. This is a problem because some of the algorithms take a long time to train even on small datasets. 
 
+We can notice, however, that we do not need to retrain our metric for every hyperperameter of the final kNN classifier. Therefore, we designed our version of grid search that is hierarchical in a sense that it will train a metric with all combinations of hyperparameters first and only then it will evaluate these metrics using kNN with its own hyperparameters. There will still be the same total number of models, however there will be 8 times less evaluations of every metric learning algorithm. This can be looked at as a simple space-time tradeoff.
+%TODO add a sketch of hierarchical grid search
 
-
-
-[add results for larger datasets]
-
+%TODO add results for larger datasets
 \input{results/errors-small-dataset}
 
 
-\subsection{Hyperparameters}
+\subsection{Results}
 
 How hyperparameters influence the successrate. [graphs]
 
