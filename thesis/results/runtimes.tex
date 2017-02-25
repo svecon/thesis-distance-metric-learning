@@ -1,0 +1,39 @@
+\begin{table}[ht] \centering
+%{\tiny\renewcommand{\arraystretch}{1.0}
+% \hspace*{-36.73627pt}
+\begin{tabular}{lcccccccccc}
+\toprule
+
+
+& \multicolumn{1}{c}{balance-scale} & \multicolumn{1}{c}{breast-cancer} & \multicolumn{1}{c}{ionosphere} & \multicolumn{1}{c}{iris} \\ 
+\midrule
+Euclidean & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ \\
+Covariance & $0.06$ & $0.01$ &  & $0.00$ \\
+LMNN & $263.25$ & $2959.43$ & $377.72$ & $45.74$ \\
+CMA-ES & $995.42$ & $5279.22$ & $4269.82$ & $3242.20$ \\
+NCA & $21.72$ & $2474.73$ &  & $13.73$ \\
+LFDA & $0.23$ & $0.62$ &  & $0.02$ \\
+ITML & $264.82$ & $54.24$ & $26.13$ & $113.65$ \\
+LSML & $1.18$ & $0.53$ &  & $0.29$ \\
+RCA & $0.26$ & $1.00$ & $0.13$ & $0.05$ \\
+SDML & $107.98$ & $90.74$ & $90.65$ & $456.75$ \\
+\midrule
+& \multicolumn{1}{c}{mice-protein} & \multicolumn{1}{c}{pima-indians} & \multicolumn{1}{c}{sonar} & \multicolumn{1}{c}{wine} \\ 
+\midrule
+Euclidean & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ \\
+Covariance & $0.01$ & $0.09$ & $0.01$ & $0.00$ \\
+LMNN & $14.45$ & $4764.54$ & $4.78$ & $354.18$ \\
+CMA-ES & $8311.75$ & $259.36$ & $2577.11$ & $40.37$ \\
+NCA &  &  & $94.21$ &  \\
+LFDA & $0.04$ & $1.00$ & $0.24$ & $0.11$ \\
+ITML & $1.67$ & $50.12$ & $0.07$ & $1.36$ \\
+LSML & $1.02$ & $26.79$ & $0.48$ & $101.76$ \\
+RCA & $1.39$ & $0.22$ & $0.13$ & $0.06$ \\
+SDML & $4.15$ & $76.64$ & $282.30$ & $657.22$ \\
+
+
+\bottomrule
+\end{tabular}
+%}
+\caption{Runtimes (in seconds) for the best hyperparameter combination} \label{tab:runtimes}
+\end{table}
