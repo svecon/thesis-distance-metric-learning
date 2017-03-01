@@ -52,6 +52,17 @@
 \usepackage{adjustbox}
 \usepackage{dcolumn}
 
+%%% User-defined commands
+% \newcommand{name}[num]{definition}
+\newcommand{\cenfig}[3]{
+\begin{figure}[ht]
+	\centering
+    \includegraphics[width=1.0\textwidth]{#1}
+    \caption{#2} \label{#3}
+\end{figure}
+}
+
+
 %%% Basic information on the thesis
 
 % Thesis title in English (exactly as in the formal assignment)
@@ -414,7 +425,7 @@ soybean-large           & 0.00  & 6.00    & 0.70  & 1.02 \\
 wine                    & 0.13  & \textbf{1680.00} & \textbf{69.13} & \textbf{215.75} \\
 \hline
 \end{tabular}
-\caption{Datasets samples summary} \label{tab:datasets-samples}
+\caption{Datasets samples statistics} \label{tab:datasets-samples}
 \end{table}
 
 
@@ -422,32 +433,6 @@ Another difficulty with the datasets is that many of them do not have normalized
 
 \begin{equation} \label{eq:stand}
 \hat{X} = \frac{X-\mu}{\sigma}
-\end{equation}
-
-\section{Trivial toy dataset} \label{chap:trivial-dataset}
-
-[show]
-
-	*** **** *** *** *** * ** **** * * **** ***
-	-  -   -    -    -   -   -    -    -     -
-
-
-	********
-	********
-
-	--------
-	--------
-
-See~\eqref{eq:myeqn} below.
-\begin{equation}
-  A=
-  \begin{pmatrix}
-    0.3 & 0.4 & 0.3 & 0.0 \\
-    0.4 & 0.3 & 0.0 & 0.3 \\
-    0.3 & 0.0 & 0.4 & 0.3 \\
-    0.0 & 0.3 & 0.3 & 0.4
-  \end{pmatrix}
-  \label{eq:myeqn}
 \end{equation}
 
 \section{Experiment: Classification} \label{chap:experiment-knn}
@@ -460,13 +445,13 @@ We also wanted to test, how does standardization influence the learnt metrics an
 
 \subsection{Hyperperameter search}
 
-Every metric learning algorithm has a set of hyperparameters which highly influence the learnt metric. For each hyperparameter we selected sensible values in the range that would make most sense. All hyperparameters for each algorithm are described in table \ref{tab:hyperparams}. The performance of kNN classifier hugely depends on its number of neighbours hyperparameter. We chose to try values 1, 2, 4, 8, 16, 32, 64, 128 for this parameter.
+Every metric learning algorithm has a set of hyperparameters which highly influences the learnt metric. For each hyperparameter we selected sensible values from a reasonable range. All hyperparameters for each algorithm are described in table \ref{tab:hyperparams}. The performance of kNN classifier hugely depends on its number of neighbours hyperparameter. We chose to try values 1, 2, 4, 8, 16, 32, 64, 128 for this parameter.
 
 \input{results/hyperparameters}
 
-Even for these sensibly chosen hyperparameter values there are thousands of possible combinations for every single algorithm. Let’s consider LMNN algorithm. There are 10 folds, 8 possible values for kNN hyperparameter, LMNN itself has 4 hyperparameters with 6, 3, 4 and 3 values, which means there would be $10*8*(6*3*4*3)=17280$ different models to train if we used a simple grid search. This is a problem because some of the algorithms take a long time to train even on small datasets. 
+Even for these sensibly chosen hyperparameter values there are thousands of possible combinations for every single algorithm and thus we have to fit thousands of different models. Let’s consider LMNN algorithm: there are 10 folds, 8 possible values for the final kNN classifier hyperparameter, LMNN itself has 4 hyperparameters with 6, 3, 4 and 3 values, which means there would be $10*8*(6*3*4*3)=17280$ different models to train just for LMNN algorithm if a simple grid search was used. This is a major problem because some of the algorithms take a long time to train even on small datasets.
 
-We can notice, however, that we do not need to retrain our metric for every hyperperameter of the final kNN classifier. Therefore, we designed our version of grid search that is hierarchical in a sense that it will train a metric with all combinations of hyperparameters first and only then it will evaluate these metrics using kNN with its own hyperparameters. There will still be the same total number of models, however there will be 8 times less evaluations of every metric learning algorithm. This can be looked at as a simple space-time tradeoff.
+We can notice, however, that we do not need to retrain our metric for every hyperperameter of the final kNN classifier. Instead we can train a metric model and only then  Therefore, we designed our version of grid search that is hierarchical in a sense that it will train a metric with all combinations of hyperparameters first and only then it will evaluate these metrics using kNN with its own hyperparameters. There will still be the same total number of models, however there will be 8 times less evaluations of every metric learning algorithm. This can be looked at as a simple space-time tradeoff.
 %TODO add a sketch of hierarchical grid search
 
 
@@ -490,6 +475,30 @@ In table \ref{tab:runtimes} we show run times of every method for the best hyper
 
 
 \section{Experiment: Dimensionality reduction} \label{chap:experiment-dim-reduction}
+
+\subsection{Multivariate Gaussians dataset} \label{chap:trivial-dataset}
+
+\cenfig{graphs/dimred/gaussians}{Dimensionality reduction of multivariate Gaussian dataset using different algorithms}{fig:dimred:gauss}
+
+See fig \ref{fig:dimred:gauss}
+
+See~\eqref{eq:gauss:means} below.
+\begin{equation} \label{eq:gauss:means}
+means = \begin{pmatrix}
+10 & 0 & 0 & 2 \\
+0 & 10 & 0 & -2 \\
+0 & 0 & 10 & -2 \\
+0 & 0 & -10 & 2 \\
+\end{pmatrix}
+\end{equation}
+\begin{equation} \label{eq:gauss:cov}
+covariance = \begin{pmatrix}
+100000000 & 0 & 0 & 0 \\
+0 & 100 & 0 & 0 \\
+0 & 0 & 2 & 0 \\
+0 & 0 & 0 & 1 \\
+\end{pmatrix}
+\end{equation}
 
 \subsection{Direct comparison with other methods}
 
