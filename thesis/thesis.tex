@@ -428,7 +428,7 @@ wine                    & 0.13  & \textbf{1680.00} & \textbf{69.13} & \textbf{21
 \end{table}
 
 
-Another difficulty with the datasets is that many of them do not have normalized attributes and their attribute values are unbounded and highly variable. From table \ref{tab:datasets-samples} it is clear that the most variable datasets are pima-indians-diabetes and wine datasets with a standard deviation of $215.75$. We were curious if the algorithms are able to deal with this problem alone and so we chose to benchmark the original unnormalized version of the datasets as well as  normalizing them. The datasets were normalized using standardization defined in equation \ref{eq:stand}, where $\mu$ is a mean vector for of each of the attributes and $\sigma$ is a vector of their standard deviations.
+Another difficulty with the datasets is that many of them do not have normalized attributes and their attribute values are unbounded and highly variable. From table \ref{tab:datasets-samples} it is clear that the most variable datasets are pima-indians-diabetes and wine datasets with a standard deviation of $58.37$ and $215.75$ respectively. The datasets were normalized using standardization defined in equation \ref{eq:stand}, where $\mu$ is a mean vector for of each of the attributes and $\sigma$ is a vector of their standard deviations.
 
 \begin{equation} \label{eq:stand}
 \hat{X} = \frac{X-\mu}{\sigma}
@@ -450,18 +450,17 @@ Every metric learning algorithm has a set of hyperparameters which highly influe
 
 Even for these sensibly chosen hyperparameter values there are thousands of possible combinations for every single algorithm and thus we have to fit thousands of different models. Let’s consider LMNN algorithm: there are 10 folds, 8 possible values for the final kNN classifier hyperparameter, LMNN itself has 4 hyperparameters with 6, 3, 4 and 3 values, which means there would be $10*8*(6*3*4*3)=17280$ different models to train just for LMNN algorithm if a simple grid search was used. This is a major problem because some of the algorithms take a long time to train even on small datasets.
 
-We can notice, however, that we do not need to retrain our metric for every hyperperameter of the final kNN classifier. Instead we can train a metric model and only then  Therefore, we designed our version of grid search that is hierarchical in a sense that it will train a metric with all combinations of hyperparameters first and only then it will evaluate these metrics using kNN with its own hyperparameters. There will still be the same total number of models, however there will be 8 times less evaluations of every metric learning algorithm. This can be looked at as a simple space-time tradeoff.
+We can notice, however, that we do not need to retrain our metric for every hyperperameter of the final kNN classifier. Instead we can train a metric model first and then train and test kNN classifier with all hyperparameter options. Therefore, we designed our version of grid search that is hierarchical in a sense that it will train a metric with all combinations of hyperparameters first and only then it will evaluate these metrics using kNN with its own hyperparameters. There will still be the same total number of models, however there will be 8 times less evaluations of every metric learning algorithm, which roughly translates to 8 times less computation time as training kNN classifier is negligible compared to a metric model. This can be looked at as a simple space-time trade-off.
 %TODO add a sketch of hierarchical grid search
 
 
-\subsection{Results}
+\subsection{Results and Runtimes}
 
 How hyperparameters influence the successrate. [graphs]
 
 %TODO add results for larger datasets
 \input{results/successrates}
 
-\subsection{Runtimes}
 Runtime of each method is an important factor to considered. Some methods are not very scalable for large datasets as already discussed in (WHERE?). As already mentioned (WHERE?) it is not easy to describe most of metric learning algorithms in big O notation because most of them are iterative and therefore it is not clear how many iterations is needed. Plus they can still end up in some local minima.
 
 In table \ref{tab:runtimes} we show run times of every method for the best hyper-parameter combination, which corresponds to best error rate for given dataset as shown in table \ref{tab:errors-small}. Euclidean distance does not need any metric training and therefore has a zero runtime in the table. Covariance metric is the seconds fastest metric, closely followed by LFDA and RCA metrics. On the other hand, LMNN and NCA metrics and all evolution metrics are the slowest methods. NCA did not even finish on mice-protein, pima-indians, ionosphere and wine datasets.
