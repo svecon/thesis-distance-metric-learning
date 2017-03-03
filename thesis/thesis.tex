@@ -340,6 +340,8 @@ Describe EAs, ... crossover, mutation, selection (+schema)
 
 \chapter{Related work} \label{chap:rw}
 
+[Scalability in N and D] %TODO
+
 In this work we chose to examine the following methods:
 
 \section{Simple Covariance Metric} \label{chap:rw:cov}
@@ -503,7 +505,7 @@ Results discussion %TODO
 
 \subsection{Runtimes}
 
-Runtime of each method is an important factor to considered. Some methods are not very scalable for large datasets as already discussed in (WHERE?). As already mentioned (WHERE?) it is not easy to describe most of metric learning algorithms in big O notation because most of them are iterative and therefore it is not clear how many iterations is needed. Plus they can still end up in some local minima.
+Runtime of each method is an important factor to considered. Some methods are not very scalable for large datasets as already discussed in (@WHERE). As already mentioned (@WHERE) it is not easy to describe most of metric learning algorithms in big O notation because most of them are iterative and therefore it is not clear how many iterations is needed. Plus they can still end up in some local minima.
 
 In table \ref{tab:runtimes} we show run times of every method for the best hyper-parameter combination, which corresponds to best error rate for given dataset as shown in table \ref{tab:errors-small}. Euclidean distance does not need any metric training and therefore has a zero runtime in the table. Covariance metric is the seconds fastest metric, closely followed by LFDA and RCA metrics. On the other hand, LMNN and NCA metrics and all evolution metrics are the slowest methods. NCA did not even finish on mice-protein, pima-indians, ionosphere and wine datasets.
 
