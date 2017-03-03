@@ -341,34 +341,34 @@ Describe EAs, ... crossover, mutation, selection (+schema)
 
 In this work we chose to examine the following methods:
 
-\section{Simple Covariance Metric}
+\section{Simple Covariance Metric} \label{chap:rw:cov}
 \cite{mahalanobis1936generalized}
 
-\section{Xing}
+\section{Xing} \label{chap:rw:xing}
 \cite{xing2002distance}
 
-\section{Large Margin Nearest Neighbor (LMNN)}
+\section{Large Margin Nearest Neighbor (LMNN)} \label{chap:rw:lmnn}
 \cite{weinberger2009distance}
 
-\section{Information Theoretic Metric Learning (ITML)}
+\section{Information Theoretic Metric Learning (ITML)} \label{chap:rw:itml}
 \cite{davis2007information}
 
-\section{Sparse Determinant Metric Learning (SDML)}
+\section{Sparse Determinant Metric Learning (SDML)} \label{chap:rw:sdml}
 \cite{qi2009efficient}
 
-\section{Least Squares Metric Learning (LSML)}
+\section{Least Squares Metric Learning (LSML)} \label{chap:rw:lsml}
 \cite{liu2012metric}
 
-\section{Neighborhood Components Analysis (NCA) \\}
+\section{Neighborhood Components Analysis (NCA)} \label{chap:rw:nca}
 \cite{jacobgoldberger2004neighbourhood}
 
-\section{Local Fisher Discriminant Analysis (LFDA)}
+\section{Local Fisher Discriminant Analysis (LFDA)} \label{chap:rw:lfda}
 \cite{sugiyama2007dimensionality}
 
-\section{Relative Components Analysis (RCA)}
+\section{Relative Components Analysis (RCA)} \label{chap:rw:rca}
 \cite{shental2002adjustment}
 
-\section{Evolutionary distance metric learning}
+\section{Evolutionary distance metric learning} \label{chap:rw:fukui}
 \cite{fukui2013evolutionary}
 
 
@@ -398,7 +398,7 @@ simple evolution, jDE, CMAES, ...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Experiments and Examples}
-We performed three different experiments to assess the performance of metric learning algorithms. In section \ref{chap:trivial-dataset} we showcase, where the metric learning algorithms perform very well on a trivial dataset. In section \ref{chap:exp:classificator} we use learnt metric in k-Nearest~Neighbour classificator and compare classification errors on various datasets, which are described in \ref{chap:exp:datasets}. In the next experiment in section \ref{chap:experiment-fitness} we compare different evolutionary algorithms together with various fitnesses and show how well they generalize. As the last experiment in section \ref{chap:experiment-dim-reduction} we use metric learning algorithms for dimensionality reduction and compare the resulting embeddings.
+We performed three different experiments to assess the performance of metric learning algorithms. In section \ref{chap:trivial-dataset} we showcase, where the metric learning algorithms perform very well on a trivial dataset. In section \ref{chap:exp:classification} we use learnt metric in k-Nearest~Neighbour classificator and compare classification errors on various datasets, which are described in \ref{chap:exp:datasets}. In the next experiment in section \ref{chap:exp:fitness} we compare different evolutionary algorithms together with various fitnesses and show how well they generalize. As the last experiment in section \ref{chap:exp:dimred} we use metric learning algorithms for dimensionality reduction and compare the resulting embeddings.
 
 \section{Experimental settings} 
 In our experiments we compare metric learning algorithms listed in section \ref{chap:rw}. Most of these algorithms are implemented in an open-sourced Python \textit{metric-learn} library \footnote{\url{https://github.com/all-umass/metric-learn}}. Only our evolutionary method described in section \ref{chap:our-method} and \cite{fukui2013evolutionary} are missing in this library. Therefore we designed a modular interface and implemented these two methods as a part of the \textit{metric-learn} library. The~implementation is described in section \ref{chap:impl}.
@@ -534,7 +534,7 @@ Both kNN and wFme fitness functions output values in a closed range $[0,1]$. The
 
 [explain the graphs]
 
-\section{Experiment: Dimensionality reduction} \label{chap:experiment-dim-reduction}
+\section{Experiment: Dimensionality reduction} \label{chap:exp:dimred}
 
 \subsection{Multivariate Gaussians dataset} \label{chap:trivial-dataset}
 
