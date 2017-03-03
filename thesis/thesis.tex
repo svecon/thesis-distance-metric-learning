@@ -51,6 +51,7 @@
 \DeclareMathOperator{\tr}{tr}
 \usepackage{adjustbox}
 \usepackage{dcolumn}
+\usepackage{float}
 
 %%% User-defined commands
 % \newcommand{name}[num]{definition}
@@ -479,7 +480,7 @@ To assess performance of the metric learning algorithms we used datasets listed 
 
 We also wanted to test, how does standardization influence the learnt metrics and whether the metric learning algorithms can handle unnormalized data and so we also tried all these experiments again, but without standardizing the data.
 
-\subsection{Hyperperameter search}
+\subsection{Hyperperameter search} \label{chap:exp:hypsearch}
 
 Every metric learning algorithm has a set of hyperparameters which highly influences the learnt metric. For each hyperparameter we selected sensible values from a reasonable range. All hyperparameters for each algorithm are described in table \ref{tab:hyperparams}. The performance of kNN classifier hugely depends on its number of neighbours hyperparameter. We chose to try values 1, 2, 4, 8, 16, 32, 64, 128 for this parameter.
 
@@ -488,32 +489,36 @@ Every metric learning algorithm has a set of hyperparameters which highly influe
 Even for these sensibly chosen hyperparameter values there are thousands of possible combinations for every single algorithm and thus we have to fit thousands of different models. Let’s consider LMNN algorithm: there are 10 folds, 8 possible values for the final kNN classifier hyperparameter, LMNN itself has 4 hyperparameters with 6, 3, 4 and 3 values, which means there would be $10*8*(6*3*4*3)=17280$ different models to train just for LMNN algorithm if a simple grid search was used. This is a major problem because some of the algorithms take a long time to train even on small datasets.
 
 We can notice, however, that we do not need to retrain our metric for every hyperperameter of the final kNN classifier. Instead we can train a metric model first and then train and test kNN classifier with all hyperparameter options. Therefore, we designed our version of grid search that is hierarchical in a sense that it will train a metric with all combinations of hyperparameters first and only then it will evaluate these metrics using kNN with its own hyperparameters. There will still be the same total number of models, however there will be 8 times less evaluations of every metric learning algorithm, which roughly translates to 8 times less computation time as training kNN classifier is negligible compared to a metric model. This can be looked at as a simple space-time trade-off.
+
 %TODO add a sketch of hierarchical grid search
 
+\subsection{Results}
 
-\subsection{Results and Runtimes}
+How hyperparameters influence the successrate. [graphs] %TODO
 
-How hyperparameters influence the successrate. [graphs]
+Results discussion %TODO
 
 %TODO add results for larger datasets
 \input{results/successrates}
+
+\subsection{Runtimes}
 
 Runtime of each method is an important factor to considered. Some methods are not very scalable for large datasets as already discussed in (WHERE?). As already mentioned (WHERE?) it is not easy to describe most of metric learning algorithms in big O notation because most of them are iterative and therefore it is not clear how many iterations is needed. Plus they can still end up in some local minima.
 
 In table \ref{tab:runtimes} we show run times of every method for the best hyper-parameter combination, which corresponds to best error rate for given dataset as shown in table \ref{tab:errors-small}. Euclidean distance does not need any metric training and therefore has a zero runtime in the table. Covariance metric is the seconds fastest metric, closely followed by LFDA and RCA metrics. On the other hand, LMNN and NCA metrics and all evolution metrics are the slowest methods. NCA did not even finish on mice-protein, pima-indians, ionosphere and wine datasets.
 
-[RECALCULATE CMAES??? WEIRD RESULTS]
+[RECALCULATE CMAES??? WEIRD RESULTS] %TODO
 \input{results/runtimes}
 
 \subsection{Comparison to unstandardized data}
 
-can metric learning replace standardization?
+can metric learning replace standardization? %TODO
 
-comparison...
+comparison discussion... %TODO
 
-[table of error rates]
+[table of error rates] %TODO
 
-side by side successrate graphs
+side by side successrate graphs %TODO
 
 
 \section{Experiment: Generalization of EAs} \label{chap:exp:fitness}
@@ -528,11 +533,15 @@ To gauge the performance of the fitness function we logged the fitness values of
 
 To see how well the individuals generalize, individuals with the best and the worst fitness values were picked in every generation and the metric encoded in these individuals was evaluated using the test set using kNN classifier.
 
+\subsection{Results}
+
 Both kNN and wFme fitness functions output values in a closed range $[0,1]$. The final kNN classifier used to gauge performance outputs values in the same exact range and so we plot all values in the same graph. Therefore the graph for each generation shows minimal and maximal (both in orange) fitnesses, median fitness (in green) with the area between 25th and 75th percentiles coloured with light green. The test successrate of the individual with the highest fitness in XX and the test successrate of the individual with the lowest fitness in XX.
 
-[each dataset has 4 graphs]
+[each dataset has 4 graphs] %TODO
 
-[explain the graphs]
+[explain the graphs] %TODO
+
+[discuss results] %TODO
 
 \section{Experiment: Dimensionality reduction} \label{chap:exp:dimred}
 
