@@ -324,22 +324,53 @@ proof that $L^TL$ is PSD matrix
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Related work} \label{chap:related-work}
+\chapter{Evolutionary algorithms} \label{chap:ea}
+
+Quick intro
+
+Describe EAs, ... crossover, mutation, selection (+schema)
+
+\section{Evolution strategies} \label{chap:ea:es}
+\subsection{Basic} \label{chap:ea:basic}
+\subsection{CMA-ES} \label{chap:ea:cmaes}
+\subsection{jDE} \label{chap:ea:jde}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Related work} \label{chap:rw}
 
 In this work we chose to examine the following methods:
 
-\begin{enumerate}
-\item Simple Covariance Metric
-\item Xing \cite{xing2002distance}
-\item Large Margin Nearest Neighbor (LMNN) \cite{weinberger2009distance}
-\item Information Theoretic Metric Learning (ITML) \cite{davis2007information}
-\item Sparse Determinant Metric Learning (SDML) \cite{qi2009efficient}
-\item Least Squares Metric Learning (LSML) \cite{liu2012metric}
-\item Neighborhood Components Analysis (NCA) \\ \cite{jacobgoldberger2004neighbourhood}
-\item Local Fisher Discriminant Analysis (LFDA) \cite{sugiyama2007dimensionality}
-\item Relative Components Analysis (RCA) \cite{shental2002adjustment}
-\item \cite{fukui2013evolutionary}
-\end{enumerate}
+\section{Simple Covariance Metric}
+\cite{mahalanobis1936generalized}
+
+\section{Xing}
+\cite{xing2002distance}
+
+\section{Large Margin Nearest Neighbor (LMNN)}
+\cite{weinberger2009distance}
+
+\section{Information Theoretic Metric Learning (ITML)}
+\cite{davis2007information}
+
+\section{Sparse Determinant Metric Learning (SDML)}
+\cite{qi2009efficient}
+
+\section{Least Squares Metric Learning (LSML)}
+\cite{liu2012metric}
+
+\section{Neighborhood Components Analysis (NCA) \\}
+\cite{jacobgoldberger2004neighbourhood}
+
+\section{Local Fisher Discriminant Analysis (LFDA)}
+\cite{sugiyama2007dimensionality}
+
+\section{Relative Components Analysis (RCA)}
+\cite{shental2002adjustment}
+
+\section{Evolutionary distance metric learning}
+\cite{fukui2013evolutionary}
+
 
 - Teoretická analýza
 
@@ -347,7 +378,7 @@ Zmínit lokální metriky, online, ...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Our new method} \label{chap:our-method}
+\chapter{Our evolution strategy} \label{chap:our-method}
 
 CMAES + kNN
 
@@ -355,20 +386,24 @@ full matrix, diagonal matrix, neural network shape
 
 k-Means for dimensionality reduction
 
-\section{Evolutionary algorithms}
-\section{Evolutionary strategy (ES)}
+\section{CMAES strategy}
 
 simple evolution, jDE, CMAES, ...
+
+\section{k-Nearest~Neighbour fitness}
+
+\section{Neural network transformation}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Experiments and Examples}
-We performed three different experiments to assess the performance of metric learning algorithms. In section \ref{chap:trivial-dataset} we showcase, where the metric learning algorithms perform very well on a trivial dataset. In section \ref{chap:experiment-knn} we use learnt metric in k-Nearest~Neighbour classificator and compare classification errors on various datasets, which are described in \ref{chap:datasets}. In the next experiment in section \ref{chap:experiment-fitness} we compare different evolutionary algorithms together with various fitnesses and show how well they generalize. As the last experiment in section \ref{chap:experiment-dim-reduction} we use metric learning algorithms for dimensionality reduction and compare the resulting embeddings.
+We performed three different experiments to assess the performance of metric learning algorithms. In section \ref{chap:trivial-dataset} we showcase, where the metric learning algorithms perform very well on a trivial dataset. In section \ref{chap:exp:classificator} we use learnt metric in k-Nearest~Neighbour classificator and compare classification errors on various datasets, which are described in \ref{chap:exp:datasets}. In the next experiment in section \ref{chap:experiment-fitness} we compare different evolutionary algorithms together with various fitnesses and show how well they generalize. As the last experiment in section \ref{chap:experiment-dim-reduction} we use metric learning algorithms for dimensionality reduction and compare the resulting embeddings.
 
 \section{Experimental settings} 
-In our experiments we compare metric learning algorithms listed in section \ref{chap:related-work}. Most of these algorithms are implemented in an open-sourced Python \textit{metric-learn} library \footnote{\url{https://github.com/all-umass/metric-learn}}. Only our evolutionary method described in section \ref{chap:our-method} and \cite{fukui2013evolutionary} are missing in this library. Therefore we designed a modular interface and implemented these two methods as a part of the \textit{metric-learn} library. The~implementation is described in section \ref{chap:implementation}.
+In our experiments we compare metric learning algorithms listed in section \ref{chap:rw}. Most of these algorithms are implemented in an open-sourced Python \textit{metric-learn} library \footnote{\url{https://github.com/all-umass/metric-learn}}. Only our evolutionary method described in section \ref{chap:our-method} and \cite{fukui2013evolutionary} are missing in this library. Therefore we designed a modular interface and implemented these two methods as a part of the \textit{metric-learn} library. The~implementation is described in section \ref{chap:impl}.
 
-\subsection{Datasets} \label{chap:datasets}
+\subsection{Datasets} \label{chap:exp:datasets}
 We chose to experiment on classification datasets that were most common among all related works, particularily \cite{xing2002distance}, \cite{weinberger2009distance}, \cite{jacobgoldberger2004neighbourhood} and \cite{fukui2013evolutionary}. We found that most common among all these papers was balance-scale, breast-cancer-wisconsin, ionosphere, iris, mice-protein, pima-indians-diabetes, sonar, soybean-large and wine dataset. All these datasets were obtained from the well-known UCI Machine Learning Repository \footnote{\url{https://archive.ics.uci.edu/ml/datasets/}}. Even among these datasets we have ionosphere, mice-protein, sonar and soybean-large that all have high dimensionality, however they are small in terms of number of samples.
 
 We also added digits6 and digits10 datasets, which are relatively larger datasets of digits with 6 and 10 classes respectively. These datasets were obtained using Python library Scikit-Learn.org \footnote{\url{http://scikit-learn.org/stable/datasets/}}.
@@ -403,7 +438,7 @@ wine                    & 178   & 13   & 3  \\
 
 [Short info about all datasets we used? Multivariate, Real / Integer / Categorical, Missing data? %TODO ]%
 
-\subsection{Preprocessing data} \label{chap:preprocessing}
+\subsection{Preprocessing data} \label{chap:exp:preprocessing}
 Some of the datasets have missing attributes. There are several strategies for dealing with missing attributes, such as removing affected samples, filling missing values with a random value or zeros, their mean, median or the most frequent value. We chose to fill missing values using the mean for any given attribute as we found it behaves well with all chosen datasets.
 
 \begin{table}[ht] \centering
@@ -434,11 +469,13 @@ Another difficulty with the datasets is that many of them do not have normalized
 \hat{X} = \frac{X-\mu}{\sigma}
 \end{equation}
 
-\section{Experiment: Classification} \label{chap:experiment-knn}
+\section{Experiment: Classification} \label{chap:exp:classification}
 
 In this experiment we wanted to see how much does learnt metric help in classification task compared to standard Euclidean distance. We chose k-Nearest~Neighbour (kNN) classifier, which is one of the simplest and yet powerful classifiers and it is very easy to modify to use a custom metric.
 
-To assess performance of the metric learning algorithms we used datasets listed in section \ref{chap:datasets} and used 10-fold cross validation for each algorithm. For each fold data were first preprocessed and standardized as described in section \ref{chap:preprocessing}, then the metric was trained using one of the methods and finally the metric was evaluated using kNN algorithm.
+[list of methods that we used in the experiment] %TODO
+
+To assess performance of the metric learning algorithms we used datasets listed in section \ref{chap:exp:datasets} and used 10-fold cross validation for each algorithm. For each fold data were first preprocessed and standardized as described in section \ref{chap:exp:preprocessing}, then the metric was trained using one of the methods and finally the metric was evaluated using kNN algorithm.
 
 We also wanted to test, how does standardization influence the learnt metrics and whether the metric learning algorithms can handle unnormalized data and so we also tried all these experiments again, but without standardizing the data.
 
@@ -468,9 +505,34 @@ In table \ref{tab:runtimes} we show run times of every method for the best hyper
 [RECALCULATE CMAES??? WEIRD RESULTS]
 \input{results/runtimes}
 
+\subsection{Comparison to unstandardized data}
 
-\section{Experiment: Generalization of EAs} \label{chap:experiment-fitness}
+can metric learning replace standardization?
 
+comparison...
+
+[table of error rates]
+
+side by side successrate graphs
+
+
+\section{Experiment: Generalization of EAs} \label{chap:exp:fitness}
+
+To test out how well do solutions from evolution algorithms evolve and generalize we performed another series of tests. Using CMAES and jDE evolution strategies described in sections \ref{chap:ea:cmaes} and \ref{chap:ea:jde}, combined with k-Nearest~Neighbour (kNN) and weighted~F-measure (wFme) fitnesses described in sections @WHERE and \ref{chap:rw:fukui} respectively. Both strategies with both fitnesses were tested, giving us 4 different models: CMAES.kNN, CMAES.wFme, jDE.kNN and jDE.wFme.
+
+All methods have several hyperparameters and in order to avoid the time consuming hyperparameter seach, the hyperparameters for the models in this experiment were picked according to results from the previous experiment.
+
+Datasets described in section \ref{chap:exp:datasets} were used as well for this experiment. Data were preprocessed and standardized the same way as previous experiment, both methods are described in section \ref{chap:exp:preprocessing}. Data were split into training and testing sets using a 67:33 ratio in a stratified fashion, keeping the sizes of classes balanced between the two splits.
+
+To gauge the performance of the fitness function we logged the fitness values of all individuals in every generation and then calculated median, minimum, maximum, 25th and 75th percentiles in each generation.
+
+To see how well the individuals generalize, individuals with the best and the worst fitness values were picked in every generation and the metric encoded in these individuals was evaluated using the test set using kNN classifier.
+
+Both kNN and wFme fitness functions output values in a closed range $[0,1]$. The final kNN classifier used to gauge performance outputs values in the same exact range and so we plot all values in the same graph. Therefore the graph for each generation shows minimal and maximal (both in orange) fitnesses, median fitness (in green) with the area between 25th and 75th percentiles coloured with light green. The test successrate of the individual with the highest fitness in XX and the test successrate of the individual with the lowest fitness in XX.
+
+[each dataset has 4 graphs]
+
+[explain the graphs]
 
 \section{Experiment: Dimensionality reduction} \label{chap:experiment-dim-reduction}
 
@@ -491,7 +553,7 @@ means = \begin{pmatrix}
 \end{equation}
 \begin{equation} \label{eq:gauss:cov}
 covariance = \begin{pmatrix}
-100000000 & 0 & 0 & 0 \\
+10^8 & 0 & 0 & 0 \\
 0 & 100 & 0 & 0 \\
 0 & 0 & 2 & 0 \\
 0 & 0 & 0 & 1 \\
@@ -504,7 +566,7 @@ covariance = \begin{pmatrix}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Implementation} \label{chap:implementation}
+\chapter{Implementation} \label{chap:impl}
 
 \section{Hierarchical Grid search}
 
