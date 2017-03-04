@@ -1,38 +1,14 @@
 \begin{table}[ht] \centering
 \begin{tabular}{lrl}
 \hline
-% \multicolumn{4}{c}{Item} \\
-% \cline{1-2}
 Method & Parameter name & Parameter values \\
 \hline
-
-CMAES
-    & transformer & 'full', 'diagonal'  \\
-    & n\_gen & 50, 100, 250  \\
-    & knn\_neighbors & 1, 4, 8, 16  \\
-    & knn\_weights & 'uniform', 'distance'  \\
 
 LMNN
     & k & 1, 2, 4, 8, 16, 32  \\
     & regularization & 0.1, 0.5, 0.9  \\
     & max\_iter & 50, 250, 500, 1000  \\
     & learn\_rate & 1e-7, 1e-8, 1e-9  \\
-
-ITML
-    & num\_constraints & 10, 100, 1000, 10000  \\
-    & gamma & 0.01, 0.1, 1.0, 10.  \\
-    & max\_iters & 50, 250, 500, 1000  \\
-
-SDML
-    & num\_constraints & 10000, 100000  \\
-    & use\_cov & True, False  \\
-    & balance\_param & 0.1, 0.25, 0.5, 0.75, 1  \\
-    & sparsity\_param & 0.01, 0.05, 0.1, 0.25  \\
-
-LSML
-    & num\_constraints & 100, 1000, 10000, 100000  \\
-    & max\_iter & 50, 250, 500, 1000  \\
-
 NCA
     & max\_iter & 50, 250, 500, 1000  \\
     & learn\_rate & 0.1, 0.01  \\
@@ -40,9 +16,31 @@ NCA
 LFDA
     & metric & 'weighted', 'orthonormalized'  \\
 
-RCA
-    & num\_chunks & 10, 50, 100, 500, 1000  \\
-    & chunk\_size & 1, 2, 3, 5, 7, 10, 16, 32  \\
+(CMAES,jDE).kNN
+    & transformer & 'full', 'diagonal'  \\
+    & n\_gen & 50, 100, 250, 1000  \\
+    & knn\_neighbors & 1, 4, 8, 16  \\
+    & knn\_weights & 'uniform', 'distance'  \\
+
+(CMAES,jDE).wFme
+    & transformer & 'full', 'diagonal'  \\
+    & n\_gen & 50, 100, 250, 1000  \\
+
+% ITML
+%     & num\_constraints & 10, 100, 1000, 10000  \\
+%     & gamma & 0.01, 0.1, 1.0, 10.  \\
+%     & max\_iters & 50, 250, 500, 1000  \\
+% SDML
+%     & num\_constraints & 10000, 100000  \\
+%     & use\_cov & True, False  \\
+%     & balance\_param & 0.1, 0.25, 0.5, 0.75, 1  \\
+%     & sparsity\_param & 0.01, 0.05, 0.1, 0.25  \\
+% LSML
+%     & num\_constraints & 100, 1000, 10000, 100000  \\
+%     & max\_iter & 50, 250, 500, 1000  \\
+% RCA
+%     & num\_chunks & 10, 50, 100, 500, 1000  \\
+%     & chunk\_size & 1, 2, 3, 5, 7, 10, 16, 32  \\
 
 \hline
 \end{tabular}

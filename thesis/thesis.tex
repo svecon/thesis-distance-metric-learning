@@ -407,11 +407,30 @@ We performed three different experiments to assess the performance of metric lea
 In our experiments we compare metric learning algorithms listed in section \ref{chap:rw}. Most of these algorithms are implemented in an open-sourced Python \textit{metric-learn} library \footnote{\url{https://github.com/all-umass/metric-learn}}. Only our evolutionary method described in section \ref{chap:our-method} and \cite{fukui2013evolutionary} are missing in this library. Therefore we designed a modular interface and implemented these two methods as a part of the \textit{metric-learn} library. The~implementation is described in section \ref{chap:impl}.
 
 \subsection{Datasets} \label{chap:exp:datasets}
-We chose to experiment on classification datasets that were most common among all related works, particularily \cite{xing2002distance}, \cite{weinberger2009distance}, \cite{jacobgoldberger2004neighbourhood} and \cite{fukui2013evolutionary}. We found that most common among all these papers was balance-scale, breast-cancer-wisconsin, ionosphere, iris, mice-protein, pima-indians-diabetes, sonar, soybean-large and wine dataset. All these datasets were obtained from the well-known UCI Machine Learning Repository \footnote{\url{https://archive.ics.uci.edu/ml/datasets/}}. Even among these datasets we have ionosphere, mice-protein, sonar and soybean-large that all have high dimensionality, however they are small in terms of number of samples.
+We chose to experiment on classification datasets that were most common among all related works, particularily \cite{xing2002distance}, \cite{weinberger2009distance}, \cite{jacobgoldberger2004neighbourhood} and \cite{fukui2013evolutionary}. We found that most common among all these papers was balance-scale, breast-cancer, iris, mice-protein, pima-indians, sonar and wine dataset. All these datasets were obtained from the well-known UCI Machine Learning Repository \footnote{\url{https://archive.ics.uci.edu/ml/datasets/}}. Even among these datasets mice-protein and sonar  have high dimensionality, however they are small in terms of number of samples.
 
-We also added digits6 and digits10 datasets, which are relatively larger datasets of digits with 6 and 10 classes respectively. These datasets were obtained using Python library Scikit-Learn.org \footnote{\url{http://scikit-learn.org/stable/datasets/}}.
+We also added digits6 and digits10 datasets, which are relatively larger datasets containing $8\times 8$ pixel images of digits with 6 and 10 classes respectively. These datasets were obtained using Python library Scikit-Learn.org \footnote{\url{http://scikit-learn.org/stable/datasets/}}.
 
-Table \ref{tab:datasets} summarizes datasets that we experimented on. The table shows number of samples, dimensionality and number of distinct classes for every dataset. The largest dataset in terms of number of samples is digits10 dataset with 1797 samples. However the largest dataset in terms of number of dimensions is mice-protein dataset. Soybean-large dataset has 19 classes, the most among our datasets.
+In order to test the metric learning algorithms on a highly variable data, we created an artificial dataset of four multinomial Gaussians. Each Gaussian has a different center, defined as a matrix in equation \eqref{eq:gauss:means} where each row corresponds to one center. All Gaussians were generated sharing one covariance matrix, defined in equation \eqref{eq:gauss:cov}. Dimensions are uncorrelated, however the first dimension has an enormous variability $10^8$.
+
+\begin{equation} \label{eq:gauss:means}
+means = \begin{pmatrix}
+10 & 0 & 0 & 2 \\
+0 & 10 & 0 & -2 \\
+0 & 0 & 10 & -2 \\
+0 & 0 & -10 & 2 \\
+\end{pmatrix}
+\end{equation}
+\begin{equation} \label{eq:gauss:cov}
+covariance = \begin{pmatrix}
+10^8 & 0 & 0 & 0 \\
+0 & 100 & 0 & 0 \\
+0 & 0 & 2 & 0 \\
+0 & 0 & 0 & 1 \\
+\end{pmatrix}
+\end{equation}
+
+Table \ref{tab:datasets} summarizes datasets that we experimented on. The table shows number of samples, dimensionality and number of distinct classes for every dataset. The largest dataset in terms of number of samples and number of classes is digits10 dataset with 1797 samples. However the largest dataset in terms of number of dimensions is mice-protein dataset.
 
 \begin{table}[ht] \centering
 \begin{tabular}{lrrr}
@@ -421,16 +440,17 @@ Table \ref{tab:datasets} summarizes datasets that we experimented on. The table 
 Dataset & \#~samples & \#~dimensions & \#~classes \\
 \hline
 balance-scale           & 625   & 4    & 3  \\
-breast-cancer-wisconsin & 699   & 9    & 2  \\
+breast-cancer           & 699   & 9    & 2  \\
 digits6                 & 1083  & 64   & 6  \\
-digits10                & \textbf{1797}  & 64   & 10 \\
-ionosphere              & 351   & 34   & 2  \\
+digits10                & \textbf{1797}  & 64  & \textbf{10} \\
+gaussians               & 400   & 5   & 4  \\
 iris                    & 150   & 4    & 3  \\
 mice-protein            & 1080  & \textbf{77}   & 8  \\
-pima-indians-diabetes   & 768   & 8    & 2  \\
+pima-indians            & 768   & 8    & 2  \\
 sonar                   & 208   & 60   & 2  \\
-soybean-large           & 307   & 35   & \textbf{19} \\
 wine                    & 178   & 13   & 3  \\
+%soybean-large           & 307   & 35   & \textbf{19} \\
+%ionosphere              & 351   & 34   & 2  \\
 %letters                 & 20000 & 16   & 26 \\
 %mnist                   & 70000 & 784  & 10 \\
 %ofaces                  & 400   & 4096 & 40 \\
@@ -439,7 +459,7 @@ wine                    & 178   & 13   & 3  \\
 \caption{Datasets overall summary} \label{tab:datasets}
 \end{table}
 
-[Short info about all datasets we used? Multivariate, Real / Integer / Categorical, Missing data? %TODO ]%
+[Short info about all datasets we used? Multivariate, Real / Integer / Categorical, Missing data? %TODO
 
 \subsection{Preprocessing data} \label{chap:exp:preprocessing}
 Some of the datasets have missing attributes. There are several strategies for dealing with missing attributes, such as removing affected samples, filling missing values with a random value or zeros, their mean, median or the most frequent value. We chose to fill missing values using the mean for any given attribute as we found it behaves well with all chosen datasets.
@@ -449,24 +469,22 @@ Some of the datasets have missing attributes. There are several strategies for d
 \hline
 Dataset & minimum & maximum & mean & std. deviation \\
 \hline
-balance-scale           & \textbf{1.00}  & 5.00    & 3.00  & 1.41 \\
-breast-cancer-wisconsin & \textbf{1.00}  & 10.00   & 3.13  & 2.88 \\
-digits10                & 0.00  & 16.00   & 4.88  & 6.02 \\
+balance-scale           & 1.00  & 5.00    & 3.00  & 1.41 \\
+breast-cancer           & 1.00  & 10.00   & 3.13  & 2.88 \\
 digits6                 & 0.00  & 16.00   & 4.87  & 6.04 \\
-ionosphere              & -1.00 & 1.00    & 0.25  & 0.58 \\
+digits10                & 0.00  & 16.00   & 4.88  & 6.02 \\
+gaussians               & \textbf{-33870.07} & \textbf{31033.73} & -7.65 & \textbf{5285.16} \\
 iris                    & 0.10  & 7.90    & 3.46  & 1.97 \\
 mice-protein            & -0.06 & 8.48    & 0.68  & 0.79 \\
-pima-indians-diabetes   & 0.00  & 846.00  & 44.99 & 58.37 \\
+pima-indians            & 0.00  & 846.00  & 44.99 & 58.37 \\
 sonar                   & 0.00  & 1.00    & 0.28  & 0.28 \\
-soybean-large           & 0.00  & 6.00    & 0.70  & 1.02 \\
-wine                    & 0.13  & \textbf{1680.00} & \textbf{69.13} & \textbf{215.75} \\
+wine                    & 0.13  & 1680.00 & \textbf{69.13} & 215.75 \\
 \hline
 \end{tabular}
 \caption{Datasets samples statistics} \label{tab:datasets-samples}
 \end{table}
 
-
-Another difficulty with the datasets is that many of them do not have normalized attributes and their attribute values are unbounded and highly variable. From table \ref{tab:datasets-samples} it is clear that the most variable datasets are pima-indians-diabetes and wine datasets with a standard deviation of $58.37$ and $215.75$ respectively. The datasets were normalized using standardization defined in equation \ref{eq:stand}, where $\mu$ is a mean vector for of each of the attributes and $\sigma$ is a vector of their standard deviations.
+Another difficulty with the datasets is that many of them do not have normalized attributes and their attribute values are unbounded and highly variable. From table \ref{tab:datasets-samples} it is clear that the most variable dataset is our artificial gaussians dataset, however pima-indians and wine datasets are also highly variable with a standard deviation of $58.37$ and $215.75$ respectively. The~datasets were normalized using standardization defined in equation \ref{eq:stand}, where $\mu$ is a mean vector for of each of the attributes and $\sigma$ is a vector of their standard deviations.
 
 \begin{equation} \label{eq:stand}
 \hat{X} = \frac{X-\mu}{\sigma}
@@ -502,6 +520,13 @@ Results discussion %TODO
 
 %TODO add results for larger datasets
 \input{results/successrates}
+
+
+\cenfig{graphs/classification/sr.pdf}{Boxplots of successrates from 10-fold crossvalidation}{fig:cl:sr}
+
+\cenfig{graphs/classification/sr_knn}{Successrates of individual algorithms when fixing `k` in the final kNN classifier}{fig:cl:kpar}
+
+\cenfig{graphs/classification/sr_hyp}{Successrates of individual algorithms when fixing some of their hyperparameters}{fig:cl:hyp}
 
 \subsection{Runtimes}
 
@@ -553,23 +578,7 @@ Both kNN and wFme fitness functions output values in a closed range $[0,1]$. The
 
 See fig \ref{fig:dimred:gauss}
 
-See~\eqref{eq:gauss:means} below.
-\begin{equation} \label{eq:gauss:means}
-means = \begin{pmatrix}
-10 & 0 & 0 & 2 \\
-0 & 10 & 0 & -2 \\
-0 & 0 & 10 & -2 \\
-0 & 0 & -10 & 2 \\
-\end{pmatrix}
-\end{equation}
-\begin{equation} \label{eq:gauss:cov}
-covariance = \begin{pmatrix}
-10^8 & 0 & 0 & 0 \\
-0 & 100 & 0 & 0 \\
-0 & 0 & 2 & 0 \\
-0 & 0 & 0 & 1 \\
-\end{pmatrix}
-\end{equation}
+
 
 \subsection{Direct comparison with other methods}
 

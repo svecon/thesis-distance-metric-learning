@@ -1,39 +1,37 @@
 \begin{table}[ht] \centering
-%{\tiny\renewcommand{\arraystretch}{1.0}
-% \hspace*{-36.73627pt}
-\begin{tabular}{lcccccccccc}
+{\small\renewcommand{\arraystretch}{1.0}
+\setlength{\tabcolsep}{2pt}
+\begin{tabular}{rcccccccccc}
 \toprule
 
 
-& \multicolumn{1}{c}{balance-scale} & \multicolumn{1}{c}{breast-cancer} & \multicolumn{1}{c}{ionosphere} & \multicolumn{1}{c}{iris} \\ 
+& \multicolumn{1}{c}{balance-scale} & \multicolumn{1}{c}{breast-cancer} & \multicolumn{1}{c}{digits6} & \multicolumn{1}{c}{digits10} & \multicolumn{1}{c}{digits10} \\ 
 \midrule
-Euclidean & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ \\
-Covariance & $0.06$ & $0.01$ &  & $0.00$ \\
-LMNN & $263.25$ & $2959.43$ & $377.72$ & $45.74$ \\
-CMA-ES & $995.42$ & $5279.22$ & $4269.82$ & $3242.20$ \\
-NCA & $21.72$ & $2474.73$ &  & $13.73$ \\
-LFDA & $0.23$ & $0.62$ &  & $0.02$ \\
-ITML & $264.82$ & $54.24$ & $26.13$ & $113.65$ \\
-LSML & $1.18$ & $0.53$ &  & $0.29$ \\
-RCA & $0.26$ & $1.00$ & $0.13$ & $0.05$ \\
-SDML & $107.98$ & $90.74$ & $90.65$ & $456.75$ \\
+s:Euclidean & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ \\
+s:Covariance & $0.01$ & $0.01$ & E  & E  & E  \\
+s:LMNN & $230.17$ & $1662.96$ & $8145.04$ & $529.54$ & $529.54$ \\
+s:NCA & $0.63$ & $1873.65$ &  &  &  \\
+s:LFDA & $0.20$ & $0.55$ & E  & E  & E  \\
+s:CMAES.kNN & $245.09$ & $7985.07$ & $2006.39$ & $6367.28$ & $6367.28$ \\
+s:CMAES.fMe & $98.53$ & $30.55$ &  &  &  \\
+s:jDE.fMe & $373.80$ & $2187.32$ &  &  &  \\
+s:jDE.kNN & $48.60$ & $7070.57$ &  &  &  \\
 \midrule
-& \multicolumn{1}{c}{mice-protein} & \multicolumn{1}{c}{pima-indians} & \multicolumn{1}{c}{sonar} & \multicolumn{1}{c}{wine} \\ 
+& \multicolumn{1}{c}{iris} & \multicolumn{1}{c}{mice-protein} & \multicolumn{1}{c}{pima-indians} & \multicolumn{1}{c}{sonar} & \multicolumn{1}{c}{wine} \\ 
 \midrule
-Euclidean & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ \\
-Covariance & $0.01$ & $0.09$ & $0.01$ & $0.00$ \\
-LMNN & $14.45$ & $4764.54$ & $4.78$ & $354.18$ \\
-CMA-ES & $8311.75$ & $259.36$ & $2577.11$ & $40.37$ \\
-NCA &  &  & $94.21$ &  \\
-LFDA & $0.04$ & $1.00$ & $0.24$ & $0.11$ \\
-ITML & $1.67$ & $50.12$ & $0.07$ & $1.36$ \\
-LSML & $1.02$ & $26.79$ & $0.48$ & $101.76$ \\
-RCA & $1.39$ & $0.22$ & $0.13$ & $0.06$ \\
-SDML & $4.15$ & $76.64$ & $282.30$ & $657.22$ \\
+s:Euclidean & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ & $\bm{0.00}$ \\
+s:Covariance & $\bm{0.00}$ & E  & $0.07$ & $0.01$ & $0.01$ \\
+s:LMNN & $33.56$ & $134.02$ & $1949.07$ & $28.62$ & $69.40$ \\
+s:NCA & $32.16$ &  & $4777.22$ & $2134.60$ & $1.39$ \\
+s:LFDA & $0.01$ & E  & $1.06$ & $0.03$ & $0.02$ \\
+s:CMAES.kNN & $3256.61$ & $11670.47$ & $248.79$ & $3358.28$ & $39.84$ \\
+s:CMAES.fMe & $51.32$ &  & $245.96$ &  &  \\
+s:jDE.fMe & $1.88$ &  & $375.85$ &  &  \\
+s:jDE.kNN & $63.27$ &  & $293.08$ &  &  \\
 
 
 \bottomrule
 \end{tabular}
-%}
+}
 \caption{Runtimes (in seconds) for the best hyperparameter combination} \label{tab:runtimes}
 \end{table}

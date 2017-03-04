@@ -1,38 +1,58 @@
 \begin{table}[ht] \centering
-%{\tiny\renewcommand{\arraystretch}{1.0}
+{\small\renewcommand{\arraystretch}{1.0}
+\setlength{\tabcolsep}{2pt}
 % \hspace*{-36.73627pt}
-\begin{tabular}{lcccccccccc}
+% \multicolumn{4}{c}{Item} \\
+% \cline{1-2}
+\begin{tabular}{rcccccccccc}
 \toprule
 
 
-& \multicolumn{1}{c}{balance-scale} & \multicolumn{1}{c}{breast-cancer} & \multicolumn{1}{c}{ionosphere} & \multicolumn{1}{c}{iris} \\ 
+& \multicolumn{1}{c}{balance-scale} & \multicolumn{1}{c}{breast-cancer} & \multicolumn{1}{c}{digits6} & \multicolumn{1}{c}{digits10} & \multicolumn{1}{c}{digits10} \\ 
 \midrule
-Euclidean & $10.56\pm1.07$ & $3.58\pm2.15$ & $10.56\pm4.37$ & $2.67\pm3.27$ \\
-Covariance & $10.09\pm1.55$ & $5.29\pm1.79$ &  & $8.00\pm6.53$ \\
-LMNN & $5.78\pm2.25$ & $2.72\pm1.63$ & $8.86\pm4.41$ & $\bm{1.33\pm2.67}$ \\
-CMA-ES & $\bm{3.55\pm2.20}$ & $\bm{2.58\pm1.67}$ & $\bm{7.70\pm5.40}$ & $\bm{1.33\pm2.67}$ \\
-NCA & $4.02\pm2.12$ & $3.29\pm2.03$ &  & $2.00\pm3.06$ \\
-LFDA & $7.38\pm2.25$ & $3.01\pm2.08$ &  & $2.00\pm3.06$ \\
-ITML & $10.89\pm1.80$ & $2.86\pm1.81$ & $9.68\pm4.89$ & $2.67\pm3.27$ \\
-LSML & $10.89\pm1.00$ & $4.86\pm2.65$ &  & $8.00\pm6.53$ \\
-RCA & $9.29\pm2.39$ & $8.00\pm3.19$ & $57.35\pm42.81$ & $18.67\pm15.14$ \\
-SDML & $9.45\pm1.18$ & $3.15\pm2.01$ & $17.37\pm27.98$ & $2.00\pm4.27$ \\
+Euclidean & $10.56\pm1.07$ & $3.58\pm2.15$ & $\bm{0.09\pm0.27}$ & $1.22\pm0.86$ & $1.22\pm0.86$ \\
+s:Euclidean & $9.92\pm1.18$ & $3.43\pm1.72$ & $0.55\pm0.74$ & $2.06\pm0.90$ & $2.06\pm0.90$ \\
+Covariance & $10.09\pm1.55$ & $5.29\pm1.79$ & E  & E  & E  \\
+s:Covariance & $10.09\pm1.38$ & $5.29\pm1.79$ & E  & E  & E  \\
+LMNN & $5.78\pm2.25$ & $2.72\pm1.63$ & $\bm{0.09\pm0.27}$ & $\bm{0.94\pm1.03}$ & $\bm{0.94\pm1.03}$ \\
+s:LMNN & $5.45\pm2.42$ & $3.00\pm2.07$ & $0.28\pm0.42$ & $1.00\pm0.65$ & $1.00\pm0.65$ \\
+NCA & $4.02\pm2.12$ & $3.29\pm2.03$ &  &  &  \\
+s:NCA & $4.03\pm2.26$ & $3.15\pm1.66$ &  &  &  \\
+LFDA & $7.38\pm2.25$ & $3.01\pm2.08$ & E  & E  & E  \\
+s:LFDA & $7.06\pm2.14$ & $\bm{2.43\pm1.57}$ & E  & E  & E  \\
+CMAES.kNN & $3.55\pm2.20$ & $2.58\pm1.67$ & $0.18\pm0.36$ & $1.00\pm0.89$ & $1.00\pm0.89$ \\
+s:CMAES.kNN & $\bm{3.38\pm2.37}$ & $2.58\pm1.90$ & $0.64\pm0.72$ & $1.61\pm0.91$ & $1.61\pm0.91$ \\
+CMAES.fMe & $9.61\pm2.31$ & $3.00\pm1.49$ &  & $1.56\pm0.82$ & $1.56\pm0.82$ \\
+s:CMAES.fMe & $9.75\pm3.11$ & $3.15\pm2.28$ &  &  &  \\
+jDE.fMe & $8.80\pm2.78$ & $3.15\pm1.55$ &  &  &  \\
+s:jDE.fMe & $8.66\pm3.03$ & $3.01\pm1.76$ &  &  &  \\
+jDE.kNN & $3.55\pm2.20$ & $2.72\pm1.86$ &  &  &  \\
+s:jDE.kNN & $3.55\pm2.20$ & $2.86\pm1.57$ &  &  &  \\
 \midrule
-& \multicolumn{1}{c}{mice-protein} & \multicolumn{1}{c}{pima-indians} & \multicolumn{1}{c}{sonar} & \multicolumn{1}{c}{wine} \\ 
+& \multicolumn{1}{c}{iris} & \multicolumn{1}{c}{mice-protein} & \multicolumn{1}{c}{pima-indians} & \multicolumn{1}{c}{sonar} & \multicolumn{1}{c}{wine} \\ 
 \midrule
-Euclidean & $0.47\pm0.64$ & $24.61\pm3.84$ & $17.88\pm11.43$ & $22.80\pm9.19$ \\
-Covariance & $40.46\pm48.62$ & $26.43\pm3.84$ & $17.70\pm6.90$ & $6.21\pm6.78$ \\
-LMNN & $\bm{0.00\pm0.00}$ & $24.09\pm5.15$ & $13.53\pm6.18$ & $3.83\pm4.24$ \\
-CMA-ES & $\bm{0.00\pm0.00}$ & $\bm{23.05\pm4.03}$ & $\bm{13.48\pm8.57}$ & $3.37\pm4.55$ \\
-NCA &  &  & $14.41\pm8.86$ &  \\
-LFDA & $70.00\pm45.83$ & $23.70\pm3.28$ & $14.37\pm7.02$ & $\bm{1.64\pm2.50}$ \\
-ITML & $3.99\pm1.10$ & $27.74\pm4.63$ & $17.38\pm10.13$ & $28.01\pm7.23$ \\
-LSML & $10.83\pm29.73$ & $25.27\pm4.11$ & $17.70\pm6.90$ & $4.97\pm6.31$ \\
-RCA & $46.27\pm28.41$ & $51.60\pm8.31$ & $40.02\pm21.74$ & $30.86\pm13.95$ \\
-SDML & $10.18\pm29.94$ & $27.61\pm2.28$ & $72.90\pm41.44$ & $49.18\pm34.34$ \\
+Euclidean & $2.67\pm3.27$ & $0.47\pm0.64$ & $24.61\pm3.84$ & $17.88\pm11.43$ & $22.80\pm9.19$ \\
+s:Euclidean & $3.33\pm3.33$ & $0.38\pm0.63$ & $24.74\pm3.91$ & $13.50\pm10.10$ & $1.64\pm2.50$ \\
+Covariance & $8.00\pm6.53$ & E  & $26.43\pm3.84$ & $17.70\pm6.90$ & $6.21\pm6.78$ \\
+s:Covariance & $8.00\pm6.53$ & E  & $26.43\pm3.84$ & $17.70\pm6.90$ & $6.21\pm6.78$ \\
+LMNN & $\bm{1.33\pm2.67}$ & $\bm{0.00\pm0.00}$ & $24.09\pm5.15$ & $13.53\pm6.18$ & $3.83\pm4.24$ \\
+s:LMNN & $2.00\pm3.06$ & $\bm{0.00\pm0.00}$ & $23.70\pm4.11$ & $\bm{9.19\pm6.67}$ & $\bm{0.56\pm1.67}$ \\
+NCA & $2.00\pm3.06$ &  & E  & $14.41\pm8.86$ & E  \\
+s:NCA & $2.00\pm3.06$ &  & $22.53\pm4.19$ & $12.00\pm5.42$ & $2.29\pm3.75$ \\
+LFDA & $2.00\pm3.06$ & E  & $23.70\pm3.28$ & $14.37\pm7.02$ & $1.64\pm2.50$ \\
+s:LFDA & $2.00\pm3.06$ & E  & $23.06\pm4.71$ & $13.50\pm10.10$ & $1.11\pm2.22$ \\
+CMAES.kNN & $\bm{1.33\pm2.67}$ & $\bm{0.00\pm0.00}$ & $23.05\pm4.03$ & $13.48\pm8.57$ & $3.37\pm4.55$ \\
+s:CMAES.kNN & $2.00\pm3.06$ & $0.10\pm0.29$ & $\bm{21.48\pm3.13}$ & $10.17\pm6.39$ & $2.25\pm3.72$ \\
+CMAES.fMe & $\bm{1.33\pm2.67}$ &  & $23.83\pm4.11$ &  & $12.90\pm8.52$ \\
+s:CMAES.fMe & $2.00\pm4.27$ &  & $21.61\pm4.03$ &  &  \\
+jDE.fMe & $2.00\pm3.06$ &  & $23.30\pm3.58$ &  &  \\
+s:jDE.fMe & $3.33\pm4.47$ &  & $22.40\pm4.69$ &  &  \\
+jDE.kNN & $2.00\pm3.06$ &  & $23.83\pm3.76$ &  &  \\
+s:jDE.kNN & $2.67\pm3.27$ &  & $23.18\pm3.89$ &  &  \\
 
 
 \bottomrule
-\end{tabular} %}
-\caption{Error rates (in \%) on small datasets} \label{tab:errors-small}
+\end{tabular}
+}
+\caption{Error rates (in \%) for every method and dataset} \label{tab:errors-small}
 \end{table}
