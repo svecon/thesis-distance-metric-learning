@@ -558,6 +558,35 @@ Both kNN and wFme fitness functions output values in a closed range $[0,1]$. The
 
 \section{Experiment: Runtimes}
 
+N number of samples
+D number of attributes
+G number of generations (200)
+
+$\mathcal{O}(N^{2.376})$ matrix multiplication 
+
+jDE
+$P=10*D^2$ population size
+$\mathcal{O}(GP*(D^2+F_{eval}))$ for full
+$\mathcal{O}(GP*(D+F_{eval}))$ for diagonal
+
+CMAES
+$P=4*3\log{D^2}$ population size
+$\mathcal{O}(G*(PD+PD^2+PF_{eval}+D+D^2+D^3))$ for diagonal
+% generate pop PD, PD^2
+% update D, D^2
+% eigen decomp D^3
+
+Fitness
+$N$ split
+$D^2$ fit transformer (for full)
+$ND^2$ transform samples (for full)
+
+kNN
+$N\log{N}$ build
+$N^{1-\frac{1}{D}}+k$ retrieve
+
+wFme ??
+
 % http://stackoverflow.com/questions/9146086/time-complexity-of-genetic-algorithm
 % Genetic Algorithms are not chaotic, they are stochastic. The complexity depends on the genetic operators, their implementation (which may have a very significant effect on overall complexity), the representation of the individuals and the population, and obviously on the fitness function. Given the usual choices (point mutation, one point crossover, roulette wheel selection) a Genetic Algorithms complexity is O(g(nm + nm + n)) with g the number of generations, n the population size and m the size of the individuals. Therefore the complexity is on the order of O(gnm)). This is of cause ignoring the fitness function, which depends on the application.
 
