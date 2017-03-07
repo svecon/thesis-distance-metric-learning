@@ -558,11 +558,33 @@ Both kNN and wFme fitness functions output values in a closed range $[0,1]$. The
 
 \section{Experiment: Runtimes}
 
-N number of samples
-D number of attributes
-G number of generations (200)
+\begin{tabbing}
+\hspace{50pt}\=\kill
+$N$ \> number of samples \\
+$D$ \> number of attributes \\ 
+$G$ \> number of generations (200) \\
+\end{tabbing} 
 
 $\mathcal{O}(N^{2.376})$ matrix multiplication 
+
+\begin{table}[ht] \centering
+\begin{tabular}{rll}
+\hline
+Method & full matrix & diagonal matrix \\
+\hline
+Covariance & $\mathcal{O}(ND^2)$ & - \\
+LMNN & $i*\mathcal{O}()$ & - \\
+NCA & $i*\mathcal{O}(N^2D^2)$ & - \\
+LFDA & $\mathcal{O}(N^2D)$ & - \\
+CMAES.kNN & $\mathcal{O}()$ & - \\
+CMAES.fMe & $\mathcal{O}()$ & - \\
+jDE.kNN & $\mathcal{O}()$ & - \\
+jde.fMe & $\mathcal{O}()$ & - \\ 
+\hline
+\end{tabular}
+\caption{XXX} \label{tab:XXX}
+\end{table}
+
 
 jDE
 $P=10*D^2$ population size
