@@ -52,6 +52,8 @@
 \usepackage{adjustbox}
 \usepackage{dcolumn}
 \usepackage{float}
+\usepackage[section]{placeins}
+
 
 %%% User-defined commands
 % \newcommand{name}[num]{definition}
@@ -518,7 +520,6 @@ How hyperparameters influence the successrate. [graphs] %TODO
 
 Results discussion %TODO
 
-%TODO add results for larger datasets
 \input{results/successrates}
 
 [Comparison to unstandardized data]
@@ -535,9 +536,12 @@ side by side successrate graphs %TODO
 
 \section{Experiment: Generalization of EAs} \label{chap:exp:fitness}
 
-To test out how well do solutions from evolution algorithms evolve and generalize we performed another series of tests. Using CMAES and jDE evolution strategies described in sections \ref{chap:ea:cmaes} and \ref{chap:ea:jde}, combined with k-Nearest~Neighbour (kNN) and weighted~F-measure (wFme) fitnesses described in sections @WHERE and \ref{chap:rw:fukui} respectively. Both strategies with both fitnesses were tested, giving us 4 different models: CMAES.kNN, CMAES.wFme, jDE.kNN and jDE.wFme.
+To test out how well do solutions from evolution algorithms evolve and generalize we performed another series of tests. Using CMAES and jDE evolution strategies described in sections \ref{chap:ea:cmaes} and \ref{chap:ea:jde}, combined with k-Nearest~Neighbour (kNN) and weighted~F-measure (wFme) fitnesses described in sections @WHERE and \ref{chap:rw:fukui} respectively. Both strategies with both fitnesses were tested, giving us 4 different models: CMAES.kNN, CMAES.wFme, jDE.kNN and jDE.wFme where the first part until the dot describes evolution strategy used in the algorithm and the part after the dot describes its fitness function.
 
-All methods have several hyperparameters and in order to avoid the time consuming hyperparameter seach, the hyperparameters for the models in this experiment were picked according to results from the previous experiment.
+All methods have some hyperparameters and in order to avoid the time consuming hyperparameter search, the hyperparameters for the models in this experiment were picked according to results from the previous experiment. Only one set of hyperparameters was picked for all datasets. The number of nearest neighbours in the kNN classifier used in the fitness function was chosen to be 8 and the number of nearest neighbours in the final kNN classifier was set to 4. All methods were evolved for a full thousand generations. Early stopping does not make sense in this experiment because the learnt metric is evaluated after every single generation, compared to the classification experiment where more generations could overfit the testing error and therefore the produced metric would not generalize well.
+
+[full vs diagonal!?]
+[some datasets too large]
 
 Datasets described in section \ref{chap:exp:datasets} were used as well for this experiment. Data were preprocessed and standardized the same way as previous experiment, both methods are described in section \ref{chap:exp:preprocessing}. Data were split into training and testing sets using a 67:33 ratio in a stratified fashion, keeping the sizes of classes balanced between the two splits.
 
@@ -622,13 +626,21 @@ In table \ref{tab:runtimes} we show run times of every method for the best hyper
 
 \section{Experiment: Dimensionality reduction} \label{chap:exp:dimred}
 
+Metric learning can also be used for dimensionality reduction as discussed in @WHERE. This experiment was focused on dimensionality reduction into two dimensions where it is easy to visualise the data.
+
+One of the most common and the simplest unsupervised dimensionality reduction method is Principal Component Analysis @REFERENCE (PCA). PCA picks the dimensions of the data with the highest variance. This corresponds to finding the eigenvalues and eigenvectors of the covariance matrix, the eigenvectors with the largest eigenvalues correspond to the dimensions that have the strongest correlation in the dataset.
+
+[Is Covariance Mahalanobis === PCA??]
+
+LFDA uses the same trick for dimensionality reduction, it calculates the metric matrix and then picks the columns of this matrix with the largest corresponding eigenvalues.
+
+t-SNE \cite{maaten2008visualizing} ...
+
 \subsection{Multivariate Gaussians dataset} \label{chap:trivial-dataset}
 
 \cenfig{graphs/dimred/gaussians}{Dimensionality reduction of multivariate Gaussian dataset using different algorithms}{fig:dimred:gauss}
 
 See fig \ref{fig:dimred:gauss}
-
-
 
 \subsection{Direct comparison with other methods}
 
