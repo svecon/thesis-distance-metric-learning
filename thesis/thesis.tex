@@ -634,17 +634,21 @@ One of the most common and the simplest unsupervised dimensionality reduction me
 
 LFDA uses the same trick for dimensionality reduction, it calculates the metric matrix and then picks the columns of this matrix with the largest corresponding eigenvalues.
 
-t-SNE \cite{maaten2008visualizing} ...
-
-\subsection{Multivariate Gaussians dataset} \label{chap:trivial-dataset}
-
 \cenfig{graphs/dimred/gaussians}{Dimensionality reduction of multivariate Gaussian dataset using different algorithms}{fig:dimred:gauss}
 
 See fig \ref{fig:dimred:gauss}
 
 \subsection{Direct comparison with other methods}
 
+In this experiment we compare PCA, LFDA, CMAES.kNN methods for dimensionality reduction into two dimensions.
+
 \subsection{Preprocessing for t-SNE}
+
+t-SNE \cite{maaten2008visualizing} is another unsupervised dimensionality reduction method which is getting a lot of attention recently. Compared to PCA, t-SNE has a non-convex objective function and is optimized using gradient descend, which means it may end up in a local minimum. .... recommended to run more times.
+
+[add how tsne works?]
+
+In this experiment we compare pure t-SNE with
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
