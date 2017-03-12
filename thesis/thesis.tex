@@ -55,6 +55,11 @@
 \usepackage[section]{placeins}
 % \usepackage{capt-of}
 
+\usepackage{acro}
+\include{acronyms}
+% http://ftp.cvut.cz/tex-archive/macros/latex/contrib/acro/acro_en.pdf
+% \acsetup{first-style=short}
+
 
 % define "struts", as suggested by Claudio Beccari in
 %    a piece in TeX and TUG News, Vol. 2, 1993.
@@ -62,18 +67,7 @@
 \newcommand\Bstrut{\rule[-0.9ex]{0pt}{0pt}}   % = `bottom' strut
 
 
-%%% User-defined commands
-% \newcommand{name}[num]{definition}
-\newcommand{\cenfig}[3]{
-\begin{figure}[ht]
-	\centering
-    \includegraphics[width=1.0\textwidth]{#1}
-    \caption{#2} \label{#3}
-\end{figure}
-}
-
 %%% Basic information on the thesis
-
 % Thesis title in English (exactly as in the formal assignment)
 \def\ThesisTitle{Evolutionary Algorithms for Data Transformation}
 
@@ -164,11 +158,11 @@ A metric is ubiquitous in machine learning. For instance, in classification, k-N
 
 It is obvious that performance of all these algorithms depends on the quality of the metric defined on the input space. The better the metric judges how close or how similar any two instances in the space are, the more the final machine algorithm will behave.
 
-Several general purpose metrics exist, such as Euclidean distance, defined in equation \ref{eq:euklid}, or its generalized Minkowski distance, defined in equation \ref{eq:minkowski}, and cosine similarity, defined in equation \ref{eq:cosine} used for vectors of real numbers, or Levenshtein distance (also called edit distance) for measuring distances between strings.
+Several general purpose metrics exist, such as Euclidean distance, defined in equation \ref{eq:euclid}, or its generalized Minkowski distance, defined in equation \ref{eq:minkowski}, and cosine similarity, defined in equation \ref{eq:cosine} used for vectors of real numbers, or Levenshtein distance (also called edit distance) for measuring distances between strings.
 
 % https://numerics.mathdotnet.com/distance.html
 \begin{align}
-d_{\mathbf{2}}(\textbf{x}, \textbf{y}) &= \|\textbf{x}-\textbf{y}\|_2 = \sqrt{\sum_{i=1}^{n} (x_i-y_i)^2} \label{eq:euklid} \\
+d_{\mathbf{2}}(\textbf{x}, \textbf{y}) &= \|\textbf{x}-\textbf{y}\|_2 = \sqrt{\sum_{i=1}^{n} (x_i-y_i)^2} \label{eq:euclid} \\
 d_{\mathbf{p}}(\textbf{x}, \textbf{y}) &= \|\textbf{x}-\textbf{y}\|_p = \bigg(\sum_{i=1}^{n} |x_i-y_i|^p\bigg)^\frac{1}{p} \label{eq:minkowski} \\
 sim(\textbf{x}, \textbf{y}) &= \cos{\phi} = \frac{\textbf{x}\textbf{y}}{\|\textbf{x}\|\|\textbf{y}\|} \label{eq:cosine}
 \end{align}
@@ -179,19 +173,49 @@ Therefore the goal of metric learning is to adapt some pairwise metric function 
 
 The origins of metric learning can be traced back to \cite{short1981optimal}, however the first paper that received a lot of attention was \cite{xing2002distance} where the metric learning is formulated as a convex optimization problem. Since then metric learning has been getting increasing amount of attention and appeared at conferences ICML 2010\footnote{\url{http://www.icml2010.org/program.html}}, ECCV 2010\footnote{\url{http://www.ics.forth.gr/eccv2010/tutorials.php}} and workshops at ICCV 2011\footnote{\url{http://www.iccv2011.org/authors/workshops}}, NIPS 2011\footnote{\url{https://nips.cc/Conferences/2011/Schedule}} and ICML 2013 \footnote{\url{http://icml.cc/2013/?page_id=41}}.
 
-Many researches tackle metric learning by adapting a Mahalanobis distance metric first described in \cite{mahalanobis1936generalized} in \ref{eq:mahalanobis}, where $\bm{\Omega}$ is a covariance matrix of the data. However this name is now overloaded and Mahalanobis distance now stands for any metric parametrized by a matrix $\bm{M}$ as defined in equation \ref{eq:mahalanobis:generalized}.
+Many researches tackle metric learning by adapting a Mahalanobis distance metric first described in \cite{mahalanobis1936generalized} in \ref{eq:maha:orig}, where $\bm{\Sigma}$ is a covariance matrix of the data defined in equation \ref{eq:cov}. However this name is now overloaded and Mahalanobis distance now stands for any metric parametrized by a matrix $\bm{M}$ as defined in equation \ref{eq:maha}.
 
-\begin{equation} \label{eq:mahalanobis}
-d_{Mahalanobis}(\textbf{x},\textbf{y}) = \sqrt{(\textbf{x}-\textbf{y})^T\bm{\Omega}^{-1}(\textbf{x}-\textbf{y})} 
-\end{equation}
+\begin{align} \label{eq:maha:orig}
+d_{Mahalanobis}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^T\bm{\Sigma}^{-1}(\textbf{x}-\textbf{y})}  \\
+\bm{\Sigma} &= \mathrm {E} \left[\left(\mathbf {X} -\mathrm {E} [\mathbf {X} ]\right)\left(\mathbf {X} -\mathrm {E} [\mathbf {X} ]\right)^{\rm {T}}\right] \label{eq:cov}
+\end{align}
 
-\begin{equation} \label{eq:mahalanobis:generalized}
+\begin{equation} \label{eq:maha}
 d_{Mahalanobis}(\textbf{x},\textbf{y}) = \sqrt{(\textbf{x}-\textbf{y})^T\bm{M}(\textbf{x}-\textbf{y})} 
 \end{equation}
 
 \section{Mahalanobis metric}
+% http://blogs.sas.com/content/iml/2012/02/15/what-is-mahalanobis-distance.html
 
-From a mathematical perspective, a metric is a function $d(x,y)$ that defines a distance, similarity or dissimilarity between two instances from some input space: $d:\mathcal{X} \times \mathcal{X} \mapsto [0,\inf)$. For a function to be a metric it has to follow 4 rules: nonnegativity, identity of indiscernibles, symmetry and triangle inequality as defined in equations \ref{eq:metricdef-1} ---\ref{eq:metricdef-4}.
+The problem with Euclidean distance is that it does not account for variances in different directions and correlations between pairs of dimensions in the data. For normally distributed data, the distance from the mean can be specified by computing the z-score, defined as $z = \frac{x-\mu}{\sigma}$, where $\mu$ is the population mean and $\sigma$ is the population standard deviation. The z-score of $x$ can be looked at as a dimensionless quantity and can be interpreted as the number of standard deviations of $x$ away from the mean.
+
+The figure \ref{fig:corrdata} demonstrates this problem in two dimensions: the figure visualises a dataset with both dimensions highly correlated and with the first dimension highly variable. In the plot the coloured ellipses show the probability density of the Gaussian mixture model. The probability density is high for ellipses near the origin and low for ellipses further away. In the figure there is $[0,0]$ (origin) and two other red points: $[0,1]$ and $[2,0]$. In Euclidean distance the point $[0,1]$ is twice closer to the origin compared to the point $[2,0]$. However, because the first axis has larger variance, it is clear that seeing point $[2,0]$ is much more probable in our dataset than it is seeing point $[0,1]$ because the point $[2,0]$ lies on the edge of the first ellipsis, meanwhile point $[0,1]$ lies beyond the edge of the second ellipsis. Using the terminology of the z-score, the point $[0,1]$ is more standard deviations away from the origin than the point $[2,0]$.
+
+\cenfig{graphs/correlated_data}{Correlated data centered around origin}{fig:corrdata}
+
+% http://blogs.sas.com/content/iml/2012/02/08/use-the-cholesky-transformation-to-correlate-and-uncorrelate-variables.html
+The data can be uncorrelated using the covariance matrix $\bm{\Sigma}$, which is a \ac{psd} matrix and therefore the Cholesky decomposition $\bm{\Sigma}=\bm{L}\bm{L}^T$ can be used to obtain a lower triangular matrix $\bm{L}$. The inverse of this triangular matrix $\bm{L}$ can be used to remove the correlation from the data defined by $\bm{\Sigma}$. The figure \ref{fig:uncorrdata} demonstrates the effect of multiplying the original data by $\bm{L}^{-1}$. In this figure it is now clear that the point $[2,0]$ is much closer to the origin than the the point $[0,1]$ in Euclidean distance.
+
+\cenfig{graphs/uncorrelated_data}{Uncorrelated data using Cholesky decomposition of covariance matrix}{fig:uncorrdata}
+
+This problem of correlation between dimensions does not arise in the Mahalanobis distance \eqref{eq:maha:orig} because it decorrelates the data intrinsically before calculating the distance itself. If the Cholesky decomposition is applied directly inside the equation \ref{eq:maha:orig}, we get that the Mahalanobis distance of the original data is equal to the Euclidean distance of the decorrelated data as shown in \ref{eq:mahalanobis:decorrelation}.
+
+\begin{align}
+  d_{Mahalanobis}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{\Sigma}^{-1}(\textbf{x}-\textbf{y})} \nonumber\\
+         &= \sqrt{(\textbf{x}-\textbf{y})^{T}(\bm{L}\bm{L}^{T})^{-1}(\textbf{x}-\textbf{y})} \nonumber\\
+         &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{L}^{-T}\bm{L}^{-1}(\textbf{x}-\textbf{y})} \nonumber\\
+         &= \sqrt{(\bm{L}^{-1}\textbf{x}-\bm{L}^{-1}\textbf{y})^{T}(\bm{L}^{-1}\textbf{x}-\bm{L}^{-1}\textbf{y})} \nonumber\\
+         &= d_{\bm{2}}(\bm{L}^{-1}\textbf{x}, \bm{L}^{-1}\textbf{y}) \label{eq:mahalanobis:decorrelation}
+\end{align}
+
+Therefore from the \ref{eq:mahalanobis:decorrelation} it is possible to see the Mahalanobis distance has the following properties:
+\begin{enumerate}
+\item it accounts for the variances in each direction
+\item it accounts for the covariance between variables
+\item it reduces to the Euclidean distance for uncorrelated data with unit variance
+\end{enumerate}
+
+Now consider the generalized form of the Mahalanobis distance defined in equation \ref{eq:maha}. For what matrices $\bm{M}$ does the equation remain a distance metric? From a mathematical perspective, a metric is a function $d(x,y)$ that defines a distance, similarity or dissimilarity between two instances from some input space: $d:\mathcal{X} \times \mathcal{X} \mapsto [0,\inf)$. For a function to be a metric it has to follow 4 conditions: nonnegativity, identity of indiscernibles, symmetry and triangle inequality as defined in equations \ref{eq:metricdef-1} --- \ref{eq:metricdef-4}.
 
 % https://en.wikipedia.org/wiki/Metric_(mathematics)
 \begin{align}
@@ -201,42 +225,23 @@ d(x,y) &= d(y,x) & symmetry \label{eq:metricdef-3} \\
 d(x,z) &\leq d_M(x,y) + d_M(y,z) & triangle \ inequality \label{eq:metricdef-4}
 \end{align} 
 
-In order for Mahalanobis metric from equation \eqref{eq:mahalanobis:generalized} to be a metric, the matrix $\bf{M}$ that parametrizes the distance needs to pass the metric axioms \ref{eq:metricdef-1} ---\ref{eq:metricdef-4}. Therefore the axiom identity of indiscernibles \ref{eq:metricdef-2} is too strong and is usually relaxed into an axiom of identity \ref{eq:pseudodef-2}. Together with the rest of the axioms, this gives us a set of new axioms \ref{eq:pseudodef-1} ---\ref{eq:pseudodef-4}, which together define a pseudo-metric.
+In order for the Mahalanobis metric from equation \eqref{eq:maha} to be a metric, the matrix $\bf{M}$ that parametrizes the distance needs to pass the metric conditions \ref{eq:metricdef-1} --- \ref{eq:metricdef-4}. It turns out that a strictly \ac{pd} matrices $\bm{M} \succ 0$ do pass the conditions and therefore the Mahalanobis distance with a \ac{pd} matrix is a distance metric.
 
-$\bm{M} \in \mathbb{S}^{d \times d}_+$ ensures that $d_{\bm{M}}$ satisfies the properties of a pseudo-metric: $\forall \textbf{x},\textbf{y}, \textbf{z} \in \mathcal{X}$
+Sometimes, however, it is not easy to guarantee the positive definiteness of a matrix and we have to settle with a \ac{psd} matrix $\bf{M} \succeq 0$. For \ac{psd} matrices the identity of indiscernibles condition \ref{eq:metricdef-2} is not met and therefore the Mahalanobis distance with a \ac{psd} matrix is not a metric. For this reason the condition is usually relaxed into a condition of identity \ref{eq:pseudodef-2}. Together with the rest of the conditions, this forms a new set of conditions \ref{eq:pseudodef-1} ---\ref{eq:pseudodef-4}, which together defines a pseudo-metric. Therefore the Mahalanobis distance with a \ac{psd} matrix is a pseudo-metric.
 
 %TODO fix corrent formatting for letters
 \begin{align}
 d(x,y) &\geq 0 & nonnegativity \label{eq:pseudodef-1} \\
-d_M(x,x) &= 0 & identity \label{eq:pseudodef-2} \\
+d(x,x) &= 0 & identity \label{eq:pseudodef-2} \\
 d(x,y) &= d(y,x) & symmetry \label{eq:pseudodef-3} \\
 d(x,z) &\leq d_M(x,y) + d_M(y,z) & triangle \ inequality \label{eq:pseudodef-4}
 \end{align} 
-
-Pseudo-metric is a function which satisfies the axioms for a metric, except the second rule (identity of indiscernibles) is slightly relaxed so that it is possible that there $\exists \textbf{x} \neq \textbf{y}: d_M(\textbf{x},\textbf{y}) = 0$.
 
 
 %TODO use this 
 % https://en.wikipedia.org/wiki/Mahalanobis_distance
 
 % https://www.cs.princeton.edu/courses/archive/fall08/cos436/Duda/PR_Mahal/M_metric.htm
-
-%TODO explain space transformation and mahalanobis metric
-% http://blogs.sas.com/content/iml/2012/02/15/what-is-mahalanobis-distance.html
-
-\begin{align}
-  d_{\bm{M}}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{M}(\textbf{x}-\textbf{y})} \nonumber\\
-         &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{L}^{T}\bm{L}(\textbf{x}-\textbf{y})} \nonumber\\
-         &= \sqrt{(\bm{L}\textbf{x}-\bm{L}\textbf{y})^{T}(\bm{L}\textbf{x}-\bm{L}\textbf{y})} \nonumber\\
-         &= d(\bm{L}\textbf{x}, \bm{L}\textbf{y}) \label{eq:mahalanobis:transform}
-\end{align}
-
-\input{notation}
-
-
-
-
-Metric learning algorithm then tries to exploit these constraints to find the best parameters of a metric that best agrees with these constraints.
 
 %TODO FIX ALL THIS
 % Úvod do problematiky
@@ -259,15 +264,7 @@ Metric learning algorithm then tries to exploit these constraints to find the be
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\subsection{Nice to have}
-
-
-\subsection{Not included}
-
-online metrics? - usually global
-
 \section{Methodology}
-
 
 \section{Applications}
 
@@ -315,12 +312,16 @@ move to related work
 
 \chapter{Related work} \label{chap:rw}
 
+[mention Bellet + make an outline + mention all possible metrics (online metrics)]
+
 Metric learning has mostly been used to improve the performance of k-Nearest~Neighbour classification. Most of the research has been focused on learning this metric from labelled training instances, however researchers also focus on weakly-supervised tasks, where the labels of the instances are unknown, but the information about the data comes in the form of similar and dissimilar pairs:
 
 \begin{align}
 \mathcal{S} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be similar} \rbrace \\
 \mathcal{D} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be dissimilar} \rbrace
 \end{align}
+
+Metric learning algorithm then tries to exploit these constraints to find the best parameters of a metric that best agrees with these constraints.
 
 [Scalability in N and D] %TODO
 
@@ -393,6 +394,13 @@ formally explain that evolving 2*D matrix corresponds to some eigen value decomp
 main difference: we evolve L (no adjustments needed!)
 proof that $L^TL$ is PSD matrix  (using SVD)
 % http://www.deeplearningbook.org/contents/linear_algebra.html
+
+\begin{align}
+  d_{\bm{M}}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{M}(\textbf{x}-\textbf{y})} \nonumber\\
+         &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{L}^{T}\bm{L}(\textbf{x}-\textbf{y})} \nonumber\\
+         &= \sqrt{(\bm{L}\textbf{x}-\bm{L}\textbf{y})^{T}(\bm{L}\textbf{x}-\bm{L}\textbf{y})} \nonumber\\
+         &= d_{\bm{2}}(\bm{L}\textbf{x}, \bm{L}\textbf{y}) \label{eq:mahalanobis:transform}
+\end{align}
 
 
 CMAES + kNN
@@ -504,7 +512,7 @@ Another difficulty with the datasets is that many of them do not have normalized
 
 \section{Experiment: Classification} \label{chap:exp:classification}
 
-In this experiment we wanted to see how much does learnt metric help in classification task compared to standard Euclidean distance. We chose k-Nearest~Neighbour (kNN) classifier, which is one of the simplest and yet powerful classifiers and it is very easy to modify to use a custom metric.
+In this experiment we wanted to see how much does learnt metric help in classification task compared to standard Euclidean distance. We chose \ac{knn} classifier, which is one of the simplest and yet powerful classifiers and it is very easy to modify to use a custom metric.
 
 [list of methods that we used in the experiment] %TODO
 
@@ -727,6 +735,11 @@ What wasn`t finished and should be.
 %%% Abbreviations used in the thesis, if any, including their explanation
 %%% In mathematical theses, it could be better to move the list of abbreviations to the beginning of the thesis.
 \chapwithtoc{List of Abbreviations}
+
+\printacronyms[include-classes=abbrev,heading=none] % ,name=Abbreviations
+
+\chapwithtoc{List of Notations}
+\input{notation}
 
 %%% Attachments to the master thesis, if any. Each attachment must be
 %%% referred to at least once from the text of the thesis. Attachments

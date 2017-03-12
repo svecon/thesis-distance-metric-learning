@@ -1,46 +1,55 @@
 % More inspiration:
 % http://www.deeplearningbook.org/contents/notation.html
 
-\begin{table}[ht] \centering
-\caption{Summary of the main notations} \label{tab:notation}
-\begin{tabular}{ll}
-\hline
-Notation & Description \\
-\hline
+% \begin{table}[ht] \centering
+% \caption{Summary of the main notations} \label{tab:notation}
+% \begin{tabular}{ll}
+% \hline
+% Notation & Description \\
+% \hline
 
-$\mathbb{R}$ & Set of real numbers \\
-$\mathbb{R}^d$ & Set of d-dimensional real-valued vectors \\
-$\mathbb{R}^{c \times d}$ & Set of c$\times$d real-valued matrices \\
-$\mathbb{S}^{d}_+$ & Cone of symmetric PSD $d \times d$ real-valued matrices \\
+\begin{tabbing}
+\hspace{150pt}\=\kill
 
-$\textbf{x}$ & An arbitrary vector \\
-$\bm{M}$ & An arbitrary matrix \\
-$\textbf{\textit{I}}$ & Identity matrix \\
-$\bm{M} \succeq 0$ & PSD matrix M \\
-$\parallel \cdot \parallel_p$ & p-norm \\
-$\parallel \cdot \parallel_\mathcal{F}$ & Frobenius norm \\
-$\parallel \cdot \parallel_*$ & Nuclear norm \\
-$\tr(\bm{M})$ & Trace of matrix M \\
-$[t]_+ = max(0, 1-t)$ & Hinge loss function \\
-$\xi$ & Slack variable \\
-$\Sigma$ & Finite alphabet \\
+$\mathbb{R}$ \> Set of real numbers \\
+$\mathbb{R}^d$ \> Set of d-dimensional real-valued vectors \\
+$\mathbb{R}^{c \times d}$ \> Set of c$\times$d real-valued matrices \\
+$\mathbb{S}^{d}_+$ \> Cone of symmetric PSD $d \times d$ real-valued matrices \\
 
-$\mathcal{X} \subseteq \mathbb{R}^d$ & Input (instance) space \\
-$\mathcal{Y} = \{ 1, \ldots ,c \}$ & Set of $c$ output labels \\
-$z=(x,y) \in \mathcal{X} \times \mathcal{Y}$ & An arbitrary labeled instance \\
+$\textbf{x}$ \> An arbitrary vector \\
+$\bm{M}$ \> An arbitrary matrix \\
+$\textbf{\textit{I}}$ \> Identity matrix \\
+$\bm{M} \succ 0$ \> PD matrix M \\
+$\bm{M} \succeq 0$ \> PSD matrix M \\
+$\parallel \cdot \parallel_p$ \> p-norm \\
+$\parallel \cdot \parallel_\mathcal{F}$ \> Frobenius norm \\
+$\parallel \cdot \parallel_*$ \> Nuclear norm \\
+$\tr(\bm{M})$ \> Trace of matrix M \\
+$[t]_+ = max(0, 1-t)$ \> Hinge loss function \\
+$\xi$ \> Slack variable \\
+$\Sigma$ \> Finite alphabet \\
 
-$\mathcal{S} = \{ (x_i, x_j) \mid y_i = y_j \}$ & Set of must-link constraints \\
-$\mathcal{D} = \{ (x_i, x_j) \mid y_i \neq y_j \}$ & Set of cannot-link constraints \\
-% $\mathcal{R} = \{ (x_i, x_j, x_k) \mid y_i = y_j \wedge y_i \neq y_k \}$ & Set of relative constraints \\
+$\mathcal{X} \subseteq \mathbb{R}^d$ \> Input (instance) space \\
+$\mathcal{Y} = \{ 1, \ldots ,c \}$ \> Set of $c$ output labels \\
+$z=(x,y) \in \mathcal{X} \times \mathcal{Y}$ \> An arbitrary labeled instance \\
+
+$\mathcal{S} = \{ (x_i, x_j) \mid y_i = y_j \}$ \> Set of must-link constraints \\
+$\mathcal{D} = \{ (x_i, x_j) \mid y_i \neq y_j \}$ \> Set of cannot-link constraints \\
+
+$d_{\bm{2}}$ \> Euclidean distance \\
+$d_{\bm{M}}$ \> Mahalanobis distance parametrized by $\bm{M}$ \\
+% $\mathcal{R} = \{ (x_i, x_j, x_k) \mid y_i = y_j \wedge y_i \neq y_k \}$ \> Set of relative constraints \\
 
 
-% $\widehat{\mathcal{Y}} = \{ 1, \ldots ,\widehat{c} \} \subseteq \mathcal{Y}$ & Set of $\widehat{c}$ known output labels \\
-% $x$ & String of finite size
-% $\mathcal{L}=\{z_i=(x_i, y_i)\}^n_{i=1}$ & Set of $n$ labeled training instances \\
-% $\mathcal{U} = \{x_i \}^m_{i=1}$ & Set of $m$ unlabeled training instances \\
-% $\overline{z} = (x, \overline{y}) \in \mathcal{X} \times \widehat{\mathcal{Y}} $ & An arbitrary instance with predicted label \\
-% $\overline{\mathcal{Z}} = \{\overline{z_i} = (x_i, \overline{y_i}) \}^m_{i=1}$ & Set of $m$ training instances with predicted labels \\
+% $\widehat{\mathcal{Y}} = \{ 1, \ldots ,\widehat{c} \} \subseteq \mathcal{Y}$ \> Set of $\widehat{c}$ known output labels \\
+% $x$ \> String of finite size
+% $\mathcal{L}=\{z_i=(x_i, y_i)\}^n_{i=1}$ \> Set of $n$ labeled training instances \\
+% $\mathcal{U} = \{x_i \}^m_{i=1}$ \> Set of $m$ unlabeled training instances \\
+% $\overline{z} = (x, \overline{y}) \in \mathcal{X} \times \widehat{\mathcal{Y}} $ \> An arbitrary instance with predicted label \\
+% $\overline{\mathcal{Z}} = \{\overline{z_i} = (x_i, \overline{y_i}) \}^m_{i=1}$ \> Set of $m$ training instances with predicted labels \\
 
-\hline
-\end{tabular}
-\end{table}
+% \hline
+% \end{tabular}
+% \end{table}
+
+\end{tabbing} 
