@@ -16,13 +16,23 @@ NCA
 LFDA
     & metric & 'weighted', 'orthonormalized'  \\
 
-(CMAES,jDE).kNN
+CMAES.kNN
     & transformer & 'full', 'diagonal'  \\
     & n\_gen & 50, 100, 250, 1000  \\
     & knn\_neighbors & 1, 4, 8, 16  \\
     & knn\_weights & 'uniform', 'distance'  \\
 
-(CMAES,jDE).wFme
+jDE.kNN
+    & transformer & 'full', 'diagonal'  \\
+    & n\_gen & 50, 100, 250, 1000  \\
+    & knn\_neighbors & 1, 4, 8, 16  \\
+    & knn\_weights & 'uniform', 'distance'  \\
+
+CMAES.wFme
+    & transformer & 'full', 'diagonal'  \\
+    & n\_gen & 50, 100, 250, 1000  \\
+
+jDE.wFme
     & transformer & 'full', 'diagonal'  \\
     & n\_gen & 50, 100, 250, 1000  \\
 

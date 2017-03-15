@@ -416,6 +416,12 @@ simple evolution, jDE, CMAES, ...
 
 \section{k-Nearest~Neighbour fitness}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Dimensionality Reduction} \label{chap:dim:reduction}
+
+\section{Linear}
+
 \section{Neural network transformation}
 
 
@@ -578,6 +584,17 @@ Both kNN and wFme fitness functions output values in a closed range $[0,1]$. The
 
 [discuss results] %TODO
 
+\cenfig{graphs/fitness/balance-scale}{balance-scale}{balance-scale}
+\cenfig{graphs/fitness/breast-cancer}{breast-cancer}{breast-cancer}
+\cenfig{graphs/fitness/digits10}{digits10}{digits10}
+\cenfig{graphs/fitness/digits6}{digits6}{digits6}
+\cenfig{graphs/fitness/gaussians}{gaussians}{gaussians}
+\cenfig{graphs/fitness/iris}{iris}{iris}
+\cenfig{graphs/fitness/mice-protein}{mice-protein}{mice-protein}
+\cenfig{graphs/fitness/pima-indians}{pima-indians}{pima-indians}
+\cenfig{graphs/fitness/sonar}{sonar}{sonar}
+\cenfig{graphs/fitness/wine}{wine}{wine}
+
 
 \section{Experiment: Runtimes} \label{chap:exp:runtimes}
 
@@ -639,7 +656,7 @@ Runtime of each method is an important factor to considered. Some methods are no
 
 In table \ref{tab:runtimes} we show run times of every method for the best hyper-parameter combination, which corresponds to best error rate for given dataset as shown in table \ref{tab:errors-small}. Euclidean distance does not need any metric training and therefore has a zero runtime in the table. Covariance metric is the seconds fastest metric, closely followed by LFDA and RCA metrics. On the other hand, LMNN and NCA metrics and all evolution metrics are the slowest methods. NCA did not even finish on mice-protein, pima-indians, ionosphere and wine datasets.
 
-[RECALCULATE CMAES??? WEIRD RESULTS] %TODO
+%TODO fix missing values
 \input{results/runtimes}
 
 
