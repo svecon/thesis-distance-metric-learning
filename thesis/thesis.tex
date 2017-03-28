@@ -216,7 +216,9 @@ Therefore from the \ref{eq:mahalanobis:decorrelation} it is possible to see the 
 \item it reduces to the Euclidean distance for uncorrelated data with unit variance
 \end{enumerate}
 
-Now consider the generalized form of the Mahalanobis distance defined in equation \ref{eq:maha}. For what matrices $\bm{M}$ does the equation remain a distance metric? From a mathematical perspective, a metric is a function $d(x,y)$ that defines a distance, similarity or dissimilarity between two instances from some input space: $d:\mathcal{X} \times \mathcal{X} \mapsto [0,\inf)$. For a function to be a metric it has to follow 4 conditions: nonnegativity, identity of indiscernibles, symmetry and triangle inequality as defined in equations \ref{eq:metricdef-1} --- \ref{eq:metricdef-4}.
+The main weakness with the original Mahalanobis distance using the covariance matrix \ref{eq:maha:orig} is that it does not take the labels of the data instances into account (it can be thought of as "unsupervised" method). For this reason new metric learning algorithms exploiting additional information about data were developed and the term Mahalanobis distance now refers to not only decorrelation of the data using the Covariance matrix but any linear transformation using different matrices as defined in \ref{eq:maha}.
+
+Not all matrices $\bm{M}$ in the generalized form of the Mahalanobis distance defined in equation \ref{eq:maha} would define a distance metric. For what matrices $\bm{M}$ does the equation remain a distance metric? From a mathematical perspective, a metric is a function $d(x,y)$ that defines a distance, similarity or dissimilarity between two instances from some input space: $d:\mathcal{X} \times \mathcal{X} \mapsto [0,\inf)$. For a function to be a metric it has to follow 4 conditions: nonnegativity, identity of indiscernibles, symmetry and triangle inequality as defined in equations \ref{eq:metricdef-1} --- \ref{eq:metricdef-4}.
 
 % https://en.wikipedia.org/wiki/Metric_(mathematics)
 \begin{align}
@@ -238,7 +240,7 @@ d(x,y) &= d(y,x) & symmetry \label{eq:pseudodef-3} \\
 d(x,z) &\leq d_M(x,y) + d_M(y,z) & triangle \ inequality \label{eq:pseudodef-4}
 \end{align} 
 
-For the generalized Mahalanobis distance the same trick from the \ref{eq:mahalanobis:decorrelation} can be used for any general matrix $\bm{M}$ as can be seen in \ref{eq:mahalanobis:transform}. Cholesky decomposition is defined for any \ac{psd} matrix: $\bm{M}=\bm{L}\bm{L}^T$. Thus every Mahalanobis distance with a \ac{psd} matrix can be instead replaced by some linear transformation using a matrix $\bm{L}$ and then simply calculating the Euclidean distance.
+For the generalized Mahalanobis distance the same trick from the \ref{eq:mahalanobis:decorrelation} can be used for any general matrix $\bm{M}$ as can be seen in \ref{eq:mahalanobis:transform}. Cholesky decomposition is defined for any \ac{pd} matrix: $\bm{M}=\bm{L}\bm{L}^T$. Thus every Mahalanobis distance with a \ac{pd} matrix can be instead replaced by some linear transformation using a matrix $\bm{L}$ and simply calculating the Euclidean distance as usual.
 
 \begin{align}
   d_{\bm{M}}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{M}(\textbf{x}-\textbf{y})} \nonumber\\
@@ -246,6 +248,7 @@ For the generalized Mahalanobis distance the same trick from the \ref{eq:mahalan
          &= \sqrt{(\bm{L}\textbf{x}-\bm{L}\textbf{y})^{T}(\bm{L}\textbf{x}-\bm{L}\textbf{y})} \nonumber\\
          &= d_{\bm{2}}(\bm{L}\textbf{x}, \bm{L}\textbf{y}) \label{eq:mahalanobis:transform}
 \end{align}
+
 
 %TODO WHY DO WE NEED OTHER METRIC LEARNING ALGORITHMS? (THINK OF AN EXAMPLE)
 
@@ -555,7 +558,9 @@ comparison discussion... %TODO
 [table of error rates] %TODO
 side by side successrate graphs %TODO
 
-\cenfig{graphs/classification/sr.pdf}{Boxplots of successrates from 10-fold crossvalidation}{fig:cl:sr}
+\cenfig{graphs/classification/sr_1.pdf}{Boxplots of successrates from 10-fold crossvalidation for the first 6 datasets}{fig:cl:sr1}
+
+\cenfig{graphs/classification/sr_2.pdf}{Boxplots of successrates from 10-fold crossvalidation for the last 4 datasets}{fig:cl:sr2}
 
 \cenfig{graphs/classification/sr_knn}{Successrates of individual algorithms when fixing `k` in the final kNN classifier}{fig:cl:kpar}
 
