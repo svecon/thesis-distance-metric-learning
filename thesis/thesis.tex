@@ -170,7 +170,7 @@ sim(\textbf{x}, \textbf{y}) &= \cos{\phi} = \frac{\textbf{x}\textbf{y}}{\|\textb
 
 These metric, however, do not take any advantage of a prior knowledge of the task being solved or the structure of the data. Improved results are expected when the metric is designed for a particular task. Nevertheless, manually hand-crafting a metric is a strenuous and tedious process, which requires an expert knowledge of the task and the data. This has led to an introduction of distance metric learning where we learn distance metrics or similarities from data themselves.
 
-Therefore the goal of metric learning is to adapt some pairwise metric function to the task at hand by using the training examples. This process requires almost no prior knowledge about the data is very fast compared to hand-crafting a metric function, which may take months of experimenting. That is why metric learning algorithms that learn a distance metric or similarity directly from the data have been getting more and more traction in the recent years.
+Therefore the goal of metric learning is to adapt some pairwise metric function to the task at hand by using the training examples. This process requires almost no prior knowledge about the data and is very fast compared to hand-crafting a metric function, which may take months of experimenting. That is why metric learning algorithms that learn a distance metric or similarity directly from the data have been getting more and more traction in the recent years.
 
 The origins of metric learning can be traced back to \cite{short1981optimal}, however the first paper that received a lot of attention was \cite{xing2002distance} where the metric learning is formulated as a convex optimization problem. Since then metric learning has been getting increasing amount of attention and appeared at conferences ICML 2010\footnote{\url{http://www.icml2010.org/program.html}}, ECCV 2010\footnote{\url{http://www.ics.forth.gr/eccv2010/tutorials.php}} and workshops at ICCV 2011\footnote{\url{http://www.iccv2011.org/authors/workshops}}, NIPS 2011\footnote{\url{https://nips.cc/Conferences/2011/Schedule}} and ICML 2013 \footnote{\url{http://icml.cc/2013/?page_id=41}}.
 
@@ -195,7 +195,7 @@ The figure \ref{fig:corrdata} demonstrates this problem in two dimensions: the f
 \cenfig{graphs/correlated_data}{Correlated data centered around origin}{fig:corrdata}
 
 % http://blogs.sas.com/content/iml/2012/02/08/use-the-cholesky-transformation-to-correlate-and-uncorrelate-variables.html
-The data can be uncorrelated using the covariance matrix $\bm{\Sigma}$, which is a \ac{psd} matrix and therefore the Cholesky decomposition $\bm{\Sigma}=\bm{L}\bm{L}^T$ can be used to obtain a lower triangular matrix $\bm{L}$. The inverse of this triangular matrix $\bm{L}$ can be used to remove the correlation from the data defined by $\bm{\Sigma}$. The figure \ref{fig:uncorrdata} demonstrates the effect of multiplying the original data by $\bm{L}^{-1}$. In this figure it is now clear that the point at original coordinates $[2,0]$ is much closer to the origin in Euclidean distance than the the point with original coordinates $[0,1]$.
+The data can be uncorrelated using the covariance matrix $\bm{\Sigma}$, which is a \ac{psd} matrix and therefore the Cholesky decomposition $\bm{\Sigma}=\bm{L}\bm{L}^T$ can be used to obtain a lower triangular matrix $\bm{L}$. The inverse of this triangular matrix $\bm{L}$ can be used to remove the correlation from the data defined by $\bm{\Sigma}$. The figure \ref{fig:uncorrdata} demonstrates the effect of multiplying the original data by $\bm{L}^{-1}$. In this figure, it is now clear that the point at original coordinates $[2,0]$ is much closer to the origin in Euclidean distance than the the point with original coordinates $[0,1]$.
 
 \cenfig{graphs/uncorrelated_data}{Uncorrelated data using Cholesky decomposition of covariance matrix}{fig:uncorrdata}
 
@@ -218,7 +218,7 @@ Therefore from the \ref{eq:mahalanobis:decorrelation} it is possible to see the 
 
 The main weakness with the original Mahalanobis distance using the covariance matrix \ref{eq:maha:orig} is that it does not take the labels of the data instances into account (it can be thought of as "unsupervised" method). For this reason new metric learning algorithms exploiting additional information about data were developed and the term Mahalanobis distance now refers to not only decorrelation of the data using the Covariance matrix but any linear transformation using different matrices as defined in \ref{eq:maha}.
 
-Not all matrices $\bm{M}$ in the generalized form of the Mahalanobis distance defined in equation \ref{eq:maha} would define a distance metric. For what matrices $\bm{M}$ does the equation remain a distance metric? From a mathematical perspective, a metric is a function $d(x,y)$ that defines a distance, similarity or dissimilarity between two instances from some input space: $d:\mathcal{X} \times \mathcal{X} \mapsto [0,\inf)$. For a function to be a metric it has to follow 4 conditions: nonnegativity, identity of indiscernibles, symmetry and triangle inequality as defined in equations \ref{eq:metricdef-1} --- \ref{eq:metricdef-4}.
+Not all matrices $\bm{M}$ in the generalized form of the Mahalanobis distance defined in equation \ref{eq:maha} would define a distance metric. For what matrices $\bm{M}$ does the equation remain a distance metric? From a mathematical perspective, a metric is a function $d(x,y)$ that defines a distance or dissimilarity between two instances from some input space: $d:\mathcal{X} \times \mathcal{X} \mapsto [0,\inf)$. For a function to be a metric it has to follow 4 conditions: nonnegativity, identity of indiscernibles, symmetry and triangle inequality as defined in equations \ref{eq:metricdef-1} --- \ref{eq:metricdef-4}.
 
 % https://en.wikipedia.org/wiki/Metric_(mathematics)
 \begin{align}
@@ -230,14 +230,14 @@ d(x,z) &\leq d_M(x,y) + d_M(y,z) & triangle \ inequality \label{eq:metricdef-4}
 
 In order for the Mahalanobis metric from equation \eqref{eq:maha} to be a metric, the matrix $\bf{M}$ that parametrizes the distance needs to pass the metric conditions \ref{eq:metricdef-1} --- \ref{eq:metricdef-4}. It turns out that a strictly \ac{pd} matrices $\bm{M} \succ 0$ do pass the conditions and therefore the Mahalanobis distance with a \ac{pd} matrix is a distance metric.
 
-Sometimes, however, it is not easy to guarantee the positive definiteness of a matrix and we have to settle with a \ac{psd} matrix $\bf{M} \succeq 0$. For \ac{psd} matrices the identity of indiscernibles condition \ref{eq:metricdef-2} is not met and therefore the Mahalanobis distance with a \ac{psd} matrix is not a metric. For this reason the condition is usually relaxed into a condition of identity \ref{eq:pseudodef-2}. Together with the rest of the conditions, this forms a new set of conditions \ref{eq:pseudodef-1} ---\ref{eq:pseudodef-4}, which together defines a pseudo-metric. Therefore the Mahalanobis distance with a \ac{psd} matrix is a pseudo-metric.
+Sometimes, however, it is not easy to guarantee the positive definiteness of a matrix and we have to settle with a \ac{psd} matrix $\bf{M} \succeq 0$. For \ac{psd} matrices the identity of indiscernibles condition \ref{eq:metricdef-2} is not met and therefore the Mahalanobis distance with a \ac{psd} matrix is not a metric. For this reason the condition is usually relaxed into a condition of identity \ref{eq:pseudodef-2} which allows $d(x,y)=0$ for two distinct values $x \neq y$ whereas this is impossible using the identity of indiscernibles \ref{eq:pseudodef-2}. Together with the rest of the conditions, this forms a new set of conditions \ref{eq:pseudodef-1} ---\ref{eq:pseudodef-4}, which together defines a pseudo-metric. Therefore the Mahalanobis distance with a \ac{psd} matrix is a pseudo-metric.
 
 %TODO fix corrent formatting for letters
 \begin{align}
 d(x,y) &\geq 0 & nonnegativity \label{eq:pseudodef-1} \\
 d(x,x) &= 0 & identity \label{eq:pseudodef-2} \\
 d(x,y) &= d(y,x) & symmetry \label{eq:pseudodef-3} \\
-d(x,z) &\leq d_M(x,y) + d_M(y,z) & triangle \ inequality \label{eq:pseudodef-4}
+d(x,z) &\leq d(x,y) + d(y,z) & triangle \ inequality \label{eq:pseudodef-4}
 \end{align} 
 
 For the generalized Mahalanobis distance the same trick from the \ref{eq:mahalanobis:decorrelation} can be used for any general matrix $\bm{M}$ as can be seen in \ref{eq:mahalanobis:transform}. Cholesky decomposition is defined for any \ac{pd} matrix: $\bm{M}=\bm{L}\bm{L}^T$. Thus every Mahalanobis distance with a \ac{pd} matrix can be instead replaced by some linear transformation using a matrix $\bm{L}$ and simply calculating the Euclidean distance as usual.
@@ -436,12 +436,10 @@ simple evolution, jDE, CMAES, ...
 We performed four different experiments to assess the performance of metric learning algorithms. In section \ref{chap:exp:classification} we use learnt metric in k-Nearest~Neighbour classificator and compare classification errors on various datasets, which are described in \ref{chap:exp:datasets}. In the next experiment in section \ref{chap:exp:fitness} we compare different evolutionary algorithms together with various fitnesses and show how well they generalize. In section \ref{chap:exp:runtimes} we measure the training times of the algorithms and in the last experiment in section \ref{chap:exp:dimred} we use metric learning algorithms for dimensionality reduction and we compare the resulting embeddings.
 
 \section{Experimental settings} 
-In our experiments we compare metric learning algorithms listed in section \ref{chap:rw}. Most of these algorithms are implemented in an open-sourced Python \textit{metric-learn} library \footnote{\url{https://github.com/all-umass/metric-learn}}. Only our evolutionary method described in section \ref{chap:our-method} and \cite{fukui2013evolutionary} are missing in this library. Therefore we designed a modular interface and implemented these two methods as a part of the \textit{metric-learn} library. The~implementation is described in section \ref{chap:impl}.
+In our experiments we compare metric learning algorithms listed in section \ref{chap:rw}. LMNN, NCA, LFDA metric learning algorithms were already implemented in an open-sourced Python \textit{metric-learn} library \footnote{\url{https://github.com/all-umass/metric-learn}}. Only our evolutionary method described in section \ref{chap:our-method} and \cite{fukui2013evolutionary} were missing in this library and thus we designed a modular interface and implemented these two methods as a part of the \textit{metric-learn} library. The~implementation is described in section \ref{chap:impl}.
 
 \subsection{Datasets} \label{chap:exp:datasets}
-We chose to experiment on classification datasets that were most common among all related works, particularily \cite{xing2002distance}, \cite{weinberger2009distance}, \cite{jacobgoldberger2004neighbourhood} and \cite{fukui2013evolutionary}. We found that most common among all these papers was balance-scale, breast-cancer, iris, mice-protein, pima-indians, sonar and wine dataset. All these datasets were obtained from the well-known UCI Machine Learning Repository \footnote{\url{https://archive.ics.uci.edu/ml/datasets/}}. Even among these datasets mice-protein and sonar  have high dimensionality, however they are small in terms of number of samples.
-
-We also added digits6 and digits10 datasets, which are relatively larger datasets containing $8\times 8$ pixel images of digits with 6 and 10 classes respectively. These datasets were obtained using Python library Scikit-Learn.org \footnote{\url{http://scikit-learn.org/stable/datasets/}}.
+We chose to experiment on classification datasets that were most common among all related works, particularily \cite{xing2002distance}, \cite{weinberger2009distance}, \cite{jacobgoldberger2004neighbourhood} and \cite{fukui2013evolutionary}. We found that most common among all these papers was balance-scale, breast-cancer, iris, mice-protein, pima-indians, sonar and wine dataset. All these datasets were obtained from the well-known UCI Machine Learning Repository \footnote{\url{https://archive.ics.uci.edu/ml/datasets/}}. Even among these datasets mice-protein and sonar  have high dimensionality, however they are small in terms of number of samples. We also added digits6 and digits10 datasets, which are relatively larger datasets containing $8\times 8$ pixel images of digits with 6 and 10 classes respectively also obtained from the same archive.
 
 In order to test the metric learning algorithms on a highly variable data, we created an artificial dataset of four multinomial Gaussians. Each Gaussian has a different center, defined as a matrix in equation \eqref{eq:gauss:means} where each row corresponds to one center. All Gaussians were generated sharing one covariance matrix, defined in equation \eqref{eq:gauss:cov}. Dimensions are uncorrelated, however the first dimension has an enormous variability $10^8$.
 
@@ -525,6 +523,7 @@ Another difficulty with the datasets is that many of them do not have normalized
 \section{Experiment: Classification} \label{chap:exp:classification}
 
 In this experiment we wanted to see how much does learnt metric help in classification task compared to standard Euclidean distance. We chose \ac{knn} classifier, which is one of the simplest and yet powerful classifiers and it is very easy to modify to use a custom metric.
+%TODO how do we modify kNN to use custom metric? [here or earlier???]
 
 [list of methods that we used in the experiment] %TODO
 
@@ -541,6 +540,7 @@ Every metric learning algorithm has a set of hyperparameters which highly influe
 Even for these sensibly chosen hyperparameter values there are thousands of possible combinations for every single algorithm and thus we have to fit thousands of different models. Let’s consider LMNN algorithm: there are 10 folds, 8 possible values for the final kNN classifier hyperparameter, LMNN itself has 4 hyperparameters with 6, 3, 4 and 3 values, which means there would be $10*8*(6*3*4*3)=17280$ different models to train just for LMNN algorithm if a simple grid search was used. This is a major problem because some of the algorithms take a long time to train even on small datasets.
 
 We can notice, however, that we do not need to retrain our metric for every hyperperameter of the final kNN classifier. Instead we can train a metric model first and then train and test kNN classifier with all hyperparameter options. Therefore, we designed our version of grid search that is hierarchical in a sense that it will train a metric with all combinations of hyperparameters first and only then it will evaluate these metrics using kNN with its own hyperparameters. There will still be the same total number of models, however there will be 8 times less evaluations of every metric learning algorithm, which roughly translates to 8 times less computation time as training kNN classifier is negligible compared to a metric model. This can be looked at as a simple space-time trade-off.
+%TODO Pilat: to asi neni tradeoff ne? tu matici stejne mit musis, zalezi teda na tom, jak to mas napsany
 
 %TODO add a sketch of hierarchical grid search
 
@@ -551,6 +551,7 @@ How hyperparameters influence the successrate. [graphs] %TODO
 Results discussion %TODO
 
 \input{results/successrates}
+%TODO explain Timeout, Error
 
 [Comparison to unstandardized data]
 can metric learning replace standardization? %TODO
