@@ -179,21 +179,18 @@ Therefore the goal of metric learning is to adapt some pairwise metric function 
 
 The origins of metric learning can be traced back to \cite{short1981optimal}, however the first paper that received a lot of attention was \cite{xing2002distance} where the metric learning is formulated as a convex optimization problem. Since then metric learning has been getting increasing amount of attention and appeared at conferences ICML 2010\footnote{\url{http://www.icml2010.org/program.html}}, ECCV 2010\footnote{\url{http://www.ics.forth.gr/eccv2010/tutorials.php}} and workshops at ICCV 2011\footnote{\url{http://www.iccv2011.org/authors/workshops}}, NIPS 2011\footnote{\url{https://nips.cc/Conferences/2011/Schedule}} and ICML 2013 \footnote{\url{http://icml.cc/2013/?page_id=41}}.
 
-Many researches tackle metric learning by adapting a Mahalanobis distance metric first described in \cite{mahalanobis1936generalized} in \ref{eq:maha:orig}, where $\bm{\Sigma}$ is a covariance matrix of the data defined in equation \ref{eq:cov}. However this name is now overloaded and Mahalanobis distance now stands for any metric parametrized by a matrix $\bm{M}$ as defined in equation \ref{eq:maha}.
+Another important area of machine learning is dimensionality reduction whose goal is to embed high-dimensional space in a low-dimensional space so that most of the information contained in the data is preserved. Some metric learning algorithms do not scale well when the data are high-dimensional and so the dimensionality reduction can be used to transform data into a low-dimensional space just to save computational time. Another dimensionality reduction application is visualisation where the data are reduced into a 2-dimensional or 3-dimensional space in which they can be plotted and inspected more easily.
 
-\begin{align} \label{eq:maha:orig}
-d_{Mahalanobis}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^T\bm{\Sigma}^{-1}(\textbf{x}-\textbf{y})}  \\
-\bm{\Sigma} &= \mathrm {E} \left[\left(\mathbf {X} -\mathrm {E} [\mathbf {X} ]\right)\left(\mathbf {X} -\mathrm {E} [\mathbf {X} ]\right)^{\rm {T}}\right] \label{eq:cov}
-\end{align}
-
-\begin{equation} \label{eq:maha}
-d_{Mahalanobis}(\textbf{x},\textbf{y}) = \sqrt{(\textbf{x}-\textbf{y})^T\bm{M}(\textbf{x}-\textbf{y})} 
-\end{equation}
+% http://scikit-learn.org/stable/modules/decomposition.html#pca
+% http://scikit-learn.org/stable/modules/lda_qda.html#id4
+% http://scikit-learn.org/stable/modules/manifold.html
+One of the most common unsupervised dimensionality reduction method is \ac{pca} \cite{jolliffe2002principal} which decomposes the dataset in a set of successive orthogonal components that explain a maximum amount of the variance inside of the data. Other well-known methods are for example \ac{ica} (@REF?) and \ac{lda} (@REF?). A specific area of non-linear dimensionality reduction is called manifold learning which is based on the idea that the dimensionality of many datasets is only artificially high but the intrinsic dimensionality is low. A popular manifold algorithm receiving a lot of traction recently is \ac{tsne} \cite{maaten2008visualizing} that tries to preserve a local structure of the data which is especially useful in visualisation. Other known manifold methods are \ac{lle} (@REF?), \ac{mds} (@REF?) and many others. What we found interesting and what we also focused on in this work is that many metric learning algorithms can be naturally used for dimensionality reduction.
 
 \section{Mahalanobis metric}
 % http://blogs.sas.com/content/iml/2012/02/15/what-is-mahalanobis-distance.html
+% https://en.wikipedia.org/wiki/Mahalanobis_distance
 
-The problem with Euclidean distance is that it does not account for variances in different directions and correlations between pairs of dimensions in the data. For normally distributed data, the distance from the mean can be specified by computing the z-score, defined as $z = \frac{x-\mu}{\sigma}$, where $\mu$ is the population mean and $\sigma$ is the population standard deviation. The z-score of $x$ can be looked at as a dimensionless quantity and can be interpreted as the number of standard deviations of $x$ away from the mean.
+The problem with the Euclidean distance is that it does not account for variances in different directions and correlations between pairs of dimensions in the data. For normally distributed data, the distance from the mean can be specified by computing the z-score, defined as $z = \frac{x-\mu}{\sigma}$, where $\mu$ is the population mean and $\sigma$ is the population standard deviation. The z-score of $x$ can be looked at as a dimensionless quantity and can be interpreted as the number of standard deviations of $x$ away from the mean.
 
 The figure \ref{fig:corrdata} demonstrates this problem in two dimensions: the figure visualises a dataset with both dimensions highly correlated and with the first dimension highly variable. In the plot the coloured ellipses show the probability density of the Gaussian mixture model. The probability density is high for ellipses near the origin and low for ellipses further away. In the figure there is $[0,0]$ (origin) and two other red points: $[0,1]$ and $[2,0]$. In Euclidean distance the point $[0,1]$ is twice closer to the origin compared to the point $[2,0]$. However, because the first axis has larger variance, it is clear that seeing point $[2,0]$ is much more probable in our dataset than it is seeing point $[0,1]$ because the point $[2,0]$ lies on the edge of the first ellipsis, meanwhile point $[0,1]$ lies beyond the edge of the second ellipsis. Using the terminology of the z-score, the point $[0,1]$ is more standard deviations away from the origin than the point $[2,0]$.
 
@@ -204,7 +201,18 @@ The data can be uncorrelated using the covariance matrix $\bm{\Sigma}$, which is
 
 \cenfig{graphs/uncorrelated_data}{Uncorrelated data using Cholesky decomposition of covariance matrix}{fig:uncorrdata}
 
-This problem of correlation between dimensions does not arise in the Mahalanobis distance \eqref{eq:maha:orig} because it decorrelates the data intrinsically before calculating the distance itself. If the Cholesky decomposition is applied directly inside the equation \ref{eq:maha:orig}, we get that the Mahalanobis distance of the original data is equal to the Euclidean distance of the decorrelated data as shown in \ref{eq:mahalanobis:decorrelation}.
+Many researches tackle metric learning by adapting a Mahalanobis distance metric first described in \cite{mahalanobis1936generalized} in \ref{eq:maha:orig}, where $\bm{\Sigma}$ is a covariance matrix of the data defined in equation \ref{eq:cov}. However this name is now overloaded and Mahalanobis distance now stands for any metric parametrized by a matrix $\bm{M}$ as defined in equation \ref{eq:maha}.
+
+\begin{align} \label{eq:maha:orig}
+d_{Mahalanobis}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^T\bm{\Sigma}^{-1}(\textbf{x}-\textbf{y})}  \\
+\bm{\Sigma} &= \mathrm {E} \left[\left(\mathbf {X} -\mathrm {E} [\mathbf {X} ]\right)\left(\mathbf {X} -\mathrm {E} [\mathbf {X} ]\right)^{\rm {T}}\right] \label{eq:cov}
+\end{align}
+
+\begin{equation} \label{eq:maha}
+d_{\bm{M}}(\textbf{x},\textbf{y}) = \sqrt{(\textbf{x}-\textbf{y})^T\bm{M}(\textbf{x}-\textbf{y})} 
+\end{equation}
+
+The problem of correlation between dimensions does not arise in the Mahalanobis distance \eqref{eq:maha:orig} because it decorrelates the data intrinsically before calculating the distance itself. If the Cholesky decomposition is applied directly inside the equation \ref{eq:maha:orig}, we get that the Mahalanobis distance of the original data is equal to the Euclidean distance of the decorrelated data as shown in \ref{eq:mahalanobis:decorrelation}.
 
 \begin{align}
   d_{Mahalanobis}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{\Sigma}^{-1}(\textbf{x}-\textbf{y})} \nonumber\\
@@ -216,8 +224,8 @@ This problem of correlation between dimensions does not arise in the Mahalanobis
 
 Therefore from the \ref{eq:mahalanobis:decorrelation} it is possible to see the Mahalanobis distance has the following properties:
 \begin{enumerate}
-\item it accounts for the variances in each direction
-\item it accounts for the covariance between variables
+\item it automatically accounts for the scaling of the coordinate axes
+\item it corrects for correlation between different features
 \item it reduces to the Euclidean distance for uncorrelated data with unit variance
 \end{enumerate}
 
@@ -256,9 +264,6 @@ For the generalized Mahalanobis distance the same trick from the \ref{eq:mahalan
 
 
 %TODO WHY DO WE NEED OTHER METRIC LEARNING ALGORITHMS? (THINK OF AN EXAMPLE)
-
-%TODO use this 
-% https://en.wikipedia.org/wiki/Mahalanobis_distance
 
 % https://www.cs.princeton.edu/courses/archive/fall08/cos436/Duda/PR_Mahal/M_metric.htm
 
