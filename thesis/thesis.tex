@@ -422,9 +422,63 @@ full matrix, diagonal matrix, neural network shape
 
 k-Means for dimensionality reduction
 
-\section{CMAES strategy}
+\section{CMAES strategy} \label{chap:es:cmaes}
 
 simple evolution, jDE, CMAES, ...
+
+\begin{tabbing}
+\hspace{50pt}\=\kill
+$N$ \> number of samples \\
+$D$ \> number of attributes \\ 
+$G$ \> number of generations (200) \\
+\end{tabbing} 
+
+$\mathcal{O}(N^{2.376})$ matrix multiplication 
+
+\begin{table}[ht] \centering
+\begin{tabular}{rll}
+\hline
+Method & full matrix & diagonal matrix \\
+\hline
+Covariance & $\mathcal{O}(ND^2)$ & - \\
+LMNN & $i*\mathcal{O}()$ & - \\
+NCA & $i*\mathcal{O}(N^2D^2)$ & - \\
+LFDA & $\mathcal{O}(N^2D)$ & - \\
+CMAES.kNN & $\mathcal{O}()$ & - \\
+CMAES.fMe & $\mathcal{O}()$ & - \\
+jDE.kNN & $\mathcal{O}()$ & - \\
+jde.fMe & $\mathcal{O}()$ & - \\ 
+\hline
+\end{tabular}
+\caption{XXX} \label{tab:XXX}
+\end{table}
+
+
+jDE
+$P=10*D^2$ population size
+$\mathcal{O}(GP*(D^2+F_{eval}))$ for full
+$\mathcal{O}(GP*(D+F_{eval}))$ for diagonal
+
+CMAES
+$P=4*3\log{D^2}$ population size
+$\mathcal{O}(G*(PD+PD^2+PF_{eval}+D+D^2+D^3))$ for diagonal
+% generate pop PD, PD^2
+% update D, D^2
+% eigen decomp D^3
+
+Fitness
+$N$ split
+$D^2$ fit transformer (for full)
+$ND^2$ transform samples (for full)
+
+kNN
+$N\log{N}$ build
+$N^{1-\frac{1}{D}}+k$ retrieve
+
+wFme ??
+
+% http://stackoverflow.com/questions/9146086/time-complexity-of-genetic-algorithm
+% Genetic Algorithms are not chaotic, they are stochastic. The complexity depends on the genetic operators, their implementation (which may have a very significant effect on overall complexity), the representation of the individuals and the population, and obviously on the fitness function. Given the usual choices (point mutation, one point crossover, roulette wheel selection) a Genetic Algorithms complexity is O(g(nm + nm + n)) with g the number of generations, n the population size and m the size of the individuals. Therefore the complexity is on the order of O(gnm)). This is of cause ignoring the fitness function, which depends on the application.
 
 \section{k-Nearest~Neighbour fitness}
 
@@ -440,7 +494,7 @@ simple evolution, jDE, CMAES, ...
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Experiments and Examples}
-We performed four different experiments to assess the performance of metric learning algorithms. In section \ref{chap:exp:classification} we use learnt metric in k-Nearest~Neighbour classificator and compare classification errors on various datasets, which are described in \ref{chap:exp:datasets}. In the next experiment in section \ref{chap:exp:fitness} we compare different evolutionary algorithms together with various fitnesses and show how well they generalize. In section \ref{chap:exp:runtimes} we measure the training times of the algorithms and in the last experiment in section \ref{chap:exp:dimred} we use metric learning algorithms for dimensionality reduction and we compare the resulting embeddings.
+We performed four different experiments to assess the performance of metric learning algorithms. In section \ref{chap:exp:classification} we use learnt metric in k-Nearest~Neighbour classificator and compare classification errors on various datasets, which are described in \ref{chap:exp:datasets}. In the next experiment in section \ref{chap:exp:fitness} we compare different evolutionary algorithms together with various fitnesses and show how well they generalize. In section \ref{chap:exp:learning-times} we measure the training times of the algorithms and in the last experiment in section \ref{chap:exp:dimred} we use metric learning algorithms for dimensionality reduction and we compare the resulting embeddings.
 
 \section{Experimental settings} 
 In our experiments we compare metric learning algorithms listed in section \ref{chap:rw}. LMNN, NCA, LFDA metric learning algorithms were already implemented in an open-sourced Python \textit{metric-learn} library \footnote{\url{https://github.com/all-umass/metric-learn}}. Only our evolutionary method described in section \ref{chap:our-method} and \cite{fukui2013evolutionary} were missing in this library and thus we designed a modular interface and implemented these two methods as a part of the \textit{metric-learn} library. The~implementation is described in section \ref{chap:impl}.
@@ -611,84 +665,35 @@ Both kNN and wFme fitness functions output values in a closed range $[0,1]$. The
 \cenfig{graphs/fitness/wine}{Fitness evolution and generalization on `wine` dataset}{fig:fitness:wine}
 
 
-\section{Experiment: Runtimes} \label{chap:exp:runtimes}
+\section{Experiment: Learning time} \label{chap:exp:learning-times}
 
-Runtime of each method is an important factor to considered. Some methods are not very scalable for large datasets as already discussed in chapter \ref{chap:rw}. It is not easy to describe the metric learning algorithms in big O notation because most of them are iterative and it is not clear how many iterations is needed. Plus they can still end up in some local minima so multiple runs may be necessary for optimal results.
+Learning time of each method is an important factor to considered. Some methods are not very scalable for large datasets as already discussed in chapter \ref{chap:rw}. It is not easy to describe the metric learning algorithms in big O notation because most of them are iterative and it is not clear how many iterations is needed. Moreover, they can still end up in a local minima thus multiple runs may be necessary for optimal results.
 
-In this experiment we measured the runtime of all methods (the same methods as in previous experiments): Covariance, LMNN, LFDA, NCA, CMAES.kNN, CMAES.fMe, jDE.kNN and jDE.fMe. All methods were run 10 times on every dataset with the best hyper-parameters determined from the first experiment in section  \ref{chap:exp:classification} which corresponds to best error rate for given dataset as shown in table \ref{tab:errors-small}. The results are in table \ref{tab:runtimes} where the runtimes shown are averaged across all 10 runs. Euclidean distance does not need any metric training and therefore has a zero runtime in the table. Covariance metric is the seconds fastest metric, closely followed by LFDA algorithm. On the other hand, LMNN and NCA metrics and all evolution metrics are the slowest methods.
+In this experiment we measured the learning times of all methods (the same methods as in previous experiments): Covariance, \ac{lmnn}, \ac{nca}, \ac{lfda} and both evolution strategies with both evolution fitnesses with both full and diagonal matrices: \ac{cmaesknn}, \ac{cmaesfme}, \ac{jdeknn} and \ac{jdefme}. All methods were run 10 times on every dataset with the best hyper-parameters which corresponds to best error rate for given dataset as shown in table \ref{tab:errors-small} determined from the first experiment in section \ref{chap:exp:classification}. Euclidean distance does not need any training and therefore is omitted from this experiment. 
+
+The results are in table \ref{tab:learning-times} where the learning times shown are averaged across all 10 runs. Calculating the Covariance metric is the fastest, closely followed by \ac{lfda} algorithm. On the other hand, \ac{lmnn} and \ac{nca} metrics and all the evolution metrics take a lot of time to learn. \ac{jde} is clearly much slower compared to \ac{cmaes} in general, which is caused by \ac{jde} having much larger population and slow fitness evaluation as discussed in @REF. The \ac{fme} fitness is much slower compared to \ac{knn} fitness as also discussed in @REF. This makes the method \ac{jdefme} described in \cite{fukui2013evolutionary} the slowest method of all our benchmarked methods and is even several times slower than \ac{nca} algorithm. The \ac{cmaesknn} performs comparable to \ac{lmnn} in terms of learning time. The restricted versions of the evolutionary algorithms to a diagonal matrix learn much faster thanks to smaller individuals which directly encode the Mahalanobis matrix and also the smaller populations.
 
 %TODO fix missing values
-\input{results/runtimes}
+\input{results/learning-times}
 
+To further investigate how well do metric learning methods scale, we also designed two additional experiments to investigate the learning times. In the first experiment we kept the dimension fixed to 5 and measured the learning times for the number of samples in the range from 100 to 1500 with 100 increments. In the second experiment we fixed the number of samples to 500 and measured the learning times for all methods with the increasing dimension in range from 2 to 10 with an increment of 1. All these measurements were done using the digits10 dataset from which we sampled the required number of samples using the stratified sampling and then we reduced the dimension of the samples using \ac{pca} to a required dimension.
 
-\begin{tabbing}
-\hspace{50pt}\=\kill
-$N$ \> number of samples \\
-$D$ \> number of attributes \\ 
-$G$ \> number of generations (200) \\
-\end{tabbing} 
+Both experiments are represented in figures \ref{fig:learning-times:samples} and \ref{fig:learning-times:dimensions}. Most of the methods merge together in the graph so we show two graphs for each experiment: one with linear and one with logarithmic scale applied on y axis. Covariance and \ac{lfda} algorithms are not included in these two figures because they perform so fast on this experiment that the results are not interpretable.
 
-$\mathcal{O}(N^{2.376})$ matrix multiplication 
+From figure \ref{fig:learning-times:samples} it is clear that the \ac{jde} algorithm performs the worst and scales poorly with an increasing number of samples with both \ac{knn} and \ac{fme} fitnesses. \ac{nca} performs also very bad with an increasing number of samples. On the other hand the rest of the methods perform relatively well. Covariance and \ac{lfda} and are the fastest two methods even though they both perform slower with an increased number of samples. \ac{lmnn} and \ac{cmaes} algorithms have a similar performance, however \ac{lmnn} also performs much slower with many instances. In contrast, \ac{cmaes} algorithm works scales very well in this test and the number of samples hardly influences the performance. Looking at the evolutionary methods restricted to a diagonal matrix, it is clear that CMAES.kNN (diag) is the fastest among all of them, however it is not much slower compared to its unrestricted version CMAES.kNN (full). Restricted version of \ac{jde} algorithms are much faster compared to their unrestricted counterparts, but even these restricted versions are slower and scale worse than CMAES.kNN (full).
 
-\begin{table}[ht] \centering
-\begin{tabular}{rll}
-\hline
-Method & full matrix & diagonal matrix \\
-\hline
-Covariance & $\mathcal{O}(ND^2)$ & - \\
-LMNN & $i*\mathcal{O}()$ & - \\
-NCA & $i*\mathcal{O}(N^2D^2)$ & - \\
-LFDA & $\mathcal{O}(N^2D)$ & - \\
-CMAES.kNN & $\mathcal{O}()$ & - \\
-CMAES.fMe & $\mathcal{O}()$ & - \\
-jDE.kNN & $\mathcal{O}()$ & - \\
-jde.fMe & $\mathcal{O}()$ & - \\ 
-\hline
-\end{tabular}
-\caption{XXX} \label{tab:XXX}
-\end{table}
+\cenfig{graphs/learning-times/samples}{Learning times for increasing number of samples with a fixed dimension (normal and log scale)}{fig:learning-times:samples}
 
+Similarly, from figure \ref{fig:learning-times:dimensions} we can see that \ac{jde} scales very poorly with an increasing dimensionality of the dataset as well. The order of the methods in the graphs remained the same as in the previous experiment, however there are some notable changes. \ac{lfda} algorithm scales very well with an increasing dimensionality; \ac{nca} and \ac{lmnn} are not as steep as in the previous experiment, but they still scale worse compared to \ac{cmaes} algorithm. It is clear that restricted versions of all evolutionary algorithms scale much better in regards of the increasing dimensionality because the dimensionality directly reflects in the individuals size: for the restricted version the individuals have size $D$, but for the unrestricted version we need to encode the whole matrix of size $D^2$. Therefore the restricted versions scale better in regards to the dimension and their graphs are less steep. When we directly compare the steepness of \ac{cmaes} and \ac{jde} algorithms however, the \ac{jde} scales worse even in the restricted version. That is due to the population size that the algorithm uses by default, which is $10*D$, compared to \ac{cmaes}, which only has a population of size $4+3*\log{D}$ as already discussed in \ref{chap:es:cmaes}.
 
-jDE
-$P=10*D^2$ population size
-$\mathcal{O}(GP*(D^2+F_{eval}))$ for full
-$\mathcal{O}(GP*(D+F_{eval}))$ for diagonal
+\cenfig{graphs/learning-times/dimensions}{Learning times for increasing dimension with a fixed number of samples (normal and log scale)}{fig:learning-times:dimensions}
 
-CMAES
-$P=4*3\log{D^2}$ population size
-$\mathcal{O}(G*(PD+PD^2+PF_{eval}+D+D^2+D^3))$ for diagonal
-% generate pop PD, PD^2
-% update D, D^2
-% eigen decomp D^3
-
-Fitness
-$N$ split
-$D^2$ fit transformer (for full)
-$ND^2$ transform samples (for full)
-
-kNN
-$N\log{N}$ build
-$N^{1-\frac{1}{D}}+k$ retrieve
-
-wFme ??
-
-% http://stackoverflow.com/questions/9146086/time-complexity-of-genetic-algorithm
-% Genetic Algorithms are not chaotic, they are stochastic. The complexity depends on the genetic operators, their implementation (which may have a very significant effect on overall complexity), the representation of the individuals and the population, and obviously on the fitness function. Given the usual choices (point mutation, one point crossover, roulette wheel selection) a Genetic Algorithms complexity is O(g(nm + nm + n)) with g the number of generations, n the population size and m the size of the individuals. Therefore the complexity is on the order of O(gnm)). This is of cause ignoring the fitness function, which depends on the application.
-
-
-
-\cenfig{graphs/runtime/fixed-dim}{Runtimes for increasing number of samples with a fixed dimension (normal and log scale)}{fig:runtime:fixed-dim}
-
-\cenfig{graphs/runtime/fixed-samples}{Runtimes for increasing dimension with a fixed number of samples (normal and log scale)}{fig:runtime:fixed-samples}
-
-%TODO add graph of dimensionality increase
-%TODO add graph of number of samples increase
 
 \section{Experiment: Dimensionality reduction} \label{chap:exp:dimred}
 
 Metric learning can also be used for dimensionality reduction as discussed in @WHERE. This experiment was focused on dimensionality reduction into two dimensions where it is easy to visualise the data.
 
-One of the most common and the simplest unsupervised dimensionality reduction method is Principal Component Analysis @REFERENCE (PCA). PCA picks the dimensions of the data with the highest variance. This corresponds to finding the eigenvalues and eigenvectors of the covariance matrix, the eigenvectors with the largest eigenvalues correspond to the dimensions that have the strongest correlation in the dataset.
+One of the most common and the simplest unsupervised dimensionality reduction method is \ac{pca} @REFERENCE. \ac{pca} picks the dimensions of the data with the highest variance. This corresponds to finding the eigenvalues and eigenvectors of the covariance matrix, the eigenvectors with the largest eigenvalues correspond to the dimensions that have the strongest correlation in the dataset.
 
 [Is Covariance Mahalanobis === PCA??]
 
