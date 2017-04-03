@@ -173,22 +173,79 @@ d_{\mathbf{p}}(\textbf{x}, \textbf{y}) &= \|\textbf{x}-\textbf{y}\|_p = \bigg(\s
 sim(\textbf{x}, \textbf{y}) &= \cos{\phi} = \frac{\textbf{x}\textbf{y}}{\|\textbf{x}\|\|\textbf{y}\|} \label{eq:cosine}
 \end{align}
 
-These metric, however, do not take any advantage of a prior knowledge of the task being solved or the structure of the data. Improved results are expected when the metric is designed for a particular task. Nevertheless, manually hand-crafting a metric is a strenuous and tedious process, which requires an expert knowledge of the task and the data. This has led to an introduction of distance metric learning where we learn distance metrics or similarities from data themselves.
+These metric, however, do not take any advantage of a prior knowledge of the task being solved or the structure of the data. Improved results are expected when the metric is designed for a particular task. Nevertheless, manually hand-crafting a metric is a strenuous and tedious process, which requires an expert knowledge of the task and the data. This has led to an introduction of \ac{dml} where the distance metrics or similarities are learnt from the citedata themselves.
 
 Therefore the goal of metric learning is to adapt some pairwise metric function to the task at hand by using the training examples. This process requires almost no prior knowledge about the data and is very fast compared to hand-crafting a metric function, which may take months of experimenting. That is why metric learning algorithms that learn a distance metric or similarity directly from the data have been getting more and more traction in the recent years.
 
-The origins of metric learning can be traced back to \cite{short1981optimal}, however the first paper that received a lot of attention was \cite{xing2002distance} where the metric learning is formulated as a convex optimization problem. Since then metric learning has been getting increasing amount of attention and appeared at conferences ICML 2010\footnote{\url{http://www.icml2010.org/program.html}}, ECCV 2010\footnote{\url{http://www.ics.forth.gr/eccv2010/tutorials.php}} and workshops at ICCV 2011\footnote{\url{http://www.iccv2011.org/authors/workshops}}, NIPS 2011\footnote{\url{https://nips.cc/Conferences/2011/Schedule}} and ICML 2013 \footnote{\url{http://icml.cc/2013/?page_id=41}}.
-
-Another important area of machine learning is dimensionality reduction whose goal is to embed high-dimensional space in a low-dimensional space so that most of the information contained in the data is preserved. Some metric learning algorithms do not scale well when the data are high-dimensional and so the dimensionality reduction can be used to transform data into a low-dimensional space just to save computational time. Another dimensionality reduction application is visualisation where the data are reduced into a 2-dimensional or 3-dimensional space in which they can be plotted and inspected more easily.
+Another important area of machine learning is dimensionality reduction whose goal is to embed high-dimensional space in a low-dimensional space so that most of the information contained in the data is preserved (such as the variance or local distance measurements) in the low-dimensional space. Some metric learning algorithms do not scale well when the data are high-dimensional and so the dimensionality reduction can be used to transform data into a low-dimensional space just to save computational time. Another dimensionality reduction application is visualisation where the data are reduced into a 2-dimensional or 3-dimensional space in which they can be plotted and inspected more easily. The reason why we include dimensionality reduction in this work is because some of the metric learning algorithms search for a projection into a low-dimensional space and thus can also be used for dimensionality reduction.
 
 % http://scikit-learn.org/stable/modules/decomposition.html#pca
 % http://scikit-learn.org/stable/modules/lda_qda.html#id4
 % http://scikit-learn.org/stable/modules/manifold.html
-One of the most common unsupervised dimensionality reduction method is \ac{pca} \cite{jolliffe2002principal} which decomposes the dataset in a set of successive orthogonal components that explain a maximum amount of the variance inside of the data. Other well-known methods are for example \ac{ica} (@REF?) and \ac{lda} (@REF?). A specific area of non-linear dimensionality reduction is called manifold learning which is based on the idea that the dimensionality of many datasets is only artificially high but the intrinsic dimensionality is low. A popular manifold algorithm receiving a lot of traction recently is \ac{tsne} \cite{maaten2008visualizing} that tries to preserve a local structure of the data which is especially useful in visualisation. Other known manifold methods are \ac{lle} (@REF?), \ac{mds} (@REF?) and many others. What we found interesting and what we also focused on in this work is that many metric learning algorithms can be naturally used for dimensionality reduction.
+One of the most common unsupervised dimensionality reduction method is \ac{pca} \cite{jolliffe2002principal} which decomposes the dataset in a set of successive orthogonal components that explain a maximum amount of the variance inside of the data. Other well-known methods are for example \ac{ica} and \ac{lda}. A specific area of non-linear dimensionality reduction is called manifold learning which is based on the idea that the dimensionality of many datasets is only artificially high but the intrinsic dimensionality is low and the data lie on an embedded low-dimensional manifold within the higher-dimensional space. A popular manifold algorithm receiving a lot of traction recently is \ac{tsne} \cite{maaten2008visualizing} that tries to preserve a local structure of the data which is especially useful in visualisation. Other known manifold methods are \ac{lle}, \ac{mds} and many others. The surveys reviewing the dimensionality reduction were done by \cite{fodor2002survey} and \cite{van2009dimensionality}.
 
 In this thesis, we review existing state-of-the-art methods for learning global Mahalanobis distance metric (@LIST?) and we propose a new method using evolution algorithms ourselves. We compare all the methods on several popular datasets to see how they improve classification. Learning the full Mahalanobis metric means learning $d^2$ parameters and so we also try to restrict the existing methods to learn only a diagonal of the Mahalanobis distance metric with $d$ parameters. Additionally we explore the usage of metric learning algorithms for visualisation of the data (dimensionality reduction to 2 dimensions) and compare them with traditional approaches.
 
-\section{Mahalanobis metric}
+\section{Metric learning} \label{chap:intro:ml}
+
+The origins of metric learning can be traced back to \cite{short1981optimal}, however the first paper that received a lot of attention was \cite{xing2002distance} where the metric learning is formulated as a convex optimization problem. Since then metric learning has been getting increasing amount of attention and appeared at conferences ICML 2010\footnote{\url{http://www.icml2010.org/program.html}}, ECCV 2010\footnote{\url{http://www.ics.forth.gr/eccv2010/tutorials.php}} and workshops at ICCV 2011\footnote{\url{http://www.iccv2011.org/authors/workshops}}, NIPS 2011\footnote{\url{https://nips.cc/Conferences/2011/Schedule}} and ICML 2013 \footnote{\url{http://icml.cc/2013/?page_id=41}}.
+
+The goal of the metric learning is to find a pairwise real valued metric function $d(x,y)$ for the given problem such that it leverages the most information it can using the training samples. Every metric learning algorithm has some defining properties. These properties are well described and categorized in the survey done by Bellet \cite{bellet2013survey}. According to the survey the most important properties are: learning paradigm, form of the metric, scalability, optimality of the solution and if it supports dimensionality reduction. All these properties and its categories are summarized in figure \ref{fig:metric-learning} which is also inspired by the same survey.
+
+\cenfig{graphs/metric_learning}{Metric learning}{fig:metric-learning}
+
+\begin{description}
+\item [Learning paradigm] can be \textit{fully supervised}, in which every sample of the dataset $z_i=(x_i,y_i) \in \mathcal{X} \times \mathcal{Y}$ is composed of the instance $x_i \in \mathcal{X}$ and its label (class) $x_y \in \mathcal{Y}$, which is a discrete and finite set of $\abs{\mathcal{Y}}$ labels. If the algorithm is \textit{weakly supervised} it does not have access to the labels of the instances, it only gets access to some side information, typically in the form of constraints $\mathcal{S}, \mathcal{D}$ defined as pairs of instances which are either similar \ref{eq:similar} or dissimilar \ref{eq:dissimilar}. Whereas getting labelled instances can be very hard or costly to obtain, obtaining similar and dissimilar pairs is easier. \textit{Semi-supervised} paradigm is when we have some information (fully supervised or weakly supervised) about part of the data, but some (usually large) portion of the data comes with no information whatsoever.
+
+\begin{align}
+\mathcal{S} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be similar} \rbrace \label{eq:similar} \\
+\mathcal{D} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be dissimilar} \rbrace \label{eq:dissimilar}
+\end{align}
+
+\item [Form of metric] is one of the defining features of a metric learning algorithm. Form of the metric categorizes the metric function into three main categories: \textit{Linear metrics} where the distance measures a length of a straight line between two points in Euclidean space. Typical example is Euclidean distance or Mahalanobis distance. \textit{Nonlinear metrics} can capture nonlinear dependencies inside data, typical example is $\chi^2$ histogram distance. Metric learning algorithm can also learn multiple \textit{local metrics} where different metric is used for different parts of the input space. The local metrics can be linear or nonlinear and all the metrics are usually taught in parallel.
+
+\item [Scalability] is an important factor to be considered during any machine learning. Having a great method that is intractable to calculate for large amounts of data is useless. Therefore the algorithms need to scale well with respect to \textit{number of samples}. Also, metric learning algorithms should scale well with respect to \textit{number of dimensions} of the data. However, since many metric learning algorithms are trying to learn a $d*d$ matrix, designing an algorithm that scales well with an increasing dimensionality is a challenge.
+
+\item [Optimality of the Solution] refers to the ability of the algorithm to find a solution. Ideally the algorithm is capable of finding a \textit{global optimum} which means that the solution is always the best one of all feasible solutions available. This is usually the case for algorithms defined as convex optimisations. On the other hand the algorithm might only be able to find \textit{local optimum}, which means that no better solution exists in an immediate neighbourhood of the current solution. This is typical for nonconvex formulations of the algorithms.
+
+\item [Dimensionality reduction] is an interesting "by-product" of metric learning algorithms that search for a projection of the data into a low-dimensional space, typically achieved by applying a strong regularization on the algorithm so that the final solution is low-rank. An advantage of combination of supervised dimensionality reduction via metric learning is that it tries to maximize the separation of labelled data. Dimensionality reduction has a numerous applications: from visualisation to more compact representations of the data.
+\end{description}
+
+In this work we mainly focus on the metric learning algorithms that belong to the categories highlighted with orange background in figure \ref{fig:metric-learning}: fully supervised with a linear (Mahalanobis) metric that scale well and are capable of dimensionality reduction. 
+
+\section{Applications}
+
+Metric learning can potentially be beneficial whenever a metric
+between instances plays an important role. Recently, it has been successfully applied to many different problems:
+
+\begin{itemize}
+\item link prediction in networks (\cite{shaw2011learning})
+\item state representation in reinforcement learning (\cite{taylor2011metric})
+\item music recommendation (\cite{mcfee2012learning})
+\item identity verification (\cite{ben2012improved})
+\item webpage archiving (\cite{law2012structural})
+\item cartoon synthesis (\cite{yu2012semisupervised})
+\item assessing the efficacy of acupuncture (\cite{liang2012learning})
+\end{itemize}
+
+The applications of metric learning has been shown to be very useful in the following fields: Computer vision, Information retrieval, Bioinformatics. The following three paragraphs taken from the metric learning survey (\cite{bellet2013survey}) explain why the metric learning is important in those fields and also show the recent applications and papers of metric learning applied in that field.
+
+\begin{description}
+\item [Computer vision] has a great need of appropriate metrics in computer vision, not only to compare images or videos in ad-hoc representations, such as bags-of-visual-words (\cite{fei2005bayesian}), but also in the pre-processing step consisting in building this very representation (for instance, visual words are usually obtained by means of clustering). For this reason, there exists a large body of metric learning literature dealing specifically with computer vision problems, such as image classification (\cite{mensink2012metric}), object recognition (\cite{frome2007learning}; \cite{verma2012learning}), face recognition (\cite{guillaumin2009you}; \cite{lu2014neighborhood}), visual tracking (\cite{li2012non}; \cite{jiang2012order}) or image annotation (\cite{guillaumin2009tagprop}).
+
+\item [Information retrieval] The objective of many information retrieval systems, such as search engines, is to provide the user with the most relevant documents according to his/her query. This ranking is often achieved by using a metric between two documents or between a document and a query. Applications of metric learning to these settings include the work of \cite{lebanon2006metric}; \cite{lee2008rank}; \cite{mcfee2010metric} and \cite{lim2013robust}.
+
+\item [Bioinformatics] Many problems in bioinformatics involve comparing sequences such as DNA, protein or temporal series. These comparisons are based on structured metrics such as edit distance measures (or related string alignment scores) for strings or Dynamic Time Warping distance for temporal series. Learning these metrics to adapt them to the task of interest can greatly improve the results. Examples include the work of \cite{xiong2006kernel}; \cite{saigo2006optimizing}; \cite{kato2010metric} and \cite{wang2012prodis}.
+
+\end{description}
+
+Other research topic that is related to metric learning but outside the scope of this work is \textit{Kernel Learning} which compared to metric learning where we try to find parameters of a given form of metric (for example a Mahalanobis distance), kernel learning is typically nonparametric, which means that the kernel matrix without any assumption on the form of the kernel that generated it. The main problem with this approach is that it is transductive, which means that the reasoning is from observed instances to test instances. Induction on the other hand is reasoning from observed instances to general rules (which are later applied to the test instances). Therefore the kernel learning can hardly be applied to new data. A recent survey on kernel learning was done by \cite{abbasnejad2012survey}.
+
+An extension to kernel learning is \textit{\ac{mkl}} which compared to traditional kernel learning is parametric and the goal is to learn a predefined set of kernels. Compared to kernel learning, \ac{mkl} has efficient formulations and can be applied in the inductive setting. \Ac{mkl} is very popular because it can select an optimal kernel and from a larger set of kernels and it can combine data that have different notion of similarity and require different kernels. \ac{mkl} has been used in many applications such as recognition in video (\cite{chen2013event}), object recognition in images (\cite{bucak2014multiple}) or biomedical data fusion (\cite{yu20102}). A recent survey on \ac{mkl} was done by \cite{gonen2011multiple}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Mahalanobis metric} \label{chap:intro:mah}
 % http://blogs.sas.com/content/iml/2012/02/15/what-is-mahalanobis-distance.html
 % https://en.wikipedia.org/wiki/Mahalanobis_distance
 
@@ -233,7 +290,7 @@ Therefore from the \ref{eq:mahalanobis:decorrelation} it is possible to see the 
 
 The main weakness with the original Mahalanobis distance using the covariance matrix \ref{eq:maha:orig} is that it does not take the labels of the data instances into account (it can be thought of as "unsupervised" method). For this reason new metric learning algorithms exploiting additional information about data were developed and the term Mahalanobis distance now refers to not only decorrelation of the data using the Covariance matrix but any linear transformation using different matrices as defined in \ref{eq:maha}.
 
-Not all matrices $\bm{M}$ in the generalized form of the Mahalanobis distance defined in equation \ref{eq:maha} would define a distance metric. For what matrices $\bm{M}$ does the equation remain a distance metric? From a mathematical perspective, a metric is a function $d(x,y)$ that defines a distance or dissimilarity between two instances from some input space: $d:\mathcal{X} \times \mathcal{X} \mapsto [0,\inf)$. For a function to be a metric it has to follow 4 conditions: nonnegativity, identity of indiscernibles, symmetry and triangle inequality as defined in equations \ref{eq:metricdef-1} --- \ref{eq:metricdef-4}.
+Not all matrices $\bm{M}$ in the generalized form of the Mahalanobis distance defined in equation \ref{eq:maha} would define a distance metric and one needs to be careful of what matrices $\bm{M}$ are used in the Mahalanobis distance so that it remains a distance metric. From a mathematical perspective, a metric is a function $d(x,y)$ that defines a distance or dissimilarity between two instances from some input space: $d:\mathcal{X} \times \mathcal{X} \mapsto [0,\inf)$. For a function to be a metric it has to follow 4 conditions: nonnegativity, identity of indiscernibles, symmetry and triangle inequality as defined in equations \ref{eq:metricdef-1} --- \ref{eq:metricdef-4}.
 
 % https://en.wikipedia.org/wiki/Metric_(mathematics)
 \begin{align}
@@ -245,7 +302,7 @@ d(x,z) &\leq d_M(x,y) + d_M(y,z) & triangle \ inequality \label{eq:metricdef-4}
 
 In order for the Mahalanobis metric from equation \eqref{eq:maha} to be a metric, the matrix $\bf{M}$ that parametrizes the distance needs to pass the metric conditions \ref{eq:metricdef-1} --- \ref{eq:metricdef-4}. It turns out that a strictly \ac{pd} matrices $\bm{M} \succ 0$ do pass the conditions and therefore the Mahalanobis distance with a \ac{pd} matrix is a distance metric.
 
-Sometimes, however, it is not easy to guarantee the positive definiteness of a matrix and we have to settle with a \ac{psd} matrix $\bf{M} \succeq 0$. For \ac{psd} matrices the identity of indiscernibles condition \ref{eq:metricdef-2} is not met and therefore the Mahalanobis distance with a \ac{psd} matrix is not a metric. For this reason the condition is usually relaxed into a condition of identity \ref{eq:pseudodef-2} which allows $d(x,y)=0$ for two distinct values $x \neq y$ whereas this is impossible using the identity of indiscernibles \ref{eq:pseudodef-2}. Together with the rest of the conditions, this forms a new set of conditions \ref{eq:pseudodef-1} ---\ref{eq:pseudodef-4}, which together defines a pseudo-metric. Therefore the Mahalanobis distance with a \ac{psd} matrix is a pseudo-metric.
+Sometimes, however, it is not easy to guarantee the positive definiteness of a matrix and we have to settle with a \ac{psd} matrix $\bf{M} \succeq 0$. For \ac{psd} matrices the identity of indiscernibles condition \ref{eq:metricdef-2} is not met and therefore the Mahalanobis distance with a \ac{psd} matrix is not a metric. For this reason the condition is usually relaxed into a condition of identity \ref{eq:pseudodef-2} which allows $d(x,y)=0$ for two distinct values $x \neq y$ whereas this is impossible using the identity of indiscernibles \ref{eq:pseudodef-2}. Together with the rest of the conditions, this rule forms a new set of conditions \ref{eq:pseudodef-1} ---\ref{eq:pseudodef-4}, which together defines a pseudo-metric. Therefore the Mahalanobis distance with a \ac{psd} matrix is a pseudo-metric.
 
 %TODO fix corrent formatting for letters
 \begin{align}
@@ -255,7 +312,7 @@ d(x,y) &= d(y,x) & symmetry \label{eq:pseudodef-3} \\
 d(x,z) &\leq d(x,y) + d(y,z) & triangle \ inequality \label{eq:pseudodef-4}
 \end{align} 
 
-For the generalized Mahalanobis distance the same trick from the \ref{eq:mahalanobis:decorrelation} can be used for any general matrix $\bm{M}$ as can be seen in \ref{eq:mahalanobis:transform}. Cholesky decomposition is defined for any \ac{pd} matrix: $\bm{M}=\bm{L}\bm{L}^T$. Thus every Mahalanobis distance with a \ac{pd} matrix can be instead replaced by some linear transformation using a matrix $\bm{L}$ and simply calculating the Euclidean distance as usual.
+For the generalized Mahalanobis distance the same trick from the \ref{eq:mahalanobis:decorrelation} can be used for any general matrix $\bm{M}$ as can be seen in \ref{eq:mahalanobis:transform}. Cholesky decomposition is defined for any \ac{pd} matrix: $\bm{M}=\bm{L}\bm{L}^T$ where $\bm{L} \in \mathbb{R}^{k \times d}$ where $k$ is the rank of $\bm{M}$. Thus every Mahalanobis distance with a \ac{pd} matrix can be instead replaced by some linear transformation using a matrix $\bm{L}$ and simply calculating the Euclidean distance as usual. This interesting feature of Mahalanobis distance allows us to look at metric learning algorithms also as a data transformation or data preprocessing. Decorrelating the data using the Covariance matrix is also called data whitening.
 
 \begin{align}
   d_{\bm{M}}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{M}(\textbf{x}-\textbf{y})} \nonumber\\
@@ -264,8 +321,9 @@ For the generalized Mahalanobis distance the same trick from the \ref{eq:mahalan
          &= d_{\bm{2}}(\bm{L}\textbf{x}, \bm{L}\textbf{y}) \label{eq:mahalanobis:transform}
 \end{align}
 
+Note that if the $\bm{M}$ matrix is low rank, i.e., $rank(\bm{M})=k<d$ then the linear projection using the matrix $\bm{L}$ will transform the data into a lower-dimensional ($k$-dimensional) space. This allows for a more compact representation of the data and cheaper distance computations inside of the low-dimensional space. The effect is more prominent the bigger the difference between the original dimension $d$ and the new dimension $k$.
 
-%TODO WHY DO WE NEED OTHER METRIC LEARNING ALGORITHMS? (THINK OF AN EXAMPLE)
+Learning Mahalanobis distance comes with two challenges. The first challenge is ensuring that the matrix $\bm{M}$ stays \ac{psd} during the learning process. A simple way to ensure this is to use a projection onto the \ac{psd} cone by setting the negative eigenvalues to zero, which is described in \cite{qian2015efficient}. However the eigenvalue decomposition takes $\mathcal{O}(d^3)$ and therefore is intractable for high-dimensional datasets. The second challenge is to learn a low-rank matrix $\bm{M}$ instead of the full-rank one. This would imply having the transformation to the low-dimensional space with all the advantages described earlier. Unfortunately, finding a minimum-rank solution of a \ac{sdp} is NP-hard as described in \cite{lemon2016low}.
 
 %TODO FIX ALL THIS
 % Úvod do problematiky
@@ -285,36 +343,6 @@ For the generalized Mahalanobis distance the same trick from the \ref{eq:mahalan
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Methodology}
-
-\section{Applications}
-
-Looking at metric learning as a "data transformation/preprocessing".
-
-Computer vision
-Information retrieval
-Bioinformatics
-
-\section{Related Topics}
-
-Kernel learning
-Multiple kernel learning
-Dimensionality reduction
-
-\section{Key Properties of Metric Learning Algorithms}
-
-Learning paradigms: supervised, semi-supervised, unsupervised
-
-Form of metrics: global (linear), non-linear, local
-
-Scalability
-
-Optimality of a solution (global optimum, local optimum)
-
-Dimensionality reduction
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \section{Evolution strategies} \label{chap:ea}
 Quick intro
 
@@ -326,7 +354,7 @@ move to new chapter
 move to related work
 
 
-\section{Thesis structure}
+\section{Outline}
 %TODO
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -335,12 +363,7 @@ move to related work
 
 [mention Bellet + make an outline + mention all possible metrics (online metrics)]
 
-Metric learning has mostly been used to improve the performance of k-Nearest~Neighbour classification. Most of the research has been focused on learning this metric from labelled training instances, however researchers also focus on weakly-supervised tasks, where the labels of the instances are unknown, but the information about the data comes in the form of similar and dissimilar pairs:
-
-\begin{align}
-\mathcal{S} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be similar} \rbrace \\
-\mathcal{D} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be dissimilar} \rbrace
-\end{align}
+Metric learning has mostly been used to improve the performance of k-Nearest~Neighbour classification. Most of the research has been focused on learning this metric from labelled training instances, however researchers also focus on weakly-supervised tasks, where the labels of the instances are unknown, but the information about the data comes in the form of similar and dissimilar pairs: %TODO fix this (moved equations to intro)
 
 Metric learning algorithm then tries to exploit these constraints to find the best parameters of a metric that best agrees with these constraints.
 
@@ -770,11 +793,23 @@ This worked, this didn't work. What we did.
 
 \chapter*{Future work}
 
+%TODO http://researchers.lille.inria.fr/abellet/talks/metric_learning_tutorial_ECML_PKDD.pdf
+
 What wasn`t finished and should be.
 
 - early stopping in cmaes (how? they have periods. maybe evaluate test knn every X generations?)
 
+- adding regularizer slide 23-24
+
 - other than global metrics
+
+- nonlinear extensions: kernelizations of linear methods (slides 28-32)
+
+- learning multiple local metrics at once (would it be faster with Evolution?)
+
+- large scale metric learning -- online learning
+
+- metric learning for structured data (slide 46+)
 
 - ...
 
