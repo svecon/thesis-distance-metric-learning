@@ -732,17 +732,6 @@ LFDA uses the same trick for dimensionality reduction, it calculates the metric 
 
 \cenfig{graphs/dimred/gaussians}{Dimensionality reduction of multivariate Gaussian dataset using different algorithms}{fig:dimred:gauss}
 
-See fig \ref{fig:dimred:gauss}
-
-\subsection{Direct comparison with other methods}
-
-In this experiment we compare PCA, LFDA, CMAES.kNN methods for dimensionality reduction into two dimensions.
-
-
-\subsection{Neural Network transformation}
-
-...
-
 \subsection{Preprocessing for t-SNE}
 
 t-SNE \cite{maaten2008visualizing} is another unsupervised dimensionality reduction method which is getting a lot of attention recently. Compared to PCA, t-SNE has a non-convex objective function and is optimized using gradient descend, which means it may end up in a local minimum. .... recommended to run more times.
@@ -750,6 +739,26 @@ t-SNE \cite{maaten2008visualizing} is another unsupervised dimensionality reduct
 [add how tsne works?]
 
 In this experiment we compare pure t-SNE with
+
+\subsection{Direct comparison with other methods}
+
+In this experiment we compare PCA, LFDA, CMAES.kNN methods for dimensionality reduction into two dimensions.
+
+\cenfig{graphs/dimred/balance-scale}{Dimensionality reduction on `balance-scale` dataset}{fig:dimred:balance-scale}
+\cenfig{graphs/dimred/breast-cancer}{Dimensionality reduction on `breast-cancer` dataset}{fig:dimred:breast-cancer}
+\cenfig{graphs/dimred/digits10}{Dimensionality reduction on `digits10` dataset}{fig:dimred:digits10}
+\cenfig{graphs/dimred/digits6}{Dimensionality reduction on `digits6` dataset}{fig:dimred:digits6}
+\cenfig{graphs/dimred/gaussians}{Dimensionality reduction on `gaussians` dataset}{fig:dimred:gaussians}
+\cenfig{graphs/dimred/iris}{Dimensionality reduction on `iris` dataset}{fig:dimred:iris}
+\cenfig{graphs/dimred/mice-protein}{Dimensionality reduction on `mice-protein` dataset}{fig:dimred:mice-protein}
+\cenfig{graphs/dimred/pima-indians}{Dimensionality reduction on `pima-indians` dataset}{fig:dimred:pima-indians}
+\cenfig{graphs/dimred/sonar}{Dimensionality reduction on `sonar` dataset}{fig:dimred:sonar}
+\cenfig{graphs/dimred/wine}{Dimensionality reduction on `wine` dataset}{fig:dimred:wine}
+
+
+\subsection{Neural Network transformation}
+
+...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
