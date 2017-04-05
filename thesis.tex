@@ -54,6 +54,7 @@
 \usepackage{dcolumn}
 \usepackage{float}
 \usepackage[section]{placeins}
+\usepackage{morefloats}
 % \usepackage{capt-of}
 % \sloppy
 
@@ -362,7 +363,7 @@ move to related work
 
 \chapter{Related work} \label{chap:rw}
 
-[mention Bellet + make an outline + mention all possible metrics (online metrics)]
+mention Bellet + make an outline + mention all possible metrics (online metrics)
 
 Metric learning has mostly been used to improve the performance of \ac{knn} classification. Most of the research has been focused on learning this metric from labelled training instances, however researchers also focus on weakly-supervised tasks, where the labels of the instances are unknown, but the information about the data comes in the form of similar and dissimilar pairs: %TODO fix this (moved equations to intro)
 
@@ -672,7 +673,7 @@ To gauge the performance of the fitness function we logged the fitness values of
 
 \subsection{Results}
 
-In figures \ref{fig:fitness:balance-scale}, \ref{fig:fitness:breast-cancer}, \ref{fig:fitness:digits10}, \ref{fig:fitness:digits6}, \ref{fig:fitness:gaussians}, \ref{fig:fitness:iris}, \ref{fig:fitness:mice-protein}, \ref{fig:fitness:pima-indians}, \ref{fig:fitness:sonar}, \ref{fig:fitness:wine} you can see the results for each dataset. In each figure there are 8 different graphs, the top four are methods learning a full matrix, the bottom four are methods restricted to a diagonal matrix. Both \ac{knn} and \ac{fme} fitness functions output values in a closed range $[0,1]$. The final \ac{knn} classifier used to gauge performance outputs values in the same exact range and so we plot all values in the same graph. Therefore each individual graph shows minimal and maximal (both in orange) fitnesses, median fitness (in green) with the area between 25th and 75th percentiles coloured in light green, the blue line represents the test success rate of the individual with the highest fitness and the pink line represents the test success rate of the individual with the lowest fitness in every generation. A black line representing a test success rate of the \ac{knn} using standard Euclidean distance is also added to the graphs. Unfortunately \ac{jde} algorithm did not finish on the four largest datasets and we mark those graphs with a "Timeout" text.
+In figures \ref{fig:fitness:balance-scale}, \ref{fig:fitness:breast-cancer}, \ref{fig:fitness:digits6}, \ref{fig:fitness:digits10}, \ref{fig:fitness:gaussians}, \ref{fig:fitness:iris}, \ref{fig:fitness:mice-protein}, \ref{fig:fitness:pima-indians}, \ref{fig:fitness:sonar}, \ref{fig:fitness:wine} you can see the results for each dataset. In each figure there are 8 different graphs, the top four are methods learning a full matrix, the bottom four are methods restricted to a diagonal matrix. Both \ac{knn} and \ac{fme} fitness functions output values in a closed range $[0,1]$. The final \ac{knn} classifier used to gauge performance outputs values in the same exact range and so we plot all values in the same graph. Therefore each individual graph shows minimal and maximal (both in orange) fitnesses, median fitness (in green) with the area between 25th and 75th percentiles coloured in light green, the blue line represents the test success rate of the individual with the highest fitness and the pink line represents the test success rate of the individual with the lowest fitness in every generation. A black line representing a test success rate of the \ac{knn} using standard Euclidean distance is also added to the graphs. Unfortunately \ac{jde} algorithm did not finish on the four largest datasets and we mark those graphs with a "Timeout" text.
 
 Important thing to also keep in mind when looking at the graphs is that the left four graphs all use \ac{knn} for both fitness evaluation as well as test success rate evaluation, meanwhile the right four graphs use \ac{fme} fitness for learning, but the test success rate is still evaluated using \ac{knn} classifier. This means that the left four graphs have fitnesses and their test success rates directly comparable, meanwhile in the right four graphs we can only look at the general trends and can't directly compare fitness values with test success rates.
 
@@ -686,8 +687,8 @@ Now let's have a look at the methods with the \ac{fme} fitness function. The fit
 
 \cenfig{graphs/fitness/balance-scale}{Fitness evolution and generalization on `balance-scale` dataset}{fig:fitness:balance-scale}
 \cenfig{graphs/fitness/breast-cancer}{Fitness evolution and generalization on `breast-cancer` dataset}{fig:fitness:breast-cancer}
-\cenfig{graphs/fitness/digits10}{Fitness evolution and generalization on `digits10` dataset}{fig:fitness:digits10}
 \cenfig{graphs/fitness/digits6}{Fitness evolution and generalization on `digits6` dataset}{fig:fitness:digits6}
+\cenfig{graphs/fitness/digits10}{Fitness evolution and generalization on `digits10` dataset}{fig:fitness:digits10}
 \cenfig{graphs/fitness/gaussians}{Fitness evolution and generalization on `gaussians` dataset}{fig:fitness:gaussians}
 \cenfig{graphs/fitness/iris}{Fitness evolution and generalization on `iris` dataset}{fig:fitness:iris}
 \cenfig{graphs/fitness/mice-protein}{Fitness evolution and generalization on `mice-protein` dataset}{fig:fitness:mice-protein}
@@ -730,9 +731,7 @@ One of the most common and the simplest unsupervised dimensionality reduction me
 
 LFDA uses the same trick for dimensionality reduction, it calculates the metric matrix and then picks the columns of this matrix with the largest corresponding eigenvalues.
 
-\cenfig{graphs/dimred/gaussians}{Dimensionality reduction of multivariate Gaussian dataset using different algorithms}{fig:dimred:gauss}
-
-\subsection{Preprocessing for t-SNE}
+[Preprocessing for t-SNE]
 
 t-SNE \cite{maaten2008visualizing} is another unsupervised dimensionality reduction method which is getting a lot of attention recently. Compared to PCA, t-SNE has a non-convex objective function and is optimized using gradient descend, which means it may end up in a local minimum. .... recommended to run more times.
 
@@ -746,8 +745,8 @@ In this experiment we compare PCA, LFDA, CMAES.kNN methods for dimensionality re
 
 \cenfig{graphs/dimred/balance-scale}{Dimensionality reduction on `balance-scale` dataset}{fig:dimred:balance-scale}
 \cenfig{graphs/dimred/breast-cancer}{Dimensionality reduction on `breast-cancer` dataset}{fig:dimred:breast-cancer}
-\cenfig{graphs/dimred/digits10}{Dimensionality reduction on `digits10` dataset}{fig:dimred:digits10}
 \cenfig{graphs/dimred/digits6}{Dimensionality reduction on `digits6` dataset}{fig:dimred:digits6}
+\cenfig{graphs/dimred/digits10}{Dimensionality reduction on `digits10` dataset}{fig:dimred:digits10}
 \cenfig{graphs/dimred/gaussians}{Dimensionality reduction on `gaussians` dataset}{fig:dimred:gaussians}
 \cenfig{graphs/dimred/iris}{Dimensionality reduction on `iris` dataset}{fig:dimred:iris}
 \cenfig{graphs/dimred/mice-protein}{Dimensionality reduction on `mice-protein` dataset}{fig:dimred:mice-protein}
@@ -758,7 +757,16 @@ In this experiment we compare PCA, LFDA, CMAES.kNN methods for dimensionality re
 
 \subsection{Neural Network transformation}
 
-...
+\cenfig{graphs/dimrednn/balance-scale}{Dimensionality reduction using neural network transformation on `balance-scale` dataset}{fig:dimrednn:balance-scale}
+\cenfig{graphs/dimrednn/breast-cancer}{Dimensionality reduction using neural network transformation on `breast-cancer` dataset}{fig:dimrednn:breast-cancer}
+\cenfig{graphs/dimrednn/digits6}{Dimensionality reduction using neural network transformation on `digits6` dataset}{fig:dimrednn:digits6}
+\cenfig{graphs/dimrednn/digits10}{Dimensionality reduction using neural network transformation on `digits10` dataset}{fig:dimrednn:digits10}
+\cenfig{graphs/dimrednn/gaussians}{Dimensionality reduction using neural network transformation on `gaussians` dataset}{fig:dimrednn:gaussians}
+\cenfig{graphs/dimrednn/iris}{Dimensionality reduction using neural network transformation on `iris` dataset}{fig:dimrednn:iris}
+\cenfig{graphs/dimrednn/mice-protein}{Dimensionality reduction using neural network transformation on `mice-protein` dataset}{fig:dimrednn:mice-protein}
+\cenfig{graphs/dimrednn/pima-indians}{Dimensionality reduction using neural network transformation on `pima-indians` dataset}{fig:dimrednn:pima-indians}
+\cenfig{graphs/dimrednn/sonar}{Dimensionality reduction using neural network transformation on `sonar` dataset}{fig:dimrednn:sonar}
+\cenfig{graphs/dimrednn/wine}{Dimensionality reduction using neural network transformation on `wine` dataset}{fig:dimrednn:wine}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
