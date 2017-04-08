@@ -187,7 +187,7 @@ Another important area of machine learning is dimensionality reduction whose goa
 % http://scikit-learn.org/stable/modules/decomposition.html#pca
 % http://scikit-learn.org/stable/modules/lda_qda.html#id4
 % http://scikit-learn.org/stable/modules/manifold.html
-One of the most common unsupervised dimensionality reduction method is \ac{pca} \cite{jolliffe2002principal} which decomposes the dataset in a set of successive orthogonal components that explain a maximum amount of the variance inside of the data. Other well-known methods are for example \ac{ica} and \ac{lda}. A specific area of non-linear dimensionality reduction is called manifold learning which is based on the idea that the dimensionality of many datasets is only artificially high but the intrinsic dimensionality is low and the data lie on an embedded low-dimensional manifold within the higher-dimensional space. A popular manifold algorithm receiving a lot of traction recently is \ac{tsne} \cite{maaten2008visualizing} that tries to preserve a local structure of the data which is especially useful in visualisation. Other known manifold methods are \ac{lle}, \ac{mds} and many others. The surveys reviewing the dimensionality reduction were done by \cite{fodor2002survey} and \cite{van2009dimensionality}.
+One of the most common unsupervised dimensionality reduction method is \ac{pca} \citep{jolliffe2002principal} which decomposes the dataset in a set of successive orthogonal components that explain a maximum amount of the variance inside of the data. Other well-known methods are for example \ac{ica} and \ac{lda}. A specific area of non-linear dimensionality reduction is called manifold learning which is based on the idea that the dimensionality of many datasets is only artificially high but the intrinsic dimensionality is low and the data lie on an embedded low-dimensional manifold within the higher-dimensional space. A popular manifold algorithm receiving a lot of traction recently is \ac{tsne} \citep{maaten2008visualizing} that tries to preserve a local structure of the data which is especially useful in visualisation. Other known manifold methods are \ac{lle}, \ac{mds} and many others. The surveys reviewing the dimensionality reduction were done by \cite{fodor2002survey} and \cite{van2009dimensionality}.
 
 In this thesis, we review existing state-of-the-art methods for learning global Mahalanobis distance metric (@LIST?) and we propose a new method using evolution algorithms ourselves. We compare all the methods on several popular datasets to see how they improve classification. Learning the full Mahalanobis metric means learning $d^2$ parameters and so we also try to restrict the existing methods to learn only a diagonal of the Mahalanobis distance metric with $d$ parameters. Additionally we explore the usage of metric learning algorithms for visualisation of the data (dimensionality reduction to 2 dimensions) and compare them with traditional approaches.
 
@@ -207,7 +207,7 @@ The goal of the metric learning is to find a pairwise real valued metric functio
 \mathcal{D} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be dissimilar} \rbrace \label{eq:dissimilar}
 \end{align}
 
-\item [Form of metric] is one of the defining features of a metric learning algorithm. Form of the metric categorizes the metric function into three main categories: \textit{Linear metrics} where the distance measures a length of a straight line between two points in Euclidean space. Typical example is Euclidean distance or Mahalanobis distance. \textit{Nonlinear metrics} can capture nonlinear dependencies inside data, typical example is $\chi^2$ histogram distance. Metric learning algorithm can also learn multiple \textit{local metrics} where different metric is used for different parts of the input space. The local metrics can be linear or nonlinear and all the metrics are usually taught in parallel.
+\item [Form of metric] is one of the defining features of a metric learning algorithm. Form of the metric categorizes the metric function into three main categories: \textit{Linear metrics} where the distance measures a length of a straight line between two points in Euclidean space. Typical example is Euclidean distance or Mahalanobis distance. \textit{Nonlinear metrics} can capture nonlinear dependencies inside data, typical example is $\chi^2$ histogram distance. Metric learning algorithm can also learn multiple \textit{local metrics} where different metric is used for different parts of the input space. The local metrics can be linear or nonlinear and all the metrics are usually trained in parallel.
 
 \item [Scalability] is an important factor to be considered during any machine learning. Having a great method that is intractable to calculate for large amounts of data is useless. Therefore the algorithms need to scale well with respect to \textit{number of samples}. Also, metric learning algorithms should scale well with respect to \textit{number of dimensions} of the data. However, since many metric learning algorithms are trying to learn a $d \times d$ matrix, designing an algorithm that scales well with an increasing dimensionality is a challenge.
 
@@ -742,6 +742,8 @@ Similarly, from figure \ref{fig:learning-times:dimensions} we can see that \ac{j
 
 \section{Experiment: Dimensionality reduction} \label{chap:exp:dimred}
 
+\input{results/dim-red}
+
 In this experiment we use \acl{dml} algorithms for dimensionality reduction into two dimensions and we compare the resulting visualisations. The same datasets (listed in Table \ref{tab:datasets}) are used as in previous experiments. The data are standardized as described in Section \ref{chap:exp:preprocessing}. 
 
 The dataset is split to training set and test set in 9:1 ratio. The algorithms are trained using the training set. Then the trained algorithms are used to transform both train and test sets into two dimensions. To compare the dimensionality reduction, we fit \ac{knn} classifier using this 2-dimensional training set and calculate a success rate on the test set. Only exception to this process is \ac{tsne} algorithm, which does not offer a transformation function. Therefore in experiments where \ac{tsne} is used, the \ac{tsne} is trained using the entire dataset. This makes the final \ac{knn} success rate biased and overly optimistic so all the success rates that come from training \ac{tsne} are prefixed with a tilde (\textapproxx) to signify this.
@@ -784,17 +786,6 @@ The \textit{sonar} (Figure \ref{fig:dimred:sonar}) and \textit{wine} (Figure \re
 \subsection{Neural Network transformation}
 
 In this part of the experiment we compare visualisations made by evolving fully-connected neural networks for dimensionality reduction using \ac{cmaes} as discussed in Section @REF. We conducted six different experiment differing in neural network depth and their activation functions. We experimented with \ac{sigm}, \ac{tanh} and \ac{relu} activation function, all explained in @REF. We also tried evolving a shallow networks with one hidden layer of sizes 8 and deeper networks with three hidden layer sizes of 16-8-4. To reduce the dimension into 2-dimensional space, all networks always end with an output layer of size 2.
-
-\cenfig{graphs/dimrednn/balance-scale}{Visualisation of `balance-scale` dataset using neural network}{fig:dimrednn:balance-scale}
-\cenfig{graphs/dimrednn/breast-cancer}{Visualisation of `breast-cancer` dataset using neural network}{fig:dimrednn:breast-cancer}
-\cenfig{graphs/dimrednn/digits6}{Visualisation of `digits6` dataset using neural network}{fig:dimrednn:digits6}
-\cenfig{graphs/dimrednn/digits10}{Visualisation of `digits10` dataset using neural network}{fig:dimrednn:digits10}
-\cenfig{graphs/dimrednn/gaussians}{Visualisation of `gaussians` dataset using neural network}{fig:dimrednn:gaussians}
-\cenfig{graphs/dimrednn/iris}{Visualisation of `iris` dataset using neural network}{fig:dimrednn:iris}
-\cenfig{graphs/dimrednn/mice-protein}{Visualisation of `mice-protein` dataset using neural network}{fig:dimrednn:mice-protein}
-\cenfig{graphs/dimrednn/pima-indians}{Visualisation of `pima-indians` dataset using neural network}{fig:dimrednn:pima-indians}
-\cenfig{graphs/dimrednn/sonar}{Visualisation of `sonar` dataset using neural network}{fig:dimrednn:sonar}
-\cenfig{graphs/dimrednn/wine}{Visualisation of `wine` dataset using neural network}{fig:dimrednn:wine}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

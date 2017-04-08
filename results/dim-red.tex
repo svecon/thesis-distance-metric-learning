@@ -1,0 +1,46 @@
+\begin{table}[ht] \centering
+{\small\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1pt}
+% \hspace*{-36.73627pt}
+% \multicolumn{4}{c}{Item} \\
+% \cline{1-2}
+\begin{tabular}{rcccccccccc}
+\toprule
+
+
+& \multicolumn{1}{c}{balance-scale} & \multicolumn{1}{c}{breast-cancer} & \multicolumn{1}{c}{digits6} & \multicolumn{1}{c}{digits10} & \multicolumn{1}{c}{gaussians} \\ 
+\midrule
+s:PCA & $42.96\pm13.91$ & $3.58\pm2.65$ & Error  & Error  & $9.75\pm2.61$ \\
+s:NCA & Error  & Error  & Error  & Error  & Error  \\
+s:LFDA & $11.18\pm3.18$ & $5.02\pm2.53$ & Error  & Error  & $\bm{0.25\pm0.75}$ \\
+s:CMAES.kNN & $\bm{10.07\pm2.54}$ & $4.73\pm3.46$ & Error  & Error  & $2.50\pm2.50$ \\
+s:t-SNE & Error  & Error  & Error  & Error  & Error  \\
+s:CMAES.kNN+t-SNE & Error  & Error  & Error  & Error  & Error  \\
+Shallow NN.Sigm & $10.22\pm3.11$ & $\bm{3.16\pm2.02}$ & Error  & Error  & $3.00\pm2.45$ \\
+Shallow NN.Tanh & $10.23\pm3.89$ & $3.43\pm2.14$ & Error  & Error  & $4.75\pm3.05$ \\
+Shallow NN.ReLU & $12.31\pm2.61$ & $5.15\pm2.42$ & Error  & Error  & $4.25\pm2.51$ \\
+Deep NN.Sigmoid & $12.94\pm2.71$ & $4.01\pm2.62$ & Error  & Error  & $9.00\pm4.21$ \\
+Deep NN.Tanh & $14.07\pm4.64$ & $3.44\pm1.85$ & Error  & Error  & $8.25\pm4.75$ \\
+Deep NN.ReLU & $13.75\pm3.94$ & $3.72\pm2.23$ & Error  & Error  & $6.00\pm2.78$ \\
+\midrule
+& \multicolumn{1}{c}{iris} & \multicolumn{1}{c}{mice-protein} & \multicolumn{1}{c}{pima-indians} & \multicolumn{1}{c}{sonar} & \multicolumn{1}{c}{wine} \\ 
+\midrule
+s:PCA & $10.00\pm4.47$ & Error  & $31.50\pm4.39$ & Error  & $3.99\pm3.72$ \\
+s:NCA & Error  & Error  & Error  & Error  & Error  \\
+s:LFDA & $6.67\pm5.96$ & Error  & $27.87\pm2.61$ & Error  & $\bm{1.74\pm2.66}$ \\
+s:CMAES.kNN & $5.33\pm2.67$ & Error  & $28.13\pm4.76$ & Error  & $6.80\pm5.05$ \\
+s:t-SNE & Error  & Error  & Error  & Error  & Error  \\
+s:CMAES.kNN+t-SNE & Error  & Error  & Error  & Error  & Error  \\
+Shallow NN.Sigm & $\bm{4.67\pm6.00}$ & Error  & $30.60\pm4.08$ & Error  & $7.23\pm5.00$ \\
+Shallow NN.Tanh & $7.33\pm6.29$ & Error  & $27.87\pm3.58$ & Error  & $4.42\pm4.15$ \\
+Shallow NN.ReLU & $9.33\pm6.11$ & Error  & $28.52\pm3.51$ & Error  & $10.07\pm6.12$ \\
+Deep NN.Sigmoid & $6.00\pm6.96$ & Error  & $29.94\pm4.17$ & Error  & $11.68\pm7.17$ \\
+Deep NN.Tanh & $19.33\pm8.67$ & Error  & $29.42\pm3.68$ & Error  & $14.65\pm7.86$ \\
+Deep NN.ReLU & $8.67\pm6.70$ & Error  & $\bm{27.60\pm3.68}$ & Error  & $8.86\pm6.63$ \\
+
+
+\bottomrule
+\end{tabular}
+}
+\caption{Error rates (in \%) for every method and dataset} \label{tab:dim-error-rates}
+\end{table}
