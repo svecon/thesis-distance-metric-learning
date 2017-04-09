@@ -1,0 +1,218 @@
+\begin{table}[ht] \centering
+{\small\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1pt}
+\begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
+\toprule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+s:Euclidean & . & . & . & . & . & . & . & . & . \\
+s:Covariance & . & . & . & . & . & . & . & . & . \\
+s:LMNN & **** & **** & . & . & . & . & ** & * & . \\
+s:NCA & **** & **** & . & . & ** & . & *** & ** & . \\
+s:LFDA & ** & ** & . & . & . & . & . & . & . \\
+s:CMAES.kNN & **** & **** & . & . & ** & . & *** & *** & . \\
+s:CMAES.fMe & . & . & . & . & . & . & . & . & . \\
+s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
+s:jDE.kNN & **** & **** & . & . & ** & . & *** & *** & . \\
+\bottomrule
+\multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
+\end{tabular} }
+\caption{Statistical significance of success rates for the `balance-scale` dataset} \label{tab:stat-sign:balance-scale}
+\end{table}
+
+
+\begin{table}[ht] \centering
+{\small\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1pt}
+\begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
+\toprule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+s:Euclidean & . & * & . & . & . & . & . & . & . \\
+s:Covariance & . & . & . & . & . & . & . & . & . \\
+s:LMNN & . & * & . & . & . & . & . & . & . \\
+s:NCA & . & * & . & . & . & . & . & . & . \\
+s:LFDA & . & ** & . & . & . & . & . & . & . \\
+s:CMAES.kNN & . & ** & . & . & . & . & . & . & . \\
+s:CMAES.fMe & . & * & . & **** & . & . & . & . & . \\
+s:jDE.fMe & . & * & ** & . & . & . & . & . & . \\
+s:jDE.kNN & . & ** & . & . & . & . & . & . & . \\
+\bottomrule
+\multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
+\end{tabular} }
+\caption{Statistical significance of success rates for the `breast-cancer` dataset} \label{tab:stat-sign:breast-cancer}
+\end{table}
+
+
+\begin{table}[ht] \centering
+{\small\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1pt}
+\begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
+\toprule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+s:Euclidean & . & ? & . & ? & ? & . & . & . & . \\
+s:Covariance & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:LMNN & . & ? & . & ? & ? & . & * & . & . \\
+s:NCA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:LFDA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:CMAES.kNN & . & ? & . & ? & ? & . & . & . & . \\
+s:CMAES.fMe & . & ? & . & ? & ? & . & . & . & . \\
+s:jDE.fMe & . & ? & . & ? & ? & . & . & . & . \\
+s:jDE.kNN & . & ? & . & ? & ? & . & . & . & . \\
+\bottomrule
+\multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
+\end{tabular} }
+\caption{Statistical significance of success rates for the `digits6` dataset} \label{tab:stat-sign:digits6}
+\end{table}
+
+
+\begin{table}[ht] \centering
+{\small\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1pt}
+\begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
+\toprule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+s:Euclidean & . & ? & . & ? & ? & . & . & . & . \\
+s:Covariance & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:LMNN & * & ? & . & ? & ? & . & *** & *** & ** \\
+s:NCA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:LFDA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:CMAES.kNN & . & ? & . & ? & ? & . & * & * & . \\
+s:CMAES.fMe & . & ? & . & ? & ? & . & . & . & . \\
+s:jDE.fMe & . & ? & . & ? & ? & . & . & . & . \\
+s:jDE.kNN & . & ? & . & ? & ? & . & . & . & . \\
+\bottomrule
+\multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
+\end{tabular} }
+\caption{Statistical significance of success rates for the `digits10` dataset} \label{tab:stat-sign:digits10}
+\end{table}
+
+
+\begin{table}[ht] \centering
+{\small\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1pt}
+\begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
+\toprule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+s:Euclidean & . & . & . & . & . & . & . & . & . \\
+s:Covariance & . & . & . & . & . & . & . & . & . \\
+s:LMNN & . & . & . & . & . & . & . & . & . \\
+s:NCA & . & . & . & . & . & . & . & . & . \\
+s:LFDA & . & . & . & . & . & . & . & . & . \\
+s:CMAES.kNN & . & . & . & . & . & . & . & . & . \\
+s:CMAES.fMe & . & . & . & . & . & . & . & . & . \\
+s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
+s:jDE.kNN & . & . & . & . & . & . & . & . & . \\
+\bottomrule
+\multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
+\end{tabular} }
+\caption{Statistical significance of success rates for the `gaussians` dataset} \label{tab:stat-sign:gaussians}
+\end{table}
+
+
+\begin{table}[ht] \centering
+{\small\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1pt}
+\begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
+\toprule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+s:Euclidean & . & . & . & . & . & . & . & . & . \\
+s:Covariance & . & . & . & . & . & . & . & . & . \\
+s:LMNN & . & * & . & . & . & . & . & . & . \\
+s:NCA & . & * & . & . & . & . & . & . & . \\
+s:LFDA & . & * & . & . & . & . & . & . & . \\
+s:CMAES.kNN & . & * & . & . & . & . & . & . & . \\
+s:CMAES.fMe & . & * & . & . & . & . & . & . & . \\
+s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
+s:jDE.kNN & . & * & . & . & . & . & . & . & . \\
+\bottomrule
+\multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
+\end{tabular} }
+\caption{Statistical significance of success rates for the `iris` dataset} \label{tab:stat-sign:iris}
+\end{table}
+
+
+\begin{table}[ht] \centering
+{\small\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1pt}
+\begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
+\toprule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+s:Euclidean & . & * & . & ? & ? & . & . & . & . \\
+s:Covariance & . & . & . & ? & ? & . & . & . & . \\
+s:LMNN & . & * & . & ? & ? & . & . & . & . \\
+s:NCA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:LFDA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:CMAES.kNN & . & * & . & ? & ? & . & . & . & . \\
+s:CMAES.fMe & . & * & . & ? & ? & . & . & . & . \\
+s:jDE.fMe & * & * & . & ? & ? & . & . & . & . \\
+s:jDE.kNN & . & * & . & ? & ? & . & . & . & . \\
+\bottomrule
+\multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
+\end{tabular} }
+\caption{Statistical significance of success rates for the `mice-protein` dataset} \label{tab:stat-sign:mice-protein}
+\end{table}
+
+
+\begin{table}[ht] \centering
+{\small\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1pt}
+\begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
+\toprule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+s:Euclidean & . & . & . & . & . & . & . & . & . \\
+s:Covariance & . & . & . & . & . & . & . & . & . \\
+s:LMNN & . & . & . & . & . & . & . & . & . \\
+s:NCA & . & . & . & . & . & . & . & * & . \\
+s:LFDA & . & . & . & . & . & . & . & . & . \\
+s:CMAES.kNN & . & ** & . & . & . & . & . & . & . \\
+s:CMAES.fMe & . & * & . & . & . & . & . & . & . \\
+s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
+s:jDE.kNN & . & . & . & . & * & . & . & . & . \\
+\bottomrule
+\multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
+\end{tabular} }
+\caption{Statistical significance of success rates for the `pima-indians` dataset} \label{tab:stat-sign:pima-indians}
+\end{table}
+
+
+\begin{table}[ht] \centering
+{\small\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1pt}
+\begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
+\toprule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+s:Euclidean & . & . & . & . & . & . & . & . & . \\
+s:Covariance & . & . & . & . & . & . & . & . & . \\
+s:LMNN & . & * & . & . & . & . & . & * & . \\
+s:NCA & . & . & . & . & . & . & . & . & . \\
+s:LFDA & . & . & . & . & . & . & . & . & . \\
+s:CMAES.kNN & . & * & . & . & . & . & * & * & . \\
+s:CMAES.fMe & . & * & . & . & . & . & . & * & . \\
+s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
+s:jDE.kNN & . & . & . & . & . & . & . & . & . \\
+\bottomrule
+\multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
+\end{tabular} }
+\caption{Statistical significance of success rates for the `sonar` dataset} \label{tab:stat-sign:sonar}
+\end{table}
+
+
+\begin{table}[ht] \centering
+{\small\renewcommand{\arraystretch}{0.95}
+\setlength{\tabcolsep}{1pt}
+\begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
+\toprule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+s:Euclidean & . & . & . & . & . & . & . & . & . \\
+s:Covariance & . & . & . & . & . & . & . & . & . \\
+s:LMNN & . & * & . & . & . & . & . & . & . \\
+s:NCA & . & . & . & . & . & * & . & * & . \\
+s:LFDA & . & * & . & . & . & . & . & . & . \\
+s:CMAES.kNN & . & . & . & . & . & . & . & * & . \\
+s:CMAES.fMe & . & . & . & . & . & . & . & . & ** \\
+s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
+s:jDE.kNN & . & . & . & . & . & . & . & . & . \\
+\bottomrule
+\multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
+\end{tabular} }
+\caption{Statistical significance of success rates for the `wine` dataset} \label{tab:stat-sign:wine}
+\end{table}
