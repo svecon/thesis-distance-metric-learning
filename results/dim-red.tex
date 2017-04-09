@@ -10,33 +10,33 @@
 
 & \multicolumn{1}{c}{balance-scale} & \multicolumn{1}{c}{breast-cancer} & \multicolumn{1}{c}{digits6} & \multicolumn{1}{c}{digits10} & \multicolumn{1}{c}{gaussians} \\ 
 \midrule
-s:PCA & $42.96\pm13.91$ & $3.58\pm2.65$ & Error  & Error  & $9.75\pm2.61$ \\
-s:NCA & Error  & Error  & Error  & Error  & Error  \\
-s:LFDA & $11.18\pm3.18$ & $5.02\pm2.53$ & Error  & Error  & $\bm{0.25\pm0.75}$ \\
-s:CMAES.kNN & $\bm{10.07\pm2.54}$ & $4.73\pm3.46$ & Error  & Error  & $2.50\pm2.50$ \\
-s:t-SNE & Error  & Error  & Error  & Error  & Error  \\
-s:CMAES.kNN+t-SNE & Error  & Error  & Error  & Error  & Error  \\
-s:NN.Sigm (shallow) & $10.22\pm3.11$ & $\bm{3.16\pm2.02}$ & Error  & Error  & $3.00\pm2.45$ \\
-s:NN.Tanh (shallow) & $10.23\pm3.89$ & $3.43\pm2.14$ & Error  & Error  & $4.75\pm3.05$ \\
-s:NN.ReLU (shallow) & $12.31\pm2.61$ & $5.15\pm2.42$ & Error  & Error  & $4.25\pm2.51$ \\
-s:NN.Sigmoid (deep) & $12.94\pm2.71$ & $4.01\pm2.62$ & Error  & Error  & $9.00\pm4.21$ \\
-s:NN.Tanh (deep) & $14.07\pm4.64$ & $3.44\pm1.85$ & Error  & Error  & $8.25\pm4.75$ \\
-s:NN.ReLU (deep) & $13.75\pm3.94$ & $3.72\pm2.23$ & Error  & Error  & $6.00\pm2.78$ \\
+s:PCA & $44.26\pm13.07$ & $\bm{3.43\pm2.73}$ & $24.06\pm3.07$ & $46.12\pm2.91$ & $9.75\pm2.61$ \\
+s:NCA & $11.65\pm3.25$ & $3.58\pm2.33$ & Error  & Error  & $0.50\pm1.00$ \\
+s:LFDA & $12.11\pm2.52$ & $4.58\pm2.48$ & $38.02\pm10.99$ & $57.07\pm6.76$ & $\bm{0.25\pm0.75}$ \\
+s:CMAES.kNN & $9.39\pm3.78$ & $4.16\pm2.90$ & $16.74\pm3.94$ & $41.22\pm3.46$ & $1.25\pm2.02$ \\
+s:t-SNE & $22.32\pm3.22$ & $4.44\pm2.26$ & $\bm{1.39\pm1.12}$ & $\bm{2.90\pm1.13}$ & $3.25\pm2.97$ \\
+s:CMAES.kNN+t-SNE & $\bm{7.48\pm3.01}$ & $4.59\pm2.48$ & $1.57\pm1.02$ & $3.67\pm1.98$ & $2.25\pm2.84$ \\
+s:NN.Sigm (shallow) & $11.32\pm3.18$ & $4.30\pm3.22$ & $17.36\pm4.61$ & $37.93\pm4.16$ & $2.50\pm1.94$ \\
+s:NN.Tanh (shallow) & $9.39\pm2.49$ & $4.01\pm2.70$ & $15.68\pm3.35$ & $39.07\pm4.64$ & $3.25\pm3.17$ \\
+s:NN.ReLU (shallow) & $12.74\pm3.18$ & $4.30\pm2.32$ & $18.10\pm3.98$ & $40.68\pm4.35$ & $3.00\pm2.45$ \\
+s:NN.Sigmoid (deep) & $14.32\pm3.86$ & $4.73\pm2.88$ & $37.33\pm4.60$ & $58.62\pm4.60$ & $7.75\pm2.61$ \\
+s:NN.Tanh (deep) & $18.00\pm3.65$ & $4.43\pm2.51$ & $38.59\pm5.19$ & $57.55\pm4.84$ & $13.25\pm7.08$ \\
+s:NN.ReLU (deep) & $14.81\pm2.46$ & $5.01\pm3.52$ & $35.75\pm6.89$ & $56.83\pm3.83$ & $10.00\pm6.02$ \\
 \midrule
 & \multicolumn{1}{c}{iris} & \multicolumn{1}{c}{mice-protein} & \multicolumn{1}{c}{pima-indians} & \multicolumn{1}{c}{sonar} & \multicolumn{1}{c}{wine} \\ 
 \midrule
-s:PCA & $10.00\pm4.47$ & Error  & $31.50\pm4.39$ & Error  & $3.99\pm3.72$ \\
-s:NCA & Error  & Error  & Error  & Error  & Error  \\
-s:LFDA & $6.67\pm5.96$ & Error  & $27.87\pm2.61$ & Error  & $\bm{1.74\pm2.66}$ \\
-s:CMAES.kNN & $5.33\pm2.67$ & Error  & $28.13\pm4.76$ & Error  & $6.80\pm5.05$ \\
-s:t-SNE & Error  & Error  & Error  & Error  & Error  \\
-s:CMAES.kNN+t-SNE & Error  & Error  & Error  & Error  & Error  \\
-s:NN.Sigm (shallow) & $\bm{4.67\pm6.00}$ & Error  & $30.60\pm4.08$ & Error  & $7.23\pm5.00$ \\
-s:NN.Tanh (shallow) & $7.33\pm6.29$ & Error  & $27.87\pm3.58$ & Error  & $4.42\pm4.15$ \\
-s:NN.ReLU (shallow) & $9.33\pm6.11$ & Error  & $28.52\pm3.51$ & Error  & $10.07\pm6.12$ \\
-s:NN.Sigmoid (deep) & $6.00\pm6.96$ & Error  & $29.94\pm4.17$ & Error  & $11.68\pm7.17$ \\
-s:NN.Tanh (deep) & $19.33\pm8.67$ & Error  & $29.42\pm3.68$ & Error  & $14.65\pm7.86$ \\
-s:NN.ReLU (deep) & $8.67\pm6.70$ & Error  & $\bm{27.60\pm3.68}$ & Error  & $8.86\pm6.63$ \\
+s:PCA & $10.00\pm4.47$ & $67.80\pm3.43$ & $31.50\pm4.39$ & $39.43\pm6.61$ & $3.99\pm3.72$ \\
+s:NCA & $\bm{2.67\pm3.27}$ & Error  & $26.44\pm2.87$ & $\bm{22.02\pm7.87}$ & $\bm{1.70\pm2.60}$ \\
+s:LFDA & $6.67\pm5.96$ & $64.75\pm12.90$ & $27.87\pm2.61$ & $22.61\pm4.33$ & $1.74\pm2.66$ \\
+s:CMAES.kNN & $6.00\pm5.54$ & $36.09\pm6.29$ & $\bm{26.18\pm3.94}$ & $31.35\pm6.61$ & $9.59\pm7.92$ \\
+s:t-SNE & $24.67\pm14.62$ & $4.18\pm1.80$ & $28.65\pm4.55$ & $45.82\pm15.06$ & $33.30\pm12.25$ \\
+s:CMAES.kNN+t-SNE & $19.33\pm11.33$ & $\bm{2.59\pm1.70}$ & $26.70\pm3.11$ & $35.20\pm9.89$ & $40.58\pm14.55$ \\
+s:NN.Sigm (shallow) & $6.67\pm5.96$ & $46.19\pm6.54$ & $28.79\pm3.19$ & $23.51\pm7.98$ & $6.12\pm5.81$ \\
+s:NN.Tanh (shallow) & $8.00\pm8.33$ & $47.03\pm5.53$ & $29.82\pm4.23$ & $33.16\pm12.78$ & $7.23\pm6.12$ \\
+s:NN.ReLU (shallow) & $6.67\pm5.16$ & $45.54\pm6.90$ & $27.35\pm3.42$ & $30.80\pm9.69$ & $9.17\pm5.60$ \\
+s:NN.Sigmoid (deep) & $12.00\pm9.80$ & $56.97\pm3.97$ & $32.94\pm4.43$ & $42.42\pm9.81$ & $13.29\pm9.06$ \\
+s:NN.Tanh (deep) & $16.67\pm6.83$ & $61.31\pm4.87$ & $32.94\pm6.01$ & $35.40\pm13.63$ & $15.80\pm8.62$ \\
+s:NN.ReLU (deep) & $5.33\pm4.00$ & $58.56\pm5.91$ & $29.68\pm4.10$ & $29.62\pm10.75$ & $10.14\pm9.73$ \\
 
 
 \bottomrule

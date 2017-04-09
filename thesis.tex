@@ -125,6 +125,7 @@ Abstract. %TODO
 %% The hyperref package for clickable links in PDF and also for storing
 %% metadata to PDF (including the table of contents).
 \usepackage[pdftex,unicode]{hyperref}   % Must follow all other packages
+% \usepackage[hidelinks]{hyperref}
 \hypersetup{breaklinks=true}
 \hypersetup{pdftitle={\ThesisTitle}}
 \hypersetup{pdfauthor={\ThesisAuthor}}
@@ -648,6 +649,7 @@ The results are also plotted in figures \ref{fig:cl:sr1} and \ref{fig:cl:sr2} us
 
 %TODO zacit odstavcem, ktery vypichne nejlepsi metody (uderni shrnuti)... teprve pak nejake zabrednuti 
 
+%TODO "\ac{knn} behaves much better as a fitness" Pilat: to se da trochu cekat, pro to knn totiz optimalizuje primo to, co te zajima; fme pocita trochu neco jineho
 From the results in the table \ref{tab:error-rates} or the figures \ref{fig:cl:sr1} and \ref{fig:cl:sr2} we can see that the standardization of the data is generally a good idea, only datasets digits6, digits10 and iris have the lowest error rates when unstandardized, however the standardized versions follow up with such a small margin that it is not a statistically significant difference. On the other hand, standardizing data can have a big impact as can be seen on the gaussians, sonar and wine datasets, where the difference between standardized and unstandardized data can be tens of percents difference. Our original hypothesis that the metric learning algorithms can replace data standardization therefore failed, it is better to use metric learning algorithms on the standardized data. Overall three methods behave very well across all datasets: \ac{lmnn} with 6 best results, \ac{cmaesknn} with 4 best results and \ac{lfda} with one best result. \ac{nca} method was not best in any dataset, but it closely followed the best methods. It is interesting to note that both \ac{jdefme} and \ac{jdeknn} won on the artificial gaussians dataset, however they were closely followed by \ac{cmaesknn} method. The worst method is clearly Covariance algorithm, because it is purely unsupervised method. \ac{cmaesfme} and \ac{jdefme} methods perform the worst on most of the datasets which suggests that \ac{fme} fitness function does not work very well, whereas \ac{knn} behaves much better as a fitness function when compared to \ac{cmaesknn} and \ac{jdeknn}. It is also important to note that the Euclidean distance that acts as a baseline is outperformed by a metric learning algorithm on every dataset, except digits6 where it ties with \ac{lmnn} method. This suggests metric learning algorithms can have a big impact in the machine learning tasks.
 
 \cenfig{graphs/classification/sr_1.pdf}{Boxplots of successrates from 10-fold crossvalidation for the first 6 datasets}{fig:cl:sr1}
