@@ -163,10 +163,10 @@ Abstract. %TODO
 %\include{chap03_mahalanobis}
 %\include{epilog}
 
-\chapter{Introduction} \label{introduction}
+\chapter{Introduction} \label{chap:intro}
 \addcontentsline{toc}{chapter}{Introduction}
 
-A metric is ubiquitous in machine learning. For instance, in classification, \ac{knn} classifier (@REF) uses a metric to find the nearest neighbours. In clustering, many clustering algorithms, including wildly used k-Means (@REF), calculate distance between data points and groups similar instances together. In information retrieval, when searching for the most relevant document, the documents themselves are ranked according to their similarity scores. Also security systems use a metric for face verification. 
+A metric is ubiquitous in machine learning. For instance, in classification, \ac{knn} classifier uses a metric to find the nearest neighbours. In clustering, many clustering algorithms, including wildly used k-Means, calculate distance between data points and groups similar instances together. In information retrieval, when searching for the most relevant document, the documents themselves are ranked according to their similarity scores. Also security systems use a metric for face verification. 
 
 It is obvious that performance of all these algorithms depends on the quality of the metric defined on the input space. The better the metric judges how close or how similar any two instances in the space are, the more the final machine learning algorithm will behave.
 
@@ -191,7 +191,7 @@ Another important area of machine learning is dimensionality reduction whose goa
 % http://scikit-learn.org/stable/modules/manifold.html
 One of the most common unsupervised dimensionality reduction method is \ac{pca} \citep{jolliffe2002principal} which decomposes the dataset in a set of successive orthogonal components that explain a maximum amount of the variance inside of the data. Other well-known methods are for example \ac{ica} and \ac{lda}. A specific area of non-linear dimensionality reduction is called manifold learning which is based on the idea that the dimensionality of many datasets is only artificially high but the intrinsic dimensionality is low and the data lie on an embedded low-dimensional manifold within the higher-dimensional space. A popular manifold algorithm receiving a lot of traction recently is \ac{tsne} \citep{maaten2008visualizing} that tries to preserve a local structure of the data which is especially useful in visualisation. Other known manifold methods are \ac{lle}, \ac{mds} and many others. The surveys reviewing the dimensionality reduction were done by \cite{fodor2002survey} and \cite{van2009dimensionality}.
 
-In this thesis, we review existing state-of-the-art methods for learning global Mahalanobis distance metric (@LIST?) and we propose a new method using evolution algorithms. We compare all the methods on several popular datasets to see how they improve classification. Learning the full Mahalanobis metric means learning $d^2$ parameters and so we also try to restrict the existing methods to learn only a diagonal of the Mahalanobis distance metric with $d$ parameters. Additionally we explore the usage of metric learning algorithms for visualisation of the data (dimensionality reduction to 2 dimensions) and compare them with traditional approaches.
+In this thesis, we review existing state-of-the-art methods for learning global Mahalanobis distance metric and we propose a new method using evolution algorithms. We compare all the methods on several popular datasets to see how they improve classification. Learning the full Mahalanobis metric means learning $d^2$ parameters and so we also try to restrict the existing methods to learn only a diagonal of the Mahalanobis distance metric with $d$ parameters. Additionally we explore the usage of metric learning algorithms for visualisation of the data (dimensionality reduction to 2 dimensions) and compare them with traditional approaches.
 
 \section{Metric learning} \label{chap:intro:ml}
 
@@ -220,7 +220,7 @@ The goal of the metric learning is to find a pairwise real valued metric functio
 
 In this work we mainly focus on the metric learning algorithms that belong to the categories highlighted with orange background in figure \ref{fig:metric-learning}: fully supervised with a linear (Mahalanobis) metric that scale well and are capable of dimensionality reduction. 
 
-\section{Applications}
+\section{Applications} \label{chap:intro:applications}
 
 \acl{dml} can potentially be beneficial whenever a metric
 between instances plays an important role. Recently, it has been successfully applied to many different problems, such as link prediction in networks \citep{shaw2011learning}, state representation in reinforcement learning \citep{taylor2011metric}, music recommendation \citep{mcfee2012learning}, identity verification \citep{ben2012improved}, webpage archiving \citep{law2012structural}, cartoon synthesis \citep{yu2012semisupervised} and assessing the efficacy of acupuncture \citep{liang2012learning}.
@@ -282,22 +282,21 @@ Not all matrices $\bm{M}$ in the generalized form of the Mahalanobis distance de
 
 % https://en.wikipedia.org/wiki/Metric_(mathematics)
 \begin{align}
-d(x,y) &\geq 0 & nonnegativity \label{eq:metricdef-1} \\
-d(x,y) &= 0 \iff x=y & identity \ of \ indiscernibles \label{eq:metricdef-2} \\
-d(x,y) &= d(y,x) & symmetry \label{eq:metricdef-3} \\
-d(x,z) &\leq d(x,y) + d(y,z) & triangle \ inequality \label{eq:metricdef-4}
+d(\textbf{x},\textbf{y}) &\geq 0 & nonnegativity \label{eq:metricdef-1} \\
+d(\textbf{x},\textbf{y}) &= 0 \iff \textbf{x}=\textbf{y} & identity \ of \ indiscernibles \label{eq:metricdef-2} \\
+d(\textbf{x},\textbf{y}) &= d(\textbf{y},\textbf{x}) & symmetry \label{eq:metricdef-3} \\
+d(\textbf{x},\textbf{z}) &\leq d(\textbf{x},\textbf{y}) + d(\textbf{y},\textbf{z}) & triangle \ inequality \label{eq:metricdef-4}
 \end{align} 
 
 In order for the Mahalanobis metric from equation \eqref{eq:maha} to be a metric, the matrix $\bf{M}$ that parametrizes the distance needs to pass the metric conditions \ref{eq:metricdef-1} --- \ref{eq:metricdef-4}. It turns out that a strictly \ac{pd} matrices $\bm{M} \succ 0$ do pass the conditions and therefore the Mahalanobis distance with a \ac{pd} matrix is a distance metric.
 
 Sometimes, however, it is not easy to guarantee the positive definiteness of a matrix and we have to settle with a \ac{psd} matrix $\bf{M} \succeq 0$. For \ac{psd} matrices the identity of indiscernibles condition \ref{eq:metricdef-2} is not met and therefore the Mahalanobis distance with a \ac{psd} matrix is not a metric. For this reason the condition is usually relaxed into a condition of identity \ref{eq:pseudodef-2} which allows $d(x,y)=0$ for two distinct values $x \neq y$ whereas this is impossible using the identity of indiscernibles \ref{eq:pseudodef-2}. Together with the rest of the conditions, this rule forms a new set of conditions \ref{eq:pseudodef-1} ---\ref{eq:pseudodef-4}, which together defines a pseudo-metric. Therefore the Mahalanobis distance with a \ac{psd} matrix is a pseudo-metric.
 
-%TODO fix corrent formatting for letters
 \begin{align}
-d(x,y) &\geq 0 & nonnegativity \label{eq:pseudodef-1} \\
-d(x,x) &= 0 & identity \label{eq:pseudodef-2} \\
-d(x,y) &= d(y,x) & symmetry \label{eq:pseudodef-3} \\
-d(x,z) &\leq d(x,y) + d(y,z) & triangle \ inequality \label{eq:pseudodef-4}
+d(\textbf{x},\textbf{y}) &\geq 0 & nonnegativity \label{eq:pseudodef-1} \\
+d(\textbf{x},\textbf{x}) &= 0 & identity \label{eq:pseudodef-2} \\
+d(\textbf{x},\textbf{y}) &= d(\textbf{y},\textbf{x}) & symmetry \label{eq:pseudodef-3} \\
+d(\textbf{x},\textbf{z}) &\leq d(\textbf{x},\textbf{y}) + d(\textbf{y},\textbf{z}) & triangle \ inequality \label{eq:pseudodef-4}
 \end{align} 
 
 For the generalized Mahalanobis distance the same trick from the \ref{eq:mahalanobis:decorrelation} can be used for any general matrix $\bm{M}$ as can be seen in \ref{eq:mahalanobis:transform}. Cholesky decomposition is defined for any \ac{pd} matrix: $\bm{M}=\bm{L}\bm{L}^T$ where $\bm{L} \in \mathbb{R}^{k \times d}$ where $k$ is the rank of $\bm{M}$. Thus every Mahalanobis distance with a \ac{pd} matrix can be instead replaced by some linear transformation using a matrix $\bm{L}$ and simply calculating the Euclidean distance as usual. This interesting feature of Mahalanobis distance allows us to look at metric learning algorithms also as a data transformation or data preprocessing. Decorrelating the data using the Covariance matrix is also called data whitening.
@@ -313,7 +312,7 @@ Note that if the $\bm{M}$ matrix is low rank, i.e., $rank(\bm{M})=k<d$ then the 
 
 Learning Mahalanobis distance comes with two challenges. The first challenge is ensuring that the matrix $\bm{M}$ stays \ac{psd} during the learning process. A simple way to ensure this is to use a projection onto the \ac{psd} cone by setting the negative eigenvalues to zero, which is described in \cite{qian2015efficient}. However the eigenvalue decomposition takes $\mathcal{O}(d^3)$ and therefore is intractable for high-dimensional datasets. The second challenge is to learn a low-rank matrix $\bm{M}$ instead of the full-rank one. This would imply having the transformation to the low-dimensional space with all the advantages described earlier. Unfortunately, finding a minimum-rank solution of a \ac{sdp} is NP-hard as described in \cite{lemon2016low}.
 
-%TODO FIX ALL THIS
+%TODO
 % Úvod do problematiky
 % - Co už se udělalo
 % - Co je známo
@@ -325,26 +324,6 @@ Learning Mahalanobis distance comes with two challenges. The first challenge is 
 % Related works
 % - Co už udělali jiní
 % - Co nového hodlá udělat autor
-
-%TODO HAVENT USED THIS YET
-% curse of dimensionality
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Evolution strategies} \label{chap:ea}
-Quick intro
-
-Describe EAs, ... crossover, mutation, selection (+schema)
-
-TODO podkapitola na jDE s log populaci
-jDE ma vetsi vypocetni silu diky vetsim generacim
-->> dat stejnou vypocetni silu
-
-\subsection{CMA-ES} \label{chap:ea:cmaes}
-move to new chapter
-\subsection{jDE} \label{chap:ea:jde}
-move to related work
-
 
 \section{Outline}
 %TODO
@@ -416,12 +395,24 @@ jDE.wFme & 2013 & Full & Local & None & Evolution \\
 \section{Evolutionary distance metric learning} \label{chap:rw:fukui}
 \cite{fukui2013evolutionary}
 
+\subsection{Evolution strategies} \label{chap:intro:es} \label{alg:jde}
+Quick intro
+
+Describe EAs, ... crossover, mutation, selection (+schema)
+
+\subsection{jDE} 
+move to related work
+
+TODO podkapitola na jDE s log populaci
+jDE ma vetsi vypocetni silu diky vetsim generacim
+->> dat stejnou vypocetni silu
+
 
 \section{Dimensionality Reduction}
 
-Metric learning can also be used for dimensionality reduction as discussed in @WHERE. This experiment was focused on dimensionality reduction into two dimensions where it is easy to visualise the data.
+Metric learning can also be used for dimensionality reduction as discussed in mentioned in Section \ref{chap:intro}. This experiment was focused on dimensionality reduction into two dimensions where it is easy to visualise the data.
 
-One of the most common and the simplest unsupervised dimensionality reduction method is \ac{pca} @REFERENCE. \ac{pca} picks the dimensions of the data with the highest variance. This corresponds to finding the eigenvalues and eigenvectors of the covariance matrix, the eigenvectors with the largest eigenvalues correspond to the dimensions that have the strongest correlation in the dataset.
+One of the most common and the simplest unsupervised dimensionality reduction method is \ac{pca} \citep{jolliffe2002principal}. \ac{pca} picks the dimensions of the data with the highest variance. This corresponds to finding the eigenvalues and eigenvectors of the covariance matrix, the eigenvectors with the largest eigenvalues correspond to the dimensions that have the strongest correlation in the dataset.
 
 [Is Covariance Mahalanobis === PCA??]
 
@@ -453,9 +444,11 @@ full matrix, diagonal matrix, neural network shape
 
 k-Means for dimensionality reduction
 
-\section{CMAES strategy} \label{chap:es:cmaes}
+\section{CMA-ES strategy} \label{alg:cmaes}
 
 simple evolution, jDE, CMAES, ...
+
+compare sizes of populations for full and diagonal matrices... and with jDE
 
 \begin{tabbing}
 \hspace{50pt}\=\kill
@@ -511,16 +504,23 @@ wFme ??
 % http://stackoverflow.com/questions/9146086/time-complexity-of-genetic-algorithm
 % Genetic Algorithms are not chaotic, they are stochastic. The complexity depends on the genetic operators, their implementation (which may have a very significant effect on overall complexity), the representation of the individuals and the population, and obviously on the fitness function. Given the usual choices (point mutation, one point crossover, roulette wheel selection) a Genetic Algorithms complexity is O(g(nm + nm + n)) with g the number of generations, n the population size and m the size of the individuals. Therefore the complexity is on the order of O(gnm)). This is of cause ignoring the fitness function, which depends on the application.
 
-\section{k-Nearest~Neighbour fitness}
+\section{k-Nearest Neighbour fitness} \label{alg:knn}
+
+%TODO how do we modify kNN to use custom metric!!!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Dimensionality Reduction} \label{chap:dimred}
+\chapter{Dimensionality Reduction} \label{chap:dr}
 
-\section{Linear}
+%TODO mention curse of dimensionality
 
-\section{Neural network transformation}
+\section{Linear} \label{chap:dr:linear}
 
+\section{Neural network transformation} \label{chap:dr:nn}
+
+how, where, what...
+
+sigm, tanh, relu...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -612,11 +612,9 @@ Another difficulty with the datasets is that many of them do not have normalized
 
 \section{Experiment: Classification} \label{chap:exp:classification}
 
-In this experiment we wanted to see how much does learnt metric help in classification task compared to standard Euclidean distance. We chose \ac{knn} classifier, which is one of the simplest and yet powerful classifiers and it is very easy to modify to use a custom metric as shown in @REF.
-%TODO how do we modify kNN to use custom metric? [here or earlier???]
+In this experiment we wanted to see how much does learnt metric help in classification task compared to standard Euclidean distance. We chose \ac{knn} classifier, which is one of the simplest and yet powerful classifiers and it is very easy to modify to use a custom metric as discussed in Section \ref{alg:knn}.
 
-%TODO explain that "Covariance" refers to Mahalanobis distance with Cov matrix (probably in related work)
-The metric learning algorithms that we tested in our experiments are Covariance, \ac{lmnn}, \ac{nca} and \ac{jdefme}. All these methods were described in Chapter \ref{chap:rw}. Next, we tested \ac{cmaesknn} that we proposed in Chapter \ref{chap:our-method}. We were also curious if the \ac{knn} fitness function would improve \ac{jde} strategy and how would \ac{cmaes} perform with \ac{fme} fitness function so we also tested those. Finally, we also tested all datasets against the Euclidean distance which acted as our baseline method.
+The metric learning algorithms that we tested in our experiments are Covariance (original Mahalanobis metric with a covariance matrix defined in Equation \ref{eq:maha:orig}), \ac{lmnn}, \ac{nca} and \ac{jdefme}. All these methods were described in Chapter \ref{chap:rw}. Next, we tested \ac{cmaesknn} that we proposed in Chapter \ref{chap:our-method}. We were also curious if the \ac{knn} fitness function would improve \ac{jde} strategy and how would \ac{cmaes} perform with \ac{fme} fitness function so we also tested those. Finally, we also tested all datasets against the Euclidean distance which acted as our baseline method.
 
 To assess performance of the metric learning algorithms we used datasets listed in section \ref{chap:exp:datasets} and used 10-fold cross validation for each algorithm. For each fold data were first preprocessed and standardized as described in section \ref{chap:exp:preprocessing}, then the metric was trained using one of the methods and finally the metric was evaluated using \ac{knn} algorithm.
 
@@ -669,7 +667,7 @@ Next we look at the hyperparameters of the individual methods shown in figure \r
 
 \section{Experiment: Generalization of EAs} \label{chap:exp:fitness}
 
-To test out how well do solutions from evolution algorithms evolve and generalize we performed another series of tests. Using \ac{cmaes} and \ac{jde} evolution strategies described in sections \ref{chap:ea:cmaes} and \ref{chap:ea:jde}, combined with \ac{knn} and \ac{fme} fitnesses described in sections @WHERE and \ref{chap:rw:fukui} respectively. Both strategies with both fitnesses were tested, giving us 4 different algorithms: \ac{cmaesknn}, \ac{cmaesfme}, \ac{jdeknn} and \ac{jdefme} where the first part until the dot describes evolution strategy used in the algorithm and the part after the dot describes its fitness function. Both full and diagonal Mahalanobis matrices were experimented on during this experiment, totalling to 8 different models.
+To test out how well do solutions from evolution algorithms evolve and generalize we performed another series of tests. Using \ac{cmaes} and \ac{jde} evolution strategies described in sections \ref{alg:cmaes} and \ref{alg:jde}, combined with \ac{knn} and \ac{fme} fitnesses described in Sections \ref{alg:knn} and \ref{chap:rw:fukui} respectively. Both strategies with both fitnesses were tested, giving us 4 different algorithms: \ac{cmaesknn}, \ac{cmaesfme}, \ac{jdeknn} and \ac{jdefme} where the first part until the dot describes evolution strategy used in the algorithm and the part after the dot describes its fitness function. Both full and diagonal Mahalanobis matrices were experimented on during this experiment, totalling to 8 different models.
 %TODO move this description to the first use of CMAES.kNN or jDE.fMe
 
 All methods have some hyperparameters and in order to avoid the time consuming hyperparameter search, the hyperparameters for the models in this experiment were picked according to results from the previous experiment in section \ref{chap:exp:classification}. Only one set of hyperparameters was picked for all datasets. The number of nearest neighbours in the \ac{knn} classifier used in the fitness function was chosen to be 8 and the number of nearest neighbours in the final \ac{knn} classifier was set to 4. All methods were evolved for a full thousand generations.
@@ -716,7 +714,7 @@ In this experiment we measured the learning times of all the methods from previo
 
 \subsection{Results}
 
-The results are in table \ref{tab:learning-times} where the learning times shown are averaged across all 10 runs. Calculating the Covariance metric is the fastest, closely followed by \ac{lfda} algorithm. Some of the datasets were so small that these two methods would take a less than a hundredth of a second. On the other hand, \ac{lmnn} and \ac{nca} metrics and all the evolution metrics take a lot of time to learn. Generally, \ac{jde} evolution strategy should be much faster compared to \ac{cmaes} strategy because calculating a covariance matrix inside \ac{cmaes} is expensive, however the \ac{jde} needs a much bigger population and the fitness evaluation is very expensive in our case as discussed in @REF. Therefore, \ac{jde} is clearly much slower compared to \ac{cmaes} strategy in the results table. It is also clear that the \ac{fme} fitness is much slower compared to \ac{knn} fitness as discussed in @REF when we compare \ac{cmaesknn} with \ac{cmaesfme} and \ac{jdeknn} with \ac{jdefme}. This makes the method \ac{jdefme} described in \cite{fukui2013evolutionary} the slowest method in all of our benchmarked methods and is even several times slower than \ac{nca} algorithm. The \ac{cmaesknn} performs comparable to \ac{lmnn} in terms of learning time. The restricted versions of the evolutionary algorithms to a diagonal transformation matrix learn much faster thanks to smaller individuals which directly encode the Mahalanobis matrix and also the smaller populations as also discussed in @REF. What is important to note, however, is that differences between learning a full and a diagonal matrices using \ac{cmaes} are much smaller than the differences between learning a full and a diagonal matrices using \ac{jde} algorithm, where for \ac{cmaes} the difference is about 2 times, but for \ac{jde} the difference is much more significant, even 10 times slower on some datasets.
+The results are in table \ref{tab:learning-times} where the learning times shown are averaged across all 10 runs. Calculating the Covariance metric is the fastest, closely followed by \ac{lfda} algorithm. Some of the datasets were so small that these two methods would take a less than a hundredth of a second. On the other hand, \ac{lmnn} and \ac{nca} metrics and all the evolution metrics take a lot of time to learn. Generally, \ac{jde} evolution strategy should be much faster compared to \ac{cmaes} strategy because calculating a covariance matrix inside \ac{cmaes} is expensive, however the \ac{jde} needs a much bigger population and the fitness evaluation is very expensive in our case as discussed in Section \ref{alg:jde}. Therefore, \ac{jde} is clearly much slower compared to \ac{cmaes} strategy in the results table. It is also clear that the \ac{fme} fitness is much slower compared to \ac{knn} fitness as discussed in \ref{alg:knn} when we compare \ac{cmaesknn} with \ac{cmaesfme} and \ac{jdeknn} with \ac{jdefme}. This makes the method \ac{jdefme} described in Section \ref{chap:rw:fukui} the slowest method in all of our benchmarked methods and is even several times slower than \ac{nca} algorithm. The \ac{cmaesknn} performs comparable to \ac{lmnn} in terms of learning time. The restricted versions of the evolutionary algorithms to a diagonal transformation matrix learn much faster thanks to smaller individuals which directly encode the Mahalanobis matrix and also the smaller populations as also discussed in \ref{alg:cmaes}. What is important to note, however, is that differences between learning a full and a diagonal matrices using \ac{cmaes} are much smaller than the differences between learning a full and a diagonal matrices using \ac{jde} algorithm, where for \ac{cmaes} the difference is about 2 times, but for \ac{jde} the difference is much more significant, even 10 times slower on some datasets.
 
 %TODO fix missing values
 \input{results/learning-times}
@@ -729,7 +727,7 @@ From figure \ref{fig:learning-times:samples} it is clear that the \ac{jde} algor
 
 \cenfig{graphs/learning-times/samples}{Learning times for increasing number of samples with a fixed dimension (linear and log scale)}{fig:learning-times:samples}
 
-Similarly, from figure \ref{fig:learning-times:dimensions} we can see that \ac{jde} scales very poorly with an increasing dimensionality of the dataset as well. The order of the methods in the graphs remained the same as in the previous experiment, however there are some notable changes in the shapes of the curves. \ac{lfda} algorithm scales very well with an increasing dimensionality; \ac{nca} and \ac{lmnn} are not as steep as in the previous experiment, but they still scale worse compared to \ac{cmaes} algorithm. It is clear that restricted versions of all evolutionary algorithms scale much better in regards of the increasing dimensionality because the dimensionality directly reflects in the individuals size: for the restricted version the individuals have size $D$, but for the unrestricted version we need to encode the whole matrix of size $D^2$. The dimensionality of the individuals directly reflect in the population size as discussed in @REF. Therefore the restricted versions scale better with the increasing dimension and their graphs are less steep. When the steepness of \ac{cmaes} and \ac{jde} algorithms is directly compared however, the \ac{jde} scales worse even in the restricted version. That is due to the population size that the algorithm uses by default being linear, compared to \ac{cmaes}, which only has a population of a logarithmic size of its individual dimensionality as already discussed in \ref{chap:es:cmaes}.
+Similarly, from figure \ref{fig:learning-times:dimensions} we can see that \ac{jde} scales very poorly with an increasing dimensionality of the dataset as well. The order of the methods in the graphs remained the same as in the previous experiment, however there are some notable changes in the shapes of the curves. \ac{lfda} algorithm scales very well with an increasing dimensionality; \ac{nca} and \ac{lmnn} are not as steep as in the previous experiment, but they still scale worse compared to \ac{cmaes} algorithm. It is clear that restricted versions of all evolutionary algorithms scale much better in regards of the increasing dimensionality because the dimensionality directly reflects in the individuals size: for the restricted version the individuals have size $D$, but for the unrestricted version we need to encode the whole matrix of size $D^2$. The dimensionality of the individuals directly reflect in the population size as discussed in Section \ref{alg:cmaes}. Therefore the restricted versions scale better with the increasing dimension and their graphs are less steep. When the steepness of \ac{cmaes} and \ac{jde} algorithms is directly compared however, the \ac{jde} scales worse even in the restricted version. That is due to the population size that the algorithm uses by default being linear, compared to \ac{cmaes}, which only has a population of a logarithmic size of its individual dimensionality as already discussed in Section \ref{alg:cmaes}.
 
 \cenfig{graphs/learning-times/dimensions}{Learning times for increasing dimension with a fixed number of samples (linear and log scale)}{fig:learning-times:dimensions}
 
@@ -740,7 +738,7 @@ In this experiment we use \acl{dml} algorithms for dimensionality reduction into
 
 The dataset is split to training set and test set using a 10-fold cross validation. The algorithms are trained using the training set. Then the trained algorithms are used to transform both train and test sets into two dimensions. To compare the dimensionality reduction, we fit \ac{knn} classifier using this 2-dimensional training set and calculate a success rate on the test set. Only exception to this process is \ac{tsne} algorithm, which does not offer a transformation function. Therefore, in experiments where \ac{tsne} is used, the \ac{tsne} is trained using the entire dataset. This makes the final \ac{knn} success rate biased and overly optimistic. % so all the success rates that come from \ac{tsne} method are prefixed with a tilde (\textapproxx) to further signify this.
 
-In this experiment we compare \ac{pca} and \ac{tsne} methods with \acl{dml} methods supporting dimensionality reduction: \ac{nca}, \ac{lfda} and \ac{cmaesknn}. All these methods were described in Chapters \ref{chap:rw} and \ref{chap:dimred}. We also experimented with evolving fully-connected neural networks for dimensionality reduction using \acl{cmaesknn} as discussed in Section @REF. We evolved six different neural networks differing in depth and their activation functions. We experimented with \ac{sigm}, \ac{tanh} and \ac{relu} activation functions, all of them explained in @REF. We tried evolving a shallow networks with one hidden layer with 4 neurons and deeper networks with five hidden layers with 16-12-8-6-4 neurons. To reduce the dimension into 2-dimensional space, all networks always end with an output layer of size 2. The shallow network therefore has $4d+8$ free parameters and the deeper network has $16d+354$ free parameters. No biases were used.
+In this experiment we compare \ac{pca} and \ac{tsne} methods with \acl{dml} methods supporting dimensionality reduction: \ac{nca}, \ac{lfda} and \ac{cmaesknn}. All these methods were described in Chapters \ref{chap:rw} and \ref{chap:dr}. We also experimented with evolving fully-connected neural networks for dimensionality reduction using \acl{cmaesknn} as discussed in Section \ref{chap:dr:nn}. We evolved six different neural networks differing in depth and their activation functions. We experimented with \ac{sigm}, \ac{tanh} and \ac{relu} activation functions, all of them explained in Section \ref{chap:dr:nn}. We tried evolving a shallow networks with one hidden layer with 4 neurons and deeper networks with five hidden layers with 16-12-8-6-4 neurons. To reduce the dimension into 2-dimensional space, all networks always end with an output layer of size 2. The shallow network therefore has $4d+8$ free parameters and the deeper network has $16d+354$ free parameters. No biases were used.
 
 \ac{pca}, \ac{lfda}, \ac{nca} and \ac{cmaesknn} methods are linear and so the dimensionality reduction works by projecting the data onto the 2-dimensional space by a matrix multiplication. The methods only differ in how to find this transformation matrix. We were also interested in whether the \ac{cmaes} would help \ac{tsne} making a better visualisation if used as a preprocessing and we call this method \ac{cmaesknn}+\ac{tsne}, which works as one could expect, the \ac{cmaesknn} is trained first and data are transformed using the evolved transformation matrix keeping the original dimensionality, and only then the \ac{tsne} is used to transform the preprocessed data from \ac{cmaes} into two dimensions.
 
