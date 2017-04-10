@@ -166,7 +166,7 @@ Abstract. %TODO
 \chapter{Introduction} \label{chap:intro}
 \addcontentsline{toc}{chapter}{Introduction}
 
-A metric is ubiquitous in machine learning. For instance, in classification, \ac{knn} classifier uses a metric to find the nearest neighbours. In clustering, many clustering algorithms, including wildly used k-Means, calculate distance between data points and groups similar instances together. In information retrieval, when searching for the most relevant document, the documents themselves are ranked according to their similarity scores. Also security systems use a metric for face verification. 
+A metric is ubiquitous in machine learning. For instance, in classification, \ac{knn} classifier uses a metric to find the nearest neighbours. In clustering, many clustering algorithms, including wildly used k-Means, calculate distance between data points and groups similar instances together. In information retrieval, when searching for the most relevant document, the documents themselves are ranked according to their similarity scores. Also security systems use a metric for face verification.
 
 It is obvious that performance of all these algorithms depends on the quality of the metric defined on the input space. The better the metric judges how close or how similar any two instances in the space are, the more the final machine learning algorithm will behave.
 
@@ -202,7 +202,7 @@ The goal of the metric learning is to find a pairwise real valued metric functio
 \cenfig{graphs/metric_learning}{Metric learning properties. We focus on the highlighted categories.}{fig:metric-learning}
 
 \begin{description}
-\item [Learning paradigm] can be \textit{fully supervised}, where every sample of the dataset $z_i=(x_i,y_i) \in \mathcal{X} \times \mathcal{Y}$ is composed of the instance $x_i \in \mathcal{X}$ and its label (class) $x_y \in \mathcal{Y}$, which is a discrete and finite set of $\abs{\mathcal{Y}}$ labels. If the algorithm is \textit{weakly supervised} it does not have access to the labels of the instances, it only gets access to some side information, typically in the form of constraints $\mathcal{S}, \mathcal{D}$ defined as pairs of instances which are either similar \ref{eq:similar} or dissimilar \ref{eq:dissimilar}. Whereas getting labelled instances can be very hard or costly to obtain, obtaining similar and dissimilar pairs is easier. In \textit{semi-supervised} paradigm, we have some information (fully supervised or weakly supervised) about part of the data, but some (usually large) portion of the data comes with no information whatsoever.
+\item [Learning paradigm] can be \textit{fully supervised}, where every sample of the dataset $z_i=(x_i,y_i) \in \mathcal{X} \times \mathcal{Y}$ is composed of the instance $x_i \in \mathcal{X}$ and its label (class) $x_y \in \mathcal{Y}$, which is a discrete and finite set of $\abs{\mathcal{Y}}$ labels. If the algorithm is \textit{weakly supervised} it does not have access to the labels of the instances, it only gets access to some side information, typically in the form of constraints $\mathcal{S}, \mathcal{D}$ defined as pairs of instances which are either similar \ref{eq:similar} or dissimilar \ref{eq:dissimilar}. Metric learning algorithm then tries to exploit these constraints to find the best parameters of a metric that best agrees with these constraints. Whereas getting labelled instances can be very hard or costly to obtain, obtaining similar and dissimilar pairs is easier. In \textit{semi-supervised} paradigm, we have some information (fully supervised or weakly supervised) about part of the data, but some (usually large) portion of the data comes with no information whatsoever.
 
 \begin{align}
 \mathcal{S} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be similar} \rbrace \label{eq:similar} \\
@@ -332,28 +332,26 @@ Learning Mahalanobis distance comes with two challenges. The first challenge is 
 
 \chapter{Related work} \label{chap:rw}
 
-mention Bellet + make an outline + mention all possible metrics (online metrics)
+As already mentioned in Chapter \ref{chap:intro}, \acl{dml} is rapidly gaining traction in the recent years and it has found many applications in many fields as discussed in Section \ref{chap:intro:applications}. The survey from \cite{bellet2013survey} is a comprehensive review of the supervised Mahalanobis distance learning methods. In the survey in addition to \textit{Linear methods} that we present here, they also review \textit{Online methods} where the metric is updated after every instance; \textit{Multi-Task methods} in which the metric is trained for multiple related tasks at once to improve performance; \textit{Nonlinear methods} where the metric is no longer linear, typically achieved by kernelization of some linear method; \textit{Local Metric methods} where multiple metrics are learnt for different parts of the space and methods for \textit{Semi-Supervised Setting} in which most of the instances do not have labels. In this work we mostly focus on the Linear metric learning methods because the rest of the categories extend these simpler methods and build on top of them.
+
+The Mahalanobis distance that was originally proposed by \cite{mahalanobis1936generalized} (Equation \ref{eq:maha:orig}) used a Covariance matrix of the data and can be looked at as a first \acl{dml} method. Since then the term Mahalanobis distance has been generalized and is now used with any \ac{psd} matrix, not just Covariance, this was discussed in more detail in Section \ref{chap:intro:mah}. This generalized Mahalanobis distance is now used in many linear \acl{dml} methods.
+
+Most of the research has been focused on learning this metric from labelled training instances (supervised setting), however researchers also focus on weakly-supervised tasks, where the labels of the instances are unknown, but the information about the data comes in the form of similar and dissimilar pairs (Equations \ref{eq:similar}, \ref{eq:dissimilar}) and semi-supervised setting has received some attention as well.
+
+% Metric learning has mostly been used to improve the performance of \ac{knn} classification.
 
 - Teoretická analýza
-
-Zmínit lokální metriky, online, ...
-
-Metric learning has mostly been used to improve the performance of \ac{knn} classification. Most of the research has been focused on learning this metric from labelled training instances, however researchers also focus on weakly-supervised tasks, where the labels of the instances are unknown, but the information about the data comes in the form of similar and dissimilar pairs: %TODO fix this (moved equations to intro)
-
-Metric learning algorithm then tries to exploit these constraints to find the best parameters of a metric that best agrees with these constraints.
 
 [Scalability in N and D] %TODO
 
 In this work we chose to examine the following methods:
 
 \begin{table}[ht] \centering
-\caption{Summary of related metric learning methods} \label{tab:rw:summary}
 \begin{tabular}{llllll}
 \hline
-% \multicolumn{4}{c}{Item} \\
-% \cline{1-2}
 Name & Year & Supervision & Optimum & Regularizer & Notes \\
 \hline
+Covariance & 1936 & None & Global & None & Unsupervised \\
 MMC & 2002 & Weak & Global & None & — \\
 LMNN & 2005 & Full & Global & None & For k-NN \\
 NCA & 2004 & Full & Local & None & For k-NN \\
@@ -364,6 +362,7 @@ LFDA & 2007 & Full & Global & None & — \\
 jDE.wFme & 2013 & Full & Local & None & Evolution \\
 \hline
 \end{tabular}
+\caption{Summary of related metric learning methods} \label{tab:rw:summary}
 \end{table}
 
 \cite{mahalanobis1936generalized}
