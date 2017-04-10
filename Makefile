@@ -1,5 +1,8 @@
 all: thesis.pdf
 
+fast:
+	pdflatex thesis.tex $(wildcard *.tex) bibliography.bib
+
 # LaTeX must be run multiple times to get references right
 thesis.pdf: thesis.tex $(wildcard *.tex) bibliography.bib
 	pdflatex $<
