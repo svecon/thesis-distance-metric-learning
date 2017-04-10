@@ -49,7 +49,6 @@
 %%% User-defined packages
 \usepackage{amssymb}
 \usepackage[inline]{enumitem}
-\DeclareMathOperator{\tr}{tr}
 \usepackage{adjustbox}
 \usepackage{dcolumn}
 \usepackage{float}
@@ -59,7 +58,6 @@
 % \sloppy
 
 \usepackage{textcomp}
-\newcommand{\textapproxx}{\raisebox{0.5ex}{\texttildelow}}
 
 \usepackage{acro}
 \include{acronyms}
@@ -310,7 +308,7 @@ For the generalized Mahalanobis distance the same trick from the \ref{eq:mahalan
 
 Note that if the $\bm{M}$ matrix is low rank, i.e., $rank(\bm{M})=k<d$ then the linear projection using the matrix $\bm{L}$ will transform the data into a lower-dimensional ($k$-dimensional) space. This allows for a more compact representation of the data and cheaper distance computations inside of the low-dimensional space. The effect is more prominent the bigger the difference between the original dimension $d$ and the new dimension $k$.
 
-Learning Mahalanobis distance comes with two challenges. The first challenge is ensuring that the matrix $\bm{M}$ stays \ac{psd} during the learning process. A simple way to ensure this is to use a projection onto the \ac{psd} cone by setting the negative eigenvalues to zero, which is described in \cite{qian2015efficient}. However the eigenvalue decomposition takes $\mathcal{O}(d^3)$ and therefore is intractable for high-dimensional datasets. The second challenge is to learn a low-rank matrix $\bm{M}$ instead of the full-rank one. This would imply having the transformation to the low-dimensional space with all the advantages described earlier. Unfortunately, finding a minimum-rank solution of a \ac{sdp} is NP-hard as described in \cite{lemon2016low}.
+Learning Mahalanobis distance comes with two challenges. The first challenge is ensuring that the matrix $\bm{M}$ stays \ac{psd} during the learning process. A simple way to ensure this constraint is to use a projection onto the \ac{psd} cone by setting the negative eigenvalues to zero, which is described in \cite{qian2015efficient}. Still, the eigenvalue decomposition takes $\mathcal{O}(d^3)$ and therefore is intractable for high-dimensional datasets. The second challenge is to learn a low-rank matrix $\bm{M}$ instead of the full-rank one. This would imply having the transformation to the low-dimensional space with all the advantages described earlier. Unfortunately, finding a minimum-rank solution of a \ac{sdp} is NP-hard as described in \cite{lemon2016low}.
 
 %TODO
 % Úvod do problematiky
@@ -370,8 +368,25 @@ jDE.wFme & 2013 & Full & Local & None & Evolution \\
 \section{MMC Xing} \label{chap:rw:xing}
 \cite{xing2002distance}
 
+% \begin{array}{rl}{\displaystyle \min _{{x^{1},\ldots ,x^{n}\in {\mathbb  {R}}^{n}}}}&{\displaystyle \sum _{{i,j\in [n]}}c_{{i,j}}(x^{i}\cdot x^{j})}\\{\text{subject to}}&{\displaystyle \sum _{{i,j\in [n]}}a_{{i,j,k}}(x^{i}\cdot x^{j})\leq b_{k}\qquad \forall k}.\\\end{array}
+
+\begin{align}
+\max_{\bm{M} \in \mathbb{S}^{d}_+} \quad & \sum_{(x_i,x_j)\in \mathcal{D}} d_{\bm{M}}(x_i,x_j) \\
+\text{s.t.} \quad & \sum_{(x_i,x_j)\in \mathcal{S}} d_{\bm{M}}^2(x_i,x_j) \leq 1
+\end{align}
+
 \section{Large Margin Nearest Neighbor (LMNN)} \label{chap:rw:lmnn}
 \cite{weinberger2009distance}
+
+\begin{align}
+\mathcal{S} &= \lbrace(x_i,x_j): y_i = y_j \text{ and } x_j \text{ is in the }k\text{-neighbourhood of } x_i \rbrace \\
+\mathcal{R} &= \lbrace(x_i,x_j,x_k): (x_i,x_j) \in \mathcal{S}, y_i \neq y_k \rbrace
+\end{align}
+
+\begin{align}
+\min_{\bm{M} \in \mathbb{S}^{d}_+} \quad & (1-\mu)\sum_{(x_i,x_j)\in \mathcal{S}} d_{\bm{M}}^2(x_i,x_j) + \mu \sum_{i,j,k} \xi_{ijk} \\
+\text{s.t.} \quad & d_{\bm{M}}^2(x_i,x_k) - d_{\bm{M}}^2(x_i,x_j) \geq 1 - \xi_{ijk} \quad \forall(x_i,x_j,x_k) \in \mathcal{R}
+\end{align}
 
 % \section{Information Theoretic Metric Learning (ITML)} \label{chap:rw:itml}
 % \cite{davis2007information}
@@ -388,8 +403,30 @@ jDE.wFme & 2013 & Full & Local & None & Evolution \\
 \section{Neighborhood Components Analysis (NCA)} \label{chap:rw:nca}
 \cite{jacobgoldberger2004neighbourhood}
 
+\begin{align}
+p_{ij} &= \frac{ \exp(-\lVert \bm{L}x_i-\bm{L}x_j \rVert_2^2) }{ \sum_{l \neq i} \exp(-\lVert \bm{L}x_i-\bm{L}x_l \rVert_2^2) }, p_{ii}=0
+\\
+p_i &= \sum_{j:y_j=y_i} p_{ij}
+\\
+\max_{\bm{L}} & \sum_i p_i
+\\
+\bm{L}_{NCA} &= \argmax_{\bm{L} \in \mathbb{R}^{d \times r}} \bigg( \sum_{i=1}^n \sum_{j:y_j=y_i} p_{ij}(\bm{L}\bm{L}^\top) \bigg)
+\end{align}
+
 \section{Local Fisher Discriminant Analysis (LFDA)} \label{chap:rw:lfda}
 \cite{sugiyama2007dimensionality}
+
+\begin{align}
+\widetilde{\bm{S}}^{(w)} &= \frac{1}{2} \sum_{i,j=1}^n \widetilde{\bm{W}}_{i,j}^{(w)} (x_i-x_j)(x_i-x_j)^\top
+\\
+\widetilde{\bm{S}}^{(b)} &= \frac{1}{2} \sum_{i,j=1}^n \widetilde{\bm{W}}_{i,j}^{(b)} (x_i-x_j)(x_i-x_j)^\top
+\\
+\widetilde{\bm{W}}_{i,j}^{(w)} &= \twopartdef{\bm{A}_{i,j}/n_l}{y_i=y_j=l}{0}{y_i \neq y_j}
+\\
+\widetilde{\bm{W}}_{i,j}^{(b)} &= \twopartdef{\bm{A}_{i,j}(1/n-1/n_l)}{y_i=y_j=l}{1/n}{y_i \neq y_j}
+\\
+\bm{L}_{LFDA} &= \argmax_{\bm{L} \in \mathbb{R}^{d \times r}} \bigg[\tr\Big( ( \bm{L}^\top\widetilde{\bm{S}}^{(w)}\bm{L} )^{-1} \bm{L}^\top\widetilde{\bm{S}}^{(b)}\bm{L} \Big)\bigg] 
+\end{align}
 
 \section{Evolutionary distance metric learning} \label{chap:rw:fukui}
 \cite{fukui2013evolutionary}
