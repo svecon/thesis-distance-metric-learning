@@ -331,6 +331,7 @@ Learning Mahalanobis distance comes with two challenges. The first challenge is 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Related work} \label{chap:rw}
+%TODO [Scalability in N and D] 
 
 As already mentioned in Chapter \ref{chap:intro}, \acl{dml} is rapidly gaining traction in the recent years and it has found many applications in many fields as discussed in Section \ref{chap:intro:applications}. The survey from \cite{bellet2013survey} is a comprehensive review of the supervised Mahalanobis distance learning methods. In the survey in addition to \textit{Linear methods} that we present here, they also review \textit{Online methods} where the metric is updated after every instance; \textit{Multi-Task methods} in which the metric is trained for multiple related tasks at once to improve performance; \textit{Nonlinear methods} where the metric is no longer linear, typically achieved by kernelization of some linear method; \textit{Local Metric methods} where multiple metrics are learnt for different parts of the space and methods for \textit{Semi-Supervised Setting} in which most of the instances do not have labels. In this work we mostly focus on the Linear metric learning methods because the rest of the categories extend these simpler methods and build on top of them.
 
@@ -338,30 +339,7 @@ Most of the research has been focused on learning a metric from labelled trainin
 
 The Mahalanobis distance that was originally proposed by \cite{mahalanobis1936generalized} (Equation \ref{eq:maha:orig}) used a Covariance matrix of the data and can be looked at as a first \acl{dml} method, even though it is unsupervised, it still learns from the data. Since then the term Mahalanobis distance has been generalized and is now used with any \ac{psd} matrix, not just Covariance, this was discussed in more detail in Section \ref{chap:intro:mah}. This generalized Mahalanobis distance is now used in many linear \acl{dml} methods.
 
-Some \acl{dml} methods were designed to directly improve \acl{knn} classifier effectiveness. The performance of the \ac{knn} classifier largely depends on the metric used. In Figure \ref{pseudo:knn} you can see the pseudocode for classifying an unknown sample using \ac{knn} classifier. Any metric can be used in the algorithm simply by changing the distance metric on Line \ref{pseudo:knn:dist}. Modifying the \ac{knn} algorithm to use a custom metric is trivial even for faster implementations using trees for nearest neighbour search.
-
-\begin{figure}
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\LinesNumbered
-\KwData{set of labelled instances $\mathcal{Z}=\{\bm{z}_i=(\bm{x}_i, y_i): \bm{x}_i \in \mathcal{X}, y_i \in \mathcal{Y}\}^n_{i=1}$, where $\mathcal{X}$ are training data and $\mathcal{Y}$ are their class labels}
-\KwIn{unknown sample $\bm{x} \in \mathcal{X}$, number of neighbours $k$}
-\KwResult{class label of the unknown sample $\bm{x}$}
-\Begin{
-  \For{$i\leftarrow 1$ \KwTo $m$}{
-    \lnl{pseudo:knn:dist} $distances[i]$ $\leftarrow$ compute distance d($\bm{z}_i$, $\bm{x}$)\;
-  }
-  return majority class from $k$ lowest $distances$\;
-}
-\end{algorithm} 
-\caption{Pseudocode for k-NN classification} \label{pseudo:knn}
-\end{figure}
-
 We have tested many methods from the \ac{dml} survey: Covariance (the original Mahalanobis distance), \ac{itml}, \ac{lmnn}, \ac{lsml}, \ac{nca}, \ac{rca}, \ac{sdml}. In our tests we found that \ac{lmnn} and \ac{nca} work well and so we focused on those. We also found a prominent method called \ac{lfda} and described in \cite{sugiyama2007dimensionality}. \Acl{dml} algorithms that are trained using evolutionary algorithms are also receiving some attention. We chose the work of \cite{fukui2013evolutionary} who uses an adaptive evolution strategy to evolve a Mahalanobis distance. In Table \ref{tab:rw:summary} you can see methods that we think are the most prominent are we are going to use those further in our experiments. In the next sections we will describe the individual \acl{dml} methods in more detail.
-
-% Metric learning has mostly been used to improve the performance of \ac{knn} classification.
-
-%TODO [Scalability in N and D] 
 
 \begin{table}[ht] \centering
 \begin{tabular}{llllll}
@@ -382,30 +360,56 @@ jDE.wFme & 2013 & Full & Local & None & Evolution \\
 \caption{Summary of related metric learning methods} \label{tab:rw:summary}
 \end{table}
 
-\cite{mahalanobis1936generalized}
+\section{k-Nearest Neighbour classifier} \label{alg:knn}
+
+Some \acl{dml} methods were designed to directly improve \acl{knn} classifier effectiveness. The performance of the \ac{knn} classifier largely depends on the metric used. In Figure \ref{pseudo:knn} you can see the pseudocode for classifying an unknown sample using \ac{knn} classifier. Any metric can be used in the algorithm simply by changing the distance metric on Line \ref{pseudo:knn:dist}. Modifying the \ac{knn} algorithm to use a custom metric is trivial even for faster implementations using trees for nearest neighbour search.
+
+\begin{figure}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\LinesNumbered
+\KwData{set of labelled instances $\mathcal{Z}=\{\bm{z}_i=(\bm{x}_i, y_i): \bm{x}_i \in \mathcal{X}, y_i \in \mathcal{Y}\}^n_{i=1}$, where $\mathcal{X}$ are training data and $\mathcal{Y}$ are their class labels}
+\KwIn{unknown sample $\bm{x} \in \mathcal{X}$, number of neighbours $k$}
+\KwResult{class label of the unknown sample $\bm{x}$}
+\Begin{
+  \For{$i\leftarrow 1$ \KwTo $m$}{
+    \lnl{pseudo:knn:dist} $distances[i]$ $\leftarrow$ compute distance d($\bm{z}_i$, $\bm{x}$)\;
+  }
+  \Return majority class from the $k$ smallest $distances$\;
+}
+\end{algorithm} 
+\caption{Pseudocode for k-NN classification} \label{pseudo:knn}
+\end{figure}
 
 \section{MMC Xing} \label{chap:rw:xing}
-\cite{xing2002distance}
+The work of \cite{xing2002distance} is the first Mahalanobis distance learning algorithm leveraging some information about the data. It is a weakly supervised method that takes information in a form of pairs of similar and dissimilar instances as defined in Equations \ref{eq:similar} and \ref{eq:dissimilar}. They formulate a convex optimisation problem that tries to maximize the distance between dissimilar pairs of instances while keeping the sum of the distances between similar pairs as low as possible ($\leq 1$). The convex program is shown in Equation \ref{eq:rw:xing}.
 
-% \begin{array}{rl}{\displaystyle \min _{{x^{1},\ldots ,x^{n}\in {\mathbb  {R}}^{n}}}}&{\displaystyle \sum _{{i,j\in [n]}}c_{{i,j}}(x^{i}\cdot x^{j})}\\{\text{subject to}}&{\displaystyle \sum _{{i,j\in [n]}}a_{{i,j,k}}(x^{i}\cdot x^{j})\leq b_{k}\qquad \forall k}.\\\end{array}
-
-\begin{align}
+\begin{align*}
 \max_{\bm{M} \in \mathbb{S}^{d}_+} \quad & \sum_{(x_i,x_j)\in \mathcal{D}} d_{\bm{M}}(x_i,x_j) \\
-\text{s.t.} \quad & \sum_{(x_i,x_j)\in \mathcal{S}} d_{\bm{M}}^2(x_i,x_j) \leq 1
-\end{align}
+\text{s.t.} \quad & \sum_{(x_i,x_j)\in \mathcal{S}} d_{\bm{M}}^2(x_i,x_j) \leq 1 \\
+& \bm{M} \succeq 0 \numberthis \label{eq:rw:xing}
+\end{align*}
 
-\section{Large Margin Nearest Neighbor (LMNN)} \label{chap:rw:lmnn}
-\cite{weinberger2009distance}
+They solve this convex program using gradient ascend to maximize the distances between dissimilar instances, followed by projections to ensure the conditions of the program are held (matrix $\bm{M}$ must stay \ac{psd} and the distances between similar pair must stay low).
 
-\begin{align}
-\mathcal{S} &= \lbrace(x_i,x_j): y_i = y_j \text{ and } x_j \text{ is in the }k\text{-neighbourhood of } x_i \rbrace \\
-\mathcal{R} &= \lbrace(x_i,x_j,x_k): (x_i,x_j) \in \mathcal{S}, y_i \neq y_k \rbrace
-\end{align}
+\section{Large Margin Nearest Neighbor} \label{chap:rw:lmnn}
+The \acf{lmnn} method designed by \cite{weinberger2009distance} is a very popular method that has been improved upon by many other researchers, such as Multiple-Metrics \ac{lmnn} \citep{weinberger2008fast}, Multi-task \ac{lmnn} \citep{parameswaran2010large} and Gradient-Boosted \ac{lmnn} \citep{kedem2012non}. The goal of this method is to improve the performance of the \ac{knn} algorithm and so the idea is that $k$-nearest neighbours with the same class should stay together while separating the imposters (instances with a different class) by a large margin. It works by defining the constraints in a local way: it optimizes only over similar points that are also in a close neighbourhood of each other as defined in Equation \ref{eq:rw:lmnn:similar}. This neighbourhood is usually determined using Euclidean distance.
 
 \begin{align}
-\min_{\bm{M} \in \mathbb{S}^{d}_+} \quad & (1-\mu)\sum_{(x_i,x_j)\in \mathcal{S}} d_{\bm{M}}^2(x_i,x_j) + \mu \sum_{i,j,k} \xi_{ijk} \\
-\text{s.t.} \quad & d_{\bm{M}}^2(x_i,x_k) - d_{\bm{M}}^2(x_i,x_j) \geq 1 - \xi_{ijk} \quad \forall(x_i,x_j,x_k) \in \mathcal{R}
+\mathcal{S} &= \lbrace(\bm{x}_i,\bm{x}_j): y_i = y_j \text{ and } \bm{x}_j \text{ is in the }k\text{-neighbourhood of } \bm{x}_i \rbrace  \label{eq:rw:lmnn:similar} \\
+\mathcal{R} &= \lbrace(\bm{x}_i,\bm{x}_j,\bm{x}_k): (\bm{x}_i,\bm{x}_j) \in \mathcal{S}, y_i \neq y_k \rbrace
 \end{align}
+
+The distance metric is then learnt using the convex program defined in Equation \ref{eq:rw:lmnn}. The authors exploited the locality of the constraints and designed their own solver that is able to solve the program even with billions of constraints. The $\mu$ parameter controls the pull/push trade-off, which influences how much the algorithm will push the imposters away and pull the similar instances.
+
+\begin{align*}
+\min_{\bm{M} \in \mathbb{S}^{d}_+} \quad & (1-\mu)\sum_{(\bm{x}_i,\bm{x}_j)\in \mathcal{S}} d_{\bm{M}}^2(\bm{x}_i,\bm{x}_j) + \mu \sum_{i,j,k} \xi_{ijk} \\
+\text{s.t.} \quad & d_{\bm{M}}^2(\bm{x}_i,\bm{x}_k) - d_{\bm{M}}^2(\bm{x}_i,\bm{x}_j) \geq 1 - \xi_{ijk} \quad \forall(\bm{x}_i,\bm{x}_j,\bm{x}_k) \in \mathcal{R} \numberthis \label{eq:rw:lmnn}
+\end{align*}
+
+The Figure @REF illustrates how the \ac{lmnn} algorithm works. The left diagram shows neighbourhood of the points before training and the right diagram after training. The distance metric is optimized so that the points lie inside of a smaller neighbourhood, while the instances with a different label are pushed outside of this neighbourhood.
+
+%TODO add image from LMNN paper (sketch!)
 
 % \section{Information Theoretic Metric Learning (ITML)} \label{chap:rw:itml}
 % \cite{davis2007information}
@@ -558,10 +562,6 @@ wFme ??
 
 % http://stackoverflow.com/questions/9146086/time-complexity-of-genetic-algorithm
 % Genetic Algorithms are not chaotic, they are stochastic. The complexity depends on the genetic operators, their implementation (which may have a very significant effect on overall complexity), the representation of the individuals and the population, and obviously on the fitness function. Given the usual choices (point mutation, one point crossover, roulette wheel selection) a Genetic Algorithms complexity is O(g(nm + nm + n)) with g the number of generations, n the population size and m the size of the individuals. Therefore the complexity is on the order of O(gnm)). This is of cause ignoring the fitness function, which depends on the application.
-
-\section{k-Nearest Neighbour fitness} \label{alg:knn}
-
-%TODO how do we modify kNN to use custom metric!!!
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
