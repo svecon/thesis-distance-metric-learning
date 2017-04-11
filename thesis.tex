@@ -166,7 +166,7 @@ Abstract. %TODO
 \chapter{Introduction} \label{chap:intro}
 \addcontentsline{toc}{chapter}{Introduction}
 
-A metric is ubiquitous in machine learning. For instance, in classification, \ac{knn} classifier uses a metric to find the nearest neighbours. In clustering, many clustering algorithms, including wildly used k-Means, calculate distance between data points and groups similar instances together. In information retrieval, when searching for the most relevant document, the documents themselves are ranked according to their similarity scores. Also security systems use a metric for face verification.
+A metric is ubiquitous in machine learning. For instance, in classification, \ac{knn} classifier \citep{cover1967nearest} uses a metric to find the nearest neighbours. In clustering, many clustering algorithms, including wildly used k-Means \citep{hartigan1979algorithm}, calculate distance between data points and groups similar instances together. In information retrieval, when searching for the most relevant document, the documents themselves are ranked according to their similarity scores. Also security systems use a metric for face verification.
 
 It is obvious that performance of all these algorithms depends on the quality of the metric defined on the input space. The better the metric judges how close or how similar any two instances in the space are, the more the final machine learning algorithm will behave.
 
@@ -338,22 +338,23 @@ Most of the research has been focused on learning a metric from labelled trainin
 
 The Mahalanobis distance that was originally proposed by \cite{mahalanobis1936generalized} (Equation \ref{eq:maha:orig}) used a Covariance matrix of the data and can be looked at as a first \acl{dml} method, even though it is unsupervised, it still learns from the data. Since then the term Mahalanobis distance has been generalized and is now used with any \ac{psd} matrix, not just Covariance, this was discussed in more detail in Section \ref{chap:intro:mah}. This generalized Mahalanobis distance is now used in many linear \acl{dml} methods.
 
-Line \ref{alg:knn:dist}
+Some \acl{dml} methods were designed to directly improve \acl{knn} classifier effectiveness. The performance of the \ac{knn} classifier largely depends on the metric used. In Figure \ref{pseudo:knn} you can see the pseudocode for classifying an unknown sample using \ac{knn} classifier. Any metric can be used in the algorithm simply by changing the distance metric on Line \ref{pseudo:knn:dist}. Modifying the \ac{knn} algorithm to use a custom metric is trivial even for faster implementations using trees for nearest neighbour search.
 
 \begin{figure}
 \begin{algorithm}[H]
 \DontPrintSemicolon
-\LinesNumberedHidden
-\KwData{$\bm{X}$ training data, $\bm{Y}$ class labels of $\bm{X}$, $\bm{x}$ unknown sample}
+\LinesNumbered
+\KwData{set of labelled instances $\mathcal{Z}=\{\bm{z}_i=(\bm{x}_i, y_i): \bm{x}_i \in \mathcal{X}, y_i \in \mathcal{Y}\}^n_{i=1}$, where $\mathcal{X}$ are training data and $\mathcal{Y}$ are their class labels}
+\KwIn{unknown sample $\bm{x} \in \mathcal{X}$, number of neighbours $k$}
 \KwResult{class label of the unknown sample $\bm{x}$}
 \Begin{
   \For{$i\leftarrow 1$ \KwTo $m$}{
-\lnl{alg:knn:dist}    distances[i] $\leftarrow$ compute distance d($\bm{X}_i$, $\bm{x}$)\;
+    \lnl{pseudo:knn:dist} $distances[i]$ $\leftarrow$ compute distance d($\bm{z}_i$, $\bm{x}$)\;
   }
-  return majority class from $k$ lowest distances\;
+  return majority class from $k$ lowest $distances$\;
 }
-\caption{Pseudocode for k-NN classification}
-\end{algorithm}
+\end{algorithm} 
+\caption{Pseudocode for k-NN classification} \label{pseudo:knn}
 \end{figure}
 
 We have tested many methods from the \ac{dml} survey: Covariance (the original Mahalanobis distance), \ac{itml}, \ac{lmnn}, \ac{lsml}, \ac{nca}, \ac{rca}, \ac{sdml}. In our tests we found that \ac{lmnn} and \ac{nca} work well and so we focused on those. We also found a prominent method called \ac{lfda} and described in \cite{sugiyama2007dimensionality}. \Acl{dml} algorithms that are trained using evolutionary algorithms are also receiving some attention. We chose the work of \cite{fukui2013evolutionary} who uses an adaptive evolution strategy to evolve a Mahalanobis distance. In Table \ref{tab:rw:summary} you can see methods that we think are the most prominent are we are going to use those further in our experiments. In the next sections we will describe the individual \acl{dml} methods in more detail.
