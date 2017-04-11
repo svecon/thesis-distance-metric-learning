@@ -26,6 +26,9 @@
 % \setlength\headheight{0mm}
 % \let\openright=\cleardoublepage
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %% Character encoding: usually latin2, cp1250 or utf8:
 \usepackage[utf8]{inputenc}
 
@@ -46,6 +49,7 @@
 \usepackage{paralist}       % improved enumerate and itemize
 \usepackage[usenames]{xcolor}  % typesetting in color
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% User-defined packages
 \usepackage{amssymb}
 \usepackage[inline]{enumitem}
@@ -57,19 +61,17 @@
 % \usepackage{capt-of}
 % \sloppy
 
-\usepackage{textcomp}
+% http://ftp.cvut.cz/tex-archive/macros/latex/contrib/algorithm2e/doc/algorithm2e.pdf
+% https://en.wikibooks.org/wiki/LaTeX/Algorithms
+\usepackage[]{algorithm2e}
 
-\usepackage{acro}
-\include{acronyms}
 % http://ftp.cvut.cz/tex-archive/macros/latex/contrib/acro/acro_en.pdf
 % \acsetup{first-style=short}
+\usepackage{acro}
+\include{acronyms}
 
-
-% define "struts", as suggested by Claudio Beccari in
-%    a piece in TeX and TUG News, Vol. 2, 1993.
-\newcommand\Tstrut{\rule{0pt}{2.6ex}}         % = `top' strut
-\newcommand\Bstrut{\rule[-0.9ex]{0pt}{0pt}}   % = `bottom' strut
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%% Basic information on the thesis
 % Thesis title in English (exactly as in the formal assignment)
@@ -332,17 +334,33 @@ Learning Mahalanobis distance comes with two challenges. The first challenge is 
 
 As already mentioned in Chapter \ref{chap:intro}, \acl{dml} is rapidly gaining traction in the recent years and it has found many applications in many fields as discussed in Section \ref{chap:intro:applications}. The survey from \cite{bellet2013survey} is a comprehensive review of the supervised Mahalanobis distance learning methods. In the survey in addition to \textit{Linear methods} that we present here, they also review \textit{Online methods} where the metric is updated after every instance; \textit{Multi-Task methods} in which the metric is trained for multiple related tasks at once to improve performance; \textit{Nonlinear methods} where the metric is no longer linear, typically achieved by kernelization of some linear method; \textit{Local Metric methods} where multiple metrics are learnt for different parts of the space and methods for \textit{Semi-Supervised Setting} in which most of the instances do not have labels. In this work we mostly focus on the Linear metric learning methods because the rest of the categories extend these simpler methods and build on top of them.
 
-The Mahalanobis distance that was originally proposed by \cite{mahalanobis1936generalized} (Equation \ref{eq:maha:orig}) used a Covariance matrix of the data and can be looked at as a first \acl{dml} method. Since then the term Mahalanobis distance has been generalized and is now used with any \ac{psd} matrix, not just Covariance, this was discussed in more detail in Section \ref{chap:intro:mah}. This generalized Mahalanobis distance is now used in many linear \acl{dml} methods.
+Most of the research has been focused on learning a metric from labelled training instances (supervised setting), nevertheless, researchers also focus on weakly-supervised tasks, where the labels of the instances are unknown, but the information about the data comes in the form of similar and dissimilar pairs (Equations \ref{eq:similar}, \ref{eq:dissimilar}) and semi-supervised setting has received some attention as well.
 
-Most of the research has been focused on learning this metric from labelled training instances (supervised setting), however researchers also focus on weakly-supervised tasks, where the labels of the instances are unknown, but the information about the data comes in the form of similar and dissimilar pairs (Equations \ref{eq:similar}, \ref{eq:dissimilar}) and semi-supervised setting has received some attention as well.
+The Mahalanobis distance that was originally proposed by \cite{mahalanobis1936generalized} (Equation \ref{eq:maha:orig}) used a Covariance matrix of the data and can be looked at as a first \acl{dml} method, even though it is unsupervised, it still learns from the data. Since then the term Mahalanobis distance has been generalized and is now used with any \ac{psd} matrix, not just Covariance, this was discussed in more detail in Section \ref{chap:intro:mah}. This generalized Mahalanobis distance is now used in many linear \acl{dml} methods.
+
+Line \ref{alg:knn:dist}
+
+\begin{figure}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\LinesNumberedHidden
+\KwData{$\bm{X}$ training data, $\bm{Y}$ class labels of $\bm{X}$, $\bm{x}$ unknown sample}
+\KwResult{class label of the unknown sample $\bm{x}$}
+\Begin{
+  \For{$i\leftarrow 1$ \KwTo $m$}{
+\lnl{alg:knn:dist}    distances[i] $\leftarrow$ compute distance d($\bm{X}_i$, $\bm{x}$)\;
+  }
+  return majority class from $k$ lowest distances\;
+}
+\caption{Pseudocode for k-NN classification}
+\end{algorithm}
+\end{figure}
+
+We have tested many methods from the \ac{dml} survey: Covariance (the original Mahalanobis distance), \ac{itml}, \ac{lmnn}, \ac{lsml}, \ac{nca}, \ac{rca}, \ac{sdml}. In our tests we found that \ac{lmnn} and \ac{nca} work well and so we focused on those. We also found a prominent method called \ac{lfda} and described in \cite{sugiyama2007dimensionality}. \Acl{dml} algorithms that are trained using evolutionary algorithms are also receiving some attention. We chose the work of \cite{fukui2013evolutionary} who uses an adaptive evolution strategy to evolve a Mahalanobis distance. In Table \ref{tab:rw:summary} you can see methods that we think are the most prominent are we are going to use those further in our experiments. In the next sections we will describe the individual \acl{dml} methods in more detail.
 
 % Metric learning has mostly been used to improve the performance of \ac{knn} classification.
 
-- Teoretická analýza
-
-[Scalability in N and D] %TODO
-
-In this work we chose to examine the following methods:
+%TODO [Scalability in N and D] 
 
 \begin{table}[ht] \centering
 \begin{tabular}{llllll}
@@ -350,7 +368,7 @@ In this work we chose to examine the following methods:
 Name & Year & Supervision & Optimum & Regularizer & Notes \\
 \hline
 Covariance & 1936 & None & Global & None & Unsupervised \\
-MMC & 2002 & Weak & Global & None & — \\
+% MMC & 2002 & Weak & Global & None & — \\
 LMNN & 2005 & Full & Global & None & For k-NN \\
 NCA & 2004 & Full & Local & None & For k-NN \\
 LFDA & 2007 & Full & Global & None & — \\
