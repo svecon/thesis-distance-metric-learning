@@ -440,19 +440,27 @@ The objective of the \ac{nca} algorithm is to maximize the expected number of co
 The algorithm is also valid if the matrix $\bm{L}$ is chosen to be rectangular and therefore the \ac{nca} algorithm can also be used for dimensionality reduction by using the matrix $\bm{L}$ to project the original space into a lower dimensional Euclidean space.
 
 \section{Local Fisher Discriminant Analysis} \label{chap:rw:lfda}
-\acf{lfda} \cite{sugiyama2007dimensionality} \cite{fisher1936use} \cite{he2003locality}
+\acf{lfda} algorithm \citep{sugiyama2007dimensionality} is a combination of \acf{lda} method \cite{fisher1936use} and \acf{lpp} method \cite{he2003locality}. \ac{lda} works by maximizing the amount of between-class variance relative to the amount of within-class variance. This might be problem when instances from one class form more clusters because these variances are calculated globally in \ac{lda}. \ac{lfda} improves upon this by introducing locality in the between-class and within-class variances using an affinity matrix from \ac{lpp}. The affinity matrix a square matrix where $\bm{A}_{i,j} \in [0,1]$ and $\bm{A}_{i,j}$ is small when $\bm{x}_i$ and $\bm{x}_j$ are close and it is big when they are far apart. If $\forall i,j: \bm{A}_{i,j}=1$ then we get the original \ac{lda} algorithm.
+
+The within-class and between-class covariance matrices ($\widetilde{\bm{S}}^{(w)}$ and $\widetilde{\bm{S}}^{(b)}$ respectively) for \ac{lfda} are defined in Equations \ref{eq:rw:lfda:within} and \ref{eq:rw:lfda:between}. Note that the affinity matrix $\bm{A}$ is not used to weight the instances from different classes in Equations \ref{eq:rw:lfda:wwithin} and \ref{eq:rw:lfda:wbetween} because these instances should be separated irrespective of the closeness.
 
 \begin{align}
-\widetilde{\bm{S}}^{(w)} &= \frac{1}{2} \sum_{i,j=1}^n \widetilde{\bm{W}}_{i,j}^{(w)} (x_i-x_j)(x_i-x_j)^\top
+\widetilde{\bm{S}}^{(w)} &= \frac{1}{2} \sum_{i,j=1}^n \widetilde{\bm{W}}_{i,j}^{(w)} (x_i-x_j)(x_i-x_j)^\top \label{eq:rw:lfda:within}
 \\
-\widetilde{\bm{S}}^{(b)} &= \frac{1}{2} \sum_{i,j=1}^n \widetilde{\bm{W}}_{i,j}^{(b)} (x_i-x_j)(x_i-x_j)^\top
+\widetilde{\bm{S}}^{(b)} &= \frac{1}{2} \sum_{i,j=1}^n \widetilde{\bm{W}}_{i,j}^{(b)} (x_i-x_j)(x_i-x_j)^\top \label{eq:rw:lfda:between}
 \\
-\widetilde{\bm{W}}_{i,j}^{(w)} &= \twopartdef{\bm{A}_{i,j}/n_l}{y_i=y_j=l}{0}{y_i \neq y_j}
+\widetilde{\bm{W}}_{i,j}^{(w)} &= \twopartdef{\bm{A}_{i,j}/n_l}{y_i=y_j=l}{0}{y_i \neq y_j} \label{eq:rw:lfda:wwithin}
 \\
-\widetilde{\bm{W}}_{i,j}^{(b)} &= \twopartdef{\bm{A}_{i,j}(1/n-1/n_l)}{y_i=y_j=l}{1/n}{y_i \neq y_j}
-\\
-\bm{L}_{LFDA} &= \argmax_{\bm{L} \in \mathbb{R}^{d \times r}} \bigg[\tr\Big( ( \bm{L}^\top\widetilde{\bm{S}}^{(w)}\bm{L} )^{-1} \bm{L}^\top\widetilde{\bm{S}}^{(b)}\bm{L} \Big)\bigg] 
+\widetilde{\bm{W}}_{i,j}^{(b)} &= \twopartdef{\bm{A}_{i,j}(1/n-1/n_l)}{y_i=y_j=l}{1/n}{y_i \neq y_j} \label{eq:rw:lfda:wbetween}
 \end{align}
+
+The final transformation matrix $\bm{L}$ for \ac{lfda} is defined exactly the same way as for \ac{lda}, in Equation \ref{eq:rw:lfda:objective}. This matrix transforms the space so that nearby data pairs with the same class are pulled closer, the data pairs with different classes are pushed further apart and the data pairs with the same class but far away from each other in the original space are not constrained to become closer. The transformation matrix can be obtained by solving the generalized eigenvalue decomposition of the scatter matrices and the authors offer an efficient implementation.
+
+\begin{equation}
+\bm{L}_{LFDA} = \argmax_{\bm{L} \in \mathbb{R}^{d \times r}} \bigg[\tr\Big( ( \bm{L}^\top\widetilde{\bm{S}}^{(w)}\bm{L} )^{-1} \bm{L}^\top\widetilde{\bm{S}}^{(b)}\bm{L} \Big)\bigg] \label{eq:rw:lfda:objective}
+\end{equation}
+
+Both \ac{lda} and \ac{lpp} methods can be used for dimensionality reduction and so can be \ac{lfda} by restricting the matrix $\bm{L}$ to be rectangular.
 
 \section{Evolutionary distance metric learning} \label{chap:rw:fukui}
 \cite{fukui2013evolutionary}
