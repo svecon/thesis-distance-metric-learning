@@ -780,7 +780,7 @@ Similarly, from figure \ref{fig:learning-times:dimensions} we can see that \ac{j
 
 In this experiment we use \acl{dml} algorithms for dimensionality reduction into two dimensions and we compare the resulting visualisations. The same datasets, listed in Table \ref{tab:datasets}, are used in this experiments. The data are standardized as described in Section \ref{chap:exp:preprocessing}.
 
-The dataset is split to training set and test set using a 10-fold cross validation. The algorithms are trained using the training set. Then the trained algorithms are used to transform both train and test sets into two dimensions. To compare the dimensionality reduction, we fit \ac{knn} classifier using this 2-dimensional training set and calculate a success rate on the test set. Only exception to this process is \ac{tsne} algorithm, which does not offer a transformation function. Therefore, in experiments where \ac{tsne} is used, the \ac{tsne} is trained using the entire dataset. This makes the final \ac{knn} success rate biased and overly optimistic. % so all the success rates that come from \ac{tsne} method are prefixed with a tilde (\textapproxx) to further signify this.
+The dataset is split to training set and test set using a 10-fold cross validation. The algorithms are trained using the training set. Then the trained algorithms are used to transform both train and test sets into two dimensions. To compare the dimensionality reduction, we fit \ac{knn} classifier using this 2-dimensional training set and calculate a success rate on the test set. Only exception to this process is \ac{tsne} algorithm, which does not offer a transformation function (it is a transductive method). Therefore, in experiments where \ac{tsne} is used, the \ac{tsne} is trained using the entire dataset. This makes the final \ac{knn} success rate biased and overly optimistic. % so all the success rates that come from \ac{tsne} method are prefixed with a tilde (\textapproxx) to further signify this.
 
 In this experiment we compare \ac{pca} and \ac{tsne} methods with \acl{dml} methods supporting dimensionality reduction: \ac{nca}, \ac{lfda} and \ac{cmaesknn}. All these methods were described in Chapters \ref{chap:rw} and \ref{chap:dr}. We also experimented with evolving fully-connected neural networks for dimensionality reduction using \acl{cmaesknn} as discussed in Section \ref{chap:dr:nn}. We evolved six different neural networks differing in depth and their activation functions. We experimented with \ac{sigm}, \ac{tanh} and \ac{relu} activation functions, all of them explained in Section \ref{chap:dr:nn}. We tried evolving a shallow networks with one hidden layer with 4 neurons and deeper networks with five hidden layers with 16-12-8-6-4 neurons. To reduce the dimension into 2-dimensional space, all networks always end with an output layer of size 2. The shallow network therefore has $4d+8$ free parameters and the deeper network has $16d+354$ free parameters. No biases were used.
 
@@ -788,7 +788,7 @@ In this experiment we compare \ac{pca} and \ac{tsne} methods with \acl{dml} meth
 
 \subsection{Results}
 
-In Table \ref{tab:dim-error-rates} we show the error rates and standard deviations for each method on each dataset from the 10-fold cross validation. The best method for every dataset is in a bold font. Generally, \ac{cmaesknn} works very well for dimensionality reduction and also very fast because only a $d\times2$ matrix is evolved. \ac{cmaesknn} has the lowest error only on \textit{pima-indians}, however the difference between this method and the best method on each dataset is never statistically significant. \ac{tsne} works the best on large datasets, namely \textit{digits6} and \textit{digits10} and the preprocessing with \ac{cmaes} helps \ac{tsne} on the majority of the datasets. \ac{lfda} and \ac{nca} have both also very good results, but \ac{nca} runs out of memory on three datasets (marked with "Error" in the results table).
+In Table \ref{tab:dim-error-rates} we show the error rates and standard deviations for each method on each dataset from the 10-fold cross validation. The best method for every dataset is in a bold font. The best method among methods that have a transformation function (all except \ac{tsne}) is emphasized in italics. Generally, \ac{cmaesknn} works very well for dimensionality reduction and also very fast because only a $d\times2$ matrix is evolved. \ac{cmaesknn} has the lowest error only on \textit{pima-indians}, however the difference between this method and the best method on each dataset is never statistically significant. \ac{tsne} works the best on large datasets, namely \textit{digits6} and \textit{digits10} and the preprocessing with \ac{cmaes} helps \ac{tsne} on the majority of the datasets. \ac{lfda} and \ac{nca} have both also very good results, but \ac{nca} runs out of memory on three datasets (marked with "Error" in the results table).
 
 \input{results/dim-red}
 
@@ -925,8 +925,8 @@ What wasn`t finished and should be.
 \chapwithtoc{Attachments}
 
 %TODO attach this somewhere?
-% \include{results/stat-significance_classification}
-% \include{results/stat-significance_dimred}
+% \input{results/stat-significance_classification}
+% \input{results/stat-significance_dimred}
 
 \openright
 \end{document}
