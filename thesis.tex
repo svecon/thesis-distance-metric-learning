@@ -381,7 +381,7 @@ Some \acl{dml} methods were designed to directly improve \acl{knn} classifier ef
 \caption{Pseudocode for k-NN classification} \label{pseudo:knn}
 \end{figure}
 
-\section{MMC Xing} \label{chap:rw:xing}
+\section{MMC Xing method} \label{chap:rw:xing}
 The work of \cite{xing2002distance} is the first Mahalanobis distance learning algorithm leveraging some information about the data. It is a weakly supervised method that takes information in a form of pairs of similar and dissimilar instances as defined in Equations \ref{eq:similar} and \ref{eq:dissimilar}. They formulate a convex optimisation problem that tries to maximize the distance between dissimilar pairs of instances while keeping the sum of the distances between similar pairs as low as possible ($\leq 1$). The convex program is shown in Equation \ref{eq:rw:xing}.
 
 \begin{align*}
@@ -407,9 +407,9 @@ The distance metric is then learnt using the convex program defined in Equation 
 \text{s.t.} \quad & d_{\bm{M}}^2(\bm{x}_i,\bm{x}_k) - d_{\bm{M}}^2(\bm{x}_i,\bm{x}_j) \geq 1 - \xi_{ijk} \quad \forall(\bm{x}_i,\bm{x}_j,\bm{x}_k) \in \mathcal{R} \numberthis \label{eq:rw:lmnn}
 \end{align*}
 
-The Figure @REF illustrates how the \ac{lmnn} algorithm works. The left diagram shows neighbourhood of the points before training and the right diagram after training. The distance metric is optimized so that the points lie inside of a smaller neighbourhood, while the instances with a different label are pushed outside of this neighbourhood.
+The Figure \ref{fig:rw:lmnn} illustrates how the \ac{lmnn} algorithm works. The left diagram shows neighbourhood of the points before training and the right diagram after training. The distance metric is optimized so that the points lie inside of a smaller neighbourhood, while the instances with different classes are pushed outside of this neighbourhood.
 
-%TODO add image from LMNN paper (sketch!)
+\cenfig{graphs/lmnn}{LMNN algorithm illustration before and after training}{fig:rw:lmnn}
 
 % \section{Information Theoretic Metric Learning (ITML)} \label{chap:rw:itml}
 % \cite{davis2007information}
@@ -423,8 +423,8 @@ The Figure @REF illustrates how the \ac{lmnn} algorithm works. The left diagram 
 % \section{Relative Components Analysis (RCA)} \label{chap:rw:rca}
 % \cite{shental2002adjustment}
 
-\section{Neighborhood Components Analysis (NCA)} \label{chap:rw:nca}
-\cite{jacobgoldberger2004neighbourhood}
+\section{Neighborhood Components Analysis} \label{chap:rw:nca}
+\acf{nca} \cite{jacobgoldberger2004neighbourhood}
 
 \begin{align}
 p_{ij} &= \frac{ \exp(-\lVert \bm{L}x_i-\bm{L}x_j \rVert_2^2) }{ \sum_{l \neq i} \exp(-\lVert \bm{L}x_i-\bm{L}x_l \rVert_2^2) }, p_{ii}=0
@@ -436,8 +436,8 @@ p_i &= \sum_{j:y_j=y_i} p_{ij}
 \bm{L}_{NCA} &= \argmax_{\bm{L} \in \mathbb{R}^{d \times r}} \bigg( \sum_{i=1}^n \sum_{j:y_j=y_i} p_{ij}(\bm{L}\bm{L}^\top) \bigg)
 \end{align}
 
-\section{Local Fisher Discriminant Analysis (LFDA)} \label{chap:rw:lfda}
-\cite{sugiyama2007dimensionality}
+\section{Local Fisher Discriminant Analysis} \label{chap:rw:lfda}
+\acf{lfda} \cite{sugiyama2007dimensionality} \cite{fisher1936use} \cite{he2003locality}
 
 \begin{align}
 \widetilde{\bm{S}}^{(w)} &= \frac{1}{2} \sum_{i,j=1}^n \widetilde{\bm{W}}_{i,j}^{(w)} (x_i-x_j)(x_i-x_j)^\top
