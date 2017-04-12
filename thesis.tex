@@ -424,17 +424,20 @@ The Figure \ref{fig:rw:lmnn} illustrates how the \ac{lmnn} algorithm works. The 
 % \cite{shental2002adjustment}
 
 \section{Neighborhood Components Analysis} \label{chap:rw:nca}
-\acf{nca} \cite{jacobgoldberger2004neighbourhood}
+\cite{jacobgoldberger2004neighbourhood} proposed another method designed to improve the performance of the \ac{knn} classifier called \acf{nca}. The algorithm works by calculating the leave-one-out error for a stochastic version of the \ac{knn} classifier which uses Mahalanobis distance. Instead of searching for $k$-nearest neighbours, it uses a softmax probability distribution, defined in Equation \ref{eq:rw:nca:softmax}, which is used to weigh all the neighbours while favouring the closer ones. Note that the hyperparameter $k$ is no longer needed in this stochastic setting.
 
-\begin{align}
-p_{ij} &= \frac{ \exp(-\lVert \bm{L}x_i-\bm{L}x_j \rVert_2^2) }{ \sum_{l \neq i} \exp(-\lVert \bm{L}x_i-\bm{L}x_l \rVert_2^2) }, p_{ii}=0
-\\
-p_i &= \sum_{j:y_j=y_i} p_{ij}
-\\
-\max_{\bm{L}} & \sum_i p_i
-\\
-\bm{L}_{NCA} &= \argmax_{\bm{L} \in \mathbb{R}^{d \times r}} \bigg( \sum_{i=1}^n \sum_{j:y_j=y_i} p_{ij}(\bm{L}\bm{L}^\top) \bigg)
-\end{align}
+\begin{equation}
+p_{ij} = \frac{ \exp(-\lVert \bm{L}x_i-\bm{L}x_j \rVert_2^2) }{ \sum_{l \neq i} \exp(-\lVert \bm{L}x_i-\bm{L}x_l \rVert_2^2) }, p_{ii}=0 \label{eq:rw:nca:softmax}
+\end{equation}
+
+The objective of the \ac{nca} algorithm is to maximize the expected number of correctly classified points, defined in Equation \ref{eq:rw:nca:objective}. Thanks to the stochastic definition of the neighbour search, this function is continuous and differentiable. Therefore a gradient descend algorithm can be used to optimize it. The main disadvantage of this method is that the objective function is non-convex and therefore \ac{nca} optimization can suffer from local minima and the performance depends on the initialization of the matrix $\bm{L}$. 
+
+\begin{equation}
+\max_{\bm{L}} \sum_i \sum_{j:y_j=y_i} p_{ij} \label{eq:rw:nca:objective}
+\end{equation}
+% \bm{L}_{NCA} &= \argmax_{\bm{L} \in \mathbb{R}^{d \times r}} \bigg( \sum_{i=1}^n \sum_{j:y_j=y_i} p_{ij}(\bm{L}\bm{L}^\top) \bigg)
+
+The algorithm is also valid if the matrix $\bm{L}$ is chosen to be rectangular and therefore the \ac{nca} algorithm can also be used for dimensionality reduction by using the matrix $\bm{L}$ to project the original space into a lower dimensional Euclidean space.
 
 \section{Local Fisher Discriminant Analysis} \label{chap:rw:lfda}
 \acf{lfda} \cite{sugiyama2007dimensionality} \cite{fisher1936use} \cite{he2003locality}
