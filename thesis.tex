@@ -463,7 +463,42 @@ The final transformation matrix $\bm{L}$ for \ac{lfda} is defined exactly the sa
 Both \ac{lda} and \ac{lpp} methods can be used for dimensionality reduction and so can be \ac{lfda} by restricting the matrix $\bm{L}$ to be rectangular.
 
 \section{Evolutionary distance metric learning} \label{chap:rw:fukui}
-\cite{fukui2013evolutionary}
+
+%TODO what is the difference between Differential Evolution and Evolution Strategy? DE vs ES???
+
+%TODO DE, ES as acronyms??!
+The work of \cite{fukui2013evolutionary} takes a different approach to learning Mahalanobis distance. They use a Differential Evolution strategy in which they encode the Mahalanobis matrix into an individual. The matrix is symmetric and therefore they encode it as a real valued vector of length $d(d+1)/2$. The Differential Evolution is a special case of an Evolution algorithm which is a stochastic, population based algorithm that tries to optimize a real-valued objective function with many parameters. The objective function is typically non-differentiable and non-continuous. A typical schema of the evolution algorithm is shown in Figure \ref{fig:rw:ea:schema}: a population of individuals is randomly initiated and evaluated using the objective (fitness) function. Then the algorithm breeds new individuals through mutation and cross-over, the individuals are evaluated and a new population of the individuals is selected. This whole process is repeated until some termination rule is met. The Differential Evolution has a special type of mutation and cross-over operations. The pseudocode for Differential Evolution is shown in Figure \ref{pseudo:de}. The DE algorithm has two hyperparameters apart from the size of the population: crossover probability $CR$ and differential weight $F$. The DE can be very sensitive to the choice of these two hyperparameters. \cite{fukui2013evolutionary} uses an improved version of the Differential Evolution called \acf{jde} \citep{brest2006self}, which encodes the hyperparameters $CR$ and $F$ inside of every individual and therefore \ac{jde} does not need these two hyperparameters to be specified.
+
+%TODO add figure: evolution algorithm schema!!
+% http://ktiml.mff.cuni.cz/~neruda/eva1-16en.pdf [schema]
+
+%TODO https://en.wikipedia.org/wiki/CMA-ES
+%TODO https://en.wikipedia.org/wiki/Evolutionary_algorithm
+%TODO https://en.wikipedia.org/wiki/Differential_evolution
+%TODO https://www.quora.com/What-is-the-difference-between-Genetic-algorithm-and-differential-evolution
+%TODO http://www.maths.uq.edu.au/MASCOS/Multi-Agent04/Fleetwood.pdf
+
+\begin{figure}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\LinesNumbered
+\KwIn{fitness function $f$, crossover probability $CR \in [0,1]$, differential weight $F \in [0,2]$}
+\KwResult{individual $\bm{x}$ that maximizes $f$}
+Initialize all agents with random positions in the search-space.\;
+\Repeat{a termination criterion is met}{
+  \For{each agent $\bm{x}$ in the population}{
+    Pick distinct agents $\bm{a}, \bm{b}$, $\bm{c}$ from the population at random\;
+    Pick a random index $R \in \{1,\ldots ,n\}$\;
+    \For{$i\leftarrow 1$ \KwTo $n$}{
+      \lIf{$rand()\equiv U(0,1) \leq CR$ or $i = R $}{$\bm{y}_i=\bm{a}_{i}+F\times (\bm{b}_{i}-\bm{c}_{i})$}
+      \lElse{$\bm{y}_{i}=\bm{x}_{i}$}
+    }
+    \lIf{$f(\bm{y})<f(\bm{x})$}{replace $\bm{x}$ with $\bm{y}$ in the population}
+  }
+}
+\end{algorithm} 
+\caption{Pseudocode for Differential Evolution algorithm} \label{pseudo:de}
+\end{figure}
 
 %TODO validity measures
 %http://www.cs.kent.edu/~jin/DM08/ClusterValidation.pdf
@@ -517,6 +552,10 @@ CMAES + kNN
 full matrix, diagonal matrix, neural network shape
 
 k-Means for dimensionality reduction
+
+% http://math.stackexchange.com/questions/158219/is-a-matrix-multiplied-with-its-transpose-something-special
+% Moreover if AA is regular, then AATAAT is also positive definite, since
+xTAATx=(ATx)T(ATx)>0
 
 \section{CMA-ES strategy} \label{alg:cmaes}
 
@@ -901,6 +940,8 @@ What wasn`t finished and should be.
 - neural network shape for classification??
 
 - add more values to fitness (multi-objective optimisation)
+
+- compare evolving only a triangular matrix! (generalization? performance?)
 
 - ...
 
