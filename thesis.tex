@@ -466,11 +466,11 @@ Both \ac{lda} and \ac{lpp} methods can be used for dimensionality reduction and 
 
 %TODO what is the difference between Differential Evolution and Evolution Strategy? DE vs ES???
 
-%TODO DE, ES as acronyms??!
-The work of \cite{fukui2013evolutionary} takes a different approach to learning Mahalanobis distance. They use a Differential Evolution strategy in which they encode the Mahalanobis matrix into an individual. The matrix is symmetric and therefore they encode it as a real valued vector of length $d(d+1)/2$. The Differential Evolution is a special case of an Evolution algorithm which is a stochastic, population based algorithm that tries to optimize a real-valued objective function with many parameters. The objective function is typically non-differentiable and non-continuous. A typical schema of the evolution algorithm is shown in Figure \ref{fig:rw:ea:schema}: a population of individuals is randomly initiated and evaluated using the objective (fitness) function. Then the algorithm breeds new individuals through mutation and cross-over, the individuals are evaluated and a new population of the individuals is selected. This whole process is repeated until some termination rule is met. The Differential Evolution has a special type of mutation and cross-over operations. The pseudocode for Differential Evolution is shown in Figure \ref{pseudo:de}. The DE algorithm has two hyperparameters apart from the size of the population: crossover probability $CR$ and differential weight $F$. The DE can be very sensitive to the choice of these two hyperparameters. \cite{fukui2013evolutionary} uses an improved version of the Differential Evolution called \acf{jde} \citep{brest2006self}, which encodes the hyperparameters $CR$ and $F$ inside of every individual and therefore \ac{jde} does not need these two hyperparameters to be specified.
+The work of \cite{fukui2013evolutionary} takes a different approach to learning a Mahalanobis distance. They use a \acl{de} in which they encode the Mahalanobis matrix into an individual. The matrix is symmetric and therefore they encode it as a real-valued vector of length $d(d+1)/2$. \Acl{de} is a special case of an \ac{ea} which is a stochastic, population based algorithm that tries to optimize a real-valued objective function with many parameters. The \ac{ea} is typically used when the objective function is non-differentiable and non-continuous. A typical schema of an \ac{ea} is shown in Figure \ref{fig:rw:ea:schema}: a population of individuals is randomly initiated and evaluated using the objective (fitness) function. Then the algorithm breeds new individuals through mutation and crossover, the individuals are evaluated and a new population of the individuals is selected. This whole process is repeated until some termination rule is met.
 
-%TODO add figure: evolution algorithm schema!!
-% http://ktiml.mff.cuni.cz/~neruda/eva1-16en.pdf [schema]
+\Ac{de} is a special type of an evolutionary algorithm that has a special type of mutation and crossover operations. The pseudocode for \ac{de} is shown in Figure \ref{pseudo:de}. It follows the schema from Figure \ref{fig:rw:ea:schema} and the special crossover operation is defined on Line \ref{pseudo:de:mut}, where three different individuals are combined to create a new one. \ac{de} algorithm has two hyperparameters apart from the size of the population: crossover probability $CR$ and differential weight $F$. \ac{de} algorithm can be very sensitive to the choice of these two hyperparameters. \cite{fukui2013evolutionary} uses an improved version of \ac{de} called \acf{jde} \citep{brest2006self}, which encodes the hyperparameters $CR$ and $F$ inside of every single individual. When a new individual is bred using the mutation and crossover, the $CR$ and $F$ parameters from the parent individual are used. Therefore these two hyperparameters do not need to be specified (or guessed) for \ac{jde} and the algorithm itself is more robust.
+
+\cenfig{graphs/ea_scheme}{Scheme of an evolutionary algorithm}{fig:rw:ea:schema}
 
 %TODO https://en.wikipedia.org/wiki/CMA-ES
 %TODO https://en.wikipedia.org/wiki/Evolutionary_algorithm
@@ -490,8 +490,8 @@ Initialize all agents with random positions in the search-space.\;
     Pick distinct agents $\bm{a}, \bm{b}$, $\bm{c}$ from the population at random\;
     Pick a random index $R \in \{1,\ldots ,n\}$\;
     \For{$i\leftarrow 1$ \KwTo $n$}{
-      \lIf{$rand()\equiv U(0,1) \leq CR$ or $i = R $}{$\bm{y}_i=\bm{a}_{i}+F\times (\bm{b}_{i}-\bm{c}_{i})$}
-      \lElse{$\bm{y}_{i}=\bm{x}_{i}$}
+      \eIf{$rand()\equiv U(0,1) \leq CR$ or $i = R $}{$\bm{y}_i=\bm{a}_{i}+F\times (\bm{b}_{i}-\bm{c}_{i})$ \label{pseudo:de:mut}}
+      {$\bm{y}_{i}=\bm{x}_{i}$}
     }
     \lIf{$f(\bm{y})<f(\bm{x})$}{replace $\bm{x}$ with $\bm{y}$ in the population}
   }
