@@ -509,22 +509,26 @@ d_{i,j}^{repair} = \frac{m_{i,j}}{\sum_j \abs{m_{i,j}}}, \; (i \neq j)
 
 The authors wanted to improve clustering algorithms using their algorithm and so they used the external clustering indexes as the fitness function in their \acl{ea}. External clustering indexes, compared to internal clustering indexes, use the class labels of the data for the evaluation. In their work they use Purity, \ac{fme} and Entropy. Authors also use a so called "neighbour relation" to improve the performance of the indexes by incorporating a weighted function inside of the indexes. 
 
-The \acl{fme} index performed the best in their experimental results and so we chose to further experiment with only this index. \acl{fme} is a harmonic mean of the precision and recall.
-
-%TODO validity measures
-%http://www.cs.kent.edu/~jin/DM08/ClusterValidation.pdf
+The \acl{fme} index performed the best in their experimental results and so we chose to further experiment with this index only. \acl{fme} is a harmonic mean of the precision and recall. All these are defined in Equation \ref{eq:rw:fme} where $C$ is a cluster set, $Y$ are class labels, $N_{s,i}$ is number of data points with class $s \in Y$ and in $i^{th}$ cluster, $y(k)$ and $c(k)$ denote the class/cluster assignment for $x_k$.
 
 \begin{align*}
-wFme(C) &= \sum_{s \ in T} \frac{N_s}{N} \max_{C_i \in C} F(s,C_i) \\
-F(s,C_i) &= \frac{2 \cdot Prec(s,C_i) \cdot Rec(s, C_i)}{Prec(s,C_i) + Rec(s, C_i)} \\
+Fme(s,C_i) &= \frac{2 \cdot Prec(s,C_i) \cdot Rec(s, C_i)}{Prec(s,C_i) + Rec(s, C_i)} \\
+Prec(s,C_i) &= N_{s,i}/N_i \\
+Rec(s,C_i) &= N_{s,i}/N_s \\
+N_{s,i} &= \#\{x_k | y(k)=s, c(k)=C_i\} \\
+N_s &= \#\{x_k | y(k)=s \in Y\} \\
+N_i &= \#\{x_k | c(k)=C_i\} \numberthis \label{eq:rw:fme}
+\end{align*}
+
+In Equation \ref{eq:rw:wfme} we can see the weighted versions of the previous definitions. $h_{i,j}$ can be any monotonically decreasing function, the authors used Gaussian function $h_{i,j}=\exp(-r_{i,j}/\sigma)$, where $r_{i,j}$ is inter-cluster distance between $C_i$ and $C_j$, and $\sigma$ is a smoothing radius.
+
+\begin{align*}
+wFme(C) &= \sum_{s \in Y} \frac{N_s}{N} \max_{C_i \in C} Fme(s,C_i) \\
 Prec(s,C_i) &= \widetilde{N}_{s,i}/\widetilde{N}_i \\
 Rec(s,C_i) &= \widetilde{N}_{s,i}/N_s \\
-N_{s,i} &= \#\{x_k | t(k)=s, c(k)=C_i\} \\
-N_s &= \#\{x_k | t(k)=s \in T\} \\
-N_i &= \#\{x_k | c(k)=C_i\} \\
-\widetilde{N}_{s,i} &= \sum_{C_j in C} h_{i,j}N_{s,j} \\
-\widetilde{N}_i &= \sum_{s\in T}\widetilde{N}_{s,i}=\sum_{s\in T}\sum_{C_j \in C} h_{i,j}N_{s,j} \\
-\widetilde{N} &= \sum_{C_i \in C}\widetilde{N}_i = \sum_{C_i \in C}\sum_{s\in T}\sum_{C_j \in C} h_{i,j}N_{s,j} \\
+\widetilde{N}_{s,i} &= \sum_{C_j \in C} h_{i,j}N_{s,j} \\
+\widetilde{N}_i &= \sum_{s\in Y}\widetilde{N}_{s,i}=\sum_{s\in Y}\sum_{C_j \in C} h_{i,j}N_{s,j} \\
+\widetilde{N} &= \sum_{C_i \in C}\widetilde{N}_i = \sum_{C_i \in C}\sum_{s\in Y}\sum_{C_j \in C} h_{i,j}N_{s,j} \numberthis \label{eq:rw:wfme}
 \end{align*}
 
 \section{Dimensionality Reduction}
