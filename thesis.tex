@@ -466,11 +466,21 @@ Both \ac{lda} and \ac{lpp} methods can be used for dimensionality reduction and 
 
 %TODO what is the difference between Differential Evolution and Evolution Strategy? DE vs ES???
 
-The work of \cite{fukui2013evolutionary} takes a different approach to learning a Mahalanobis distance. They use a \acl{de} in which they encode the Mahalanobis matrix into an individual. The matrix is symmetric and therefore they encode it as a real-valued vector of length $d(d+1)/2$. \Acl{de} is a special case of an \ac{ea} which is a stochastic, population based algorithm that tries to optimize a real-valued objective function with many parameters. The \ac{ea} is typically used when the objective function is non-differentiable and non-continuous. A typical schema of an \ac{ea} is shown in Figure \ref{fig:rw:ea:schema}: a population of individuals is randomly initiated and evaluated using the objective (fitness) function. Then the algorithm breeds new individuals through mutation and crossover, the individuals are evaluated and a new population of the individuals is selected. This whole process is repeated until some termination rule is met.
+\Acl{dml} paired together with \acp{ea} has been getting more attention recently. For example the work of \cite{koloseni2012optimized} uses \ac{ea} to select the best possible metric out of a predefined list to improve a classification error. The work of \cite{fukui2013evolutionary} also uses \ac{ea}, but taking a different approach and instead of choosing a metric from a predefined list, they try to evolve a Mahalanobis distance matrix. \Acl{de} is used in which an individual encodes the Mahalanobis matrix, which is symmetric and so it can be encoded as a real-valued vector of length $d(d+1)/2$. \Acl{de} is a special case of an \ac{ea} which is a stochastic, population based algorithm that tries to optimize a real-valued objective function with many parameters. The \ac{ea} is typically used when the objective function is non-differentiable and non-continuous. A typical schema of an \ac{ea} is shown in Figure \ref{fig:rw:ea:schema}: a population of individuals is randomly initiated and evaluated using the objective (fitness) function. Then the algorithm breeds new individuals through mutation and crossover, the individuals are evaluated and a new population of the individuals is selected. This whole process is repeated until some termination rule is met.
 
 \Ac{de} is a special type of an evolutionary algorithm that has a special type of mutation and crossover operations. The pseudocode for \ac{de} is shown in Figure \ref{pseudo:de}. It follows the schema from Figure \ref{fig:rw:ea:schema} and the special crossover operation is defined on Line \ref{pseudo:de:mut}, where three different individuals are combined to create a new one. \ac{de} algorithm has two hyperparameters apart from the size of the population: crossover probability $CR$ and differential weight $F$. \ac{de} algorithm can be very sensitive to the choice of these two hyperparameters. \cite{fukui2013evolutionary} uses an improved version of \ac{de} called \acf{jde} \citep{brest2006self}, which encodes the hyperparameters $CR$ and $F$ inside of every single individual. When a new individual is bred using the mutation and crossover, the $CR$ and $F$ parameters from the parent individual are used. Therefore these two hyperparameters do not need to be specified (or guessed) for \ac{jde} and the algorithm itself is more robust.
 
 \cenfig{graphs/ea_scheme}{Scheme of an evolutionary algorithm}{fig:rw:ea:schema}
+
+To ensure that the evolved matrix is \ac{psd} during the evolution, the authors "repair" the matrix so that it is diagonally dominant using a rule defined in Equation \ref{eq:rw:jde:repair}. Diagonally dominant matrix with positive diagonal elements is \ac{psd}.
+
+\begin{equation}
+d_{i,j}^{repair} = \frac{m_{i,j}}{\sum_j \abs{m_{i,j}}}, \; (i \neq j)
+\label{eq:rw:jde:repair}
+\end{equation}
+
+The authors wanted to improve clustering algorithms using their algorithm and so they used the external clustering indexes as the fitness function in their \acl{ea}. External clustering indexes, compared to internal clustering indexes, use the class labels of the data for the evaluation. In their work they use Purity, \ac{fme} and Entropy. Authors also use a so called "neighbour relation" to improve the performance of the indexes by incorporating a weighted function inside of the indexes. 
+
 
 %TODO https://en.wikipedia.org/wiki/CMA-ES
 %TODO https://en.wikipedia.org/wiki/Evolutionary_algorithm
@@ -503,19 +513,6 @@ Initialize all agents with random positions in the search-space.\;
 %TODO validity measures
 %http://www.cs.kent.edu/~jin/DM08/ClusterValidation.pdf
 % internal (cohesion, separation, silhouette coeficient), external (entropy, purity), ...
-
-\subsection{Evolution strategies} \label{chap:intro:es} \label{alg:jde}
-Quick intro
-
-Describe EAs, ... crossover, mutation, selection (+schema)
-
-\subsection{jDE} 
-move to related work
-
-TODO podkapitola na jDE s log populaci
-jDE ma vetsi vypocetni silu diky vetsim generacim
-->> dat stejnou vypocetni silu
-
 
 \section{Dimensionality Reduction}
 
@@ -771,7 +768,7 @@ Next we look at the hyperparameters of the individual methods shown in figure \r
 
 \section{Experiment: Generalization of EAs} \label{chap:exp:fitness}
 
-To test out how well do solutions from evolution algorithms evolve and generalize we performed another series of tests. Using \ac{cmaes} and \ac{jde} evolution strategies described in sections \ref{alg:cmaes} and \ref{alg:jde}, combined with \ac{knn} and \ac{fme} fitnesses described in Sections \ref{alg:knn} and \ref{chap:rw:fukui} respectively. Both strategies with both fitnesses were tested, giving us 4 different algorithms: \ac{cmaesknn}, \ac{cmaesfme}, \ac{jdeknn} and \ac{jdefme}. Both full and diagonal Mahalanobis matrices were experimented on during this experiment, totalling to 8 different models.
+To test out how well do solutions from evolution algorithms evolve and generalize we performed another series of tests. Using \ac{cmaes} and \ac{jde} evolution strategies described in sections \ref{alg:cmaes} and \ref{chap:rw:fukui}, combined with \ac{knn} and \ac{fme} fitnesses described in Sections \ref{alg:knn} and \ref{chap:rw:fukui} respectively. Both strategies with both fitnesses were tested, giving us 4 different algorithms: \ac{cmaesknn}, \ac{cmaesfme}, \ac{jdeknn} and \ac{jdefme}. Both full and diagonal Mahalanobis matrices were experimented on during this experiment, totalling to 8 different models.
 
 All methods have some hyperparameters and in order to avoid the time consuming hyperparameter search, the hyperparameters for the models in this experiment were picked according to results from the previous experiment in section \ref{chap:exp:classification}. Only one set of hyperparameters was picked for all datasets. The number of nearest neighbours in the \ac{knn} classifier used in the fitness function was chosen to be 8 and the number of nearest neighbours in the final \ac{knn} classifier was set to 4. All methods were evolved for a full thousand generations.
 
@@ -804,6 +801,29 @@ Now let's have a look at the methods with the \ac{fme} fitness function. The fit
 \cenfig{graphs/fitness/sonar}{Fitness evolution and generalization on `sonar` dataset}{fig:fitness:sonar}
 \cenfig{graphs/fitness/wine}{Fitness evolution and generalization on `wine` dataset}{fig:fitness:wine}
 
+\section{Experiment: jDE with log population}
+In our previous experiments for classification we used a different population sizes for \ac{cmaes} and \ac{jde} algorithms, $4+3\log{d^2}$ and $10d^2$ respectively ($d$ is the dimensionality of the problem and a full matrix was evolved). These population sizes for \ac{cmaes} and \ac{jde} are suggested in \cite{hansen2001completely} and \cite{brest2006self}. The size of the population directly translates into the performance of the \acl{ea}. \ac{ea} with a bigger population has much better exploration capabilities and is more robust.
+
+In the previous experiments in Sections \ref{chap:exp:classification}, \ref{chap:exp:fitness}, we showed that \ac{cmaes} performs better compared to \ac{jde} algorithm \cite{fukui2013evolutionary} even with this imbalance in the population sizes. Main drawback of a bigger population are increased computational needs, especially when the evaluation of the fitness function is expensive.
+
+In this experiment we test whether such a large population for \ac{jde} is necessary and so the generalization performance of the \ac{jde} algorithm with both population sizes, $4+3\log{d^2}$ and $10d^2$, is tested. The setting of this experiment is the same as the experiment in Section \ref{chap:exp:fitness}.
+
+\subsection{Results}
+
+In Figures \ref{fig:fitnesslogjde:digits10}-\ref{fig:fitnesslogjde:wine} we can see the same graphs, as in the previous experiment. Each figure shows minimal, mean and maximal fitnesses for each generation and also test success rates using best and worst individual in each generation. We chose to show only these datasets where the differences between the population sizes are the most prominent. It is clear that the generalization of the \ac{jde} with a logarithmic population size is not as good. From the figures we can see that even the space exploration is not as good as with linear population: the maximal and median fitness values are lower overall in all these datasets.
+
+We conclude that the population size has a big influence on the performance of the \acl{ea}. \ac{jde} with logarithmic population size performs much worse on some datasets than the same algorithm with a population size linear to the dimensionality of the individuals. However, \ac{cmaes} with logarithmic population beats \ac{jde} even with a linear population as we could see in the previous experiment.
+
+%\cenfig{graphs/fitnesslogjde/balance-scale}{jDE with linear and log population size on `balance-scale` dataset}{fig:fitnesslogjde:balance-scale}
+%\cenfig{graphs/fitnesslogjde/breast-cancer}{jDE with linear and log population size on `breast-cancer` dataset}{fig:fitnesslogjde:breast-cancer}
+%\cenfig{graphs/fitnesslogjde/digits6}{jDE with linear and log population size on `digits6` dataset}{fig:fitnesslogjde:digits6}
+\cenfig{graphs/fitnesslogjde/digits10}{jDE with linear and log population size on `digits10` dataset}{fig:fitnesslogjde:digits10}
+\cenfig{graphs/fitnesslogjde/gaussians}{jDE with linear and log population size on `gaussians` dataset}{fig:fitnesslogjde:gaussians}
+%%\cenfig{graphs/fitnesslogjde/iris}{jDE with linear and log population size on `iris` dataset}{fig:fitnesslogjde:iris}
+\cenfig{graphs/fitnesslogjde/mice-protein}{jDE with linear and log population size on `mice-protein` dataset}{fig:fitnesslogjde:mice-protein}
+%\cenfig{graphs/fitnesslogjde/pima-indians}{jDE with linear and log population size on `pima-indians` dataset}{fig:fitnesslogjde:pima-indians}
+%%\cenfig{graphs/fitnesslogjde/sonar}{jDE with linear and log population size on `sonar` dataset}{fig:fitnesslogjde:sonar}
+\cenfig{graphs/fitnesslogjde/wine}{jDE with linear and log population size on `wine` dataset}{fig:fitnesslogjde:wine}
 
 \section{Experiment: Learning time} \label{chap:exp:learning-times}
 
@@ -813,7 +833,7 @@ In this experiment we measured the learning times of all the methods from previo
 
 \subsection{Results}
 
-The results are in table \ref{tab:learning-times} where the learning times shown are averaged across all 10 runs. Calculating the Covariance metric is the fastest, closely followed by \ac{lfda} algorithm. Some of the datasets were so small that these two methods would take a less than a hundredth of a second. On the other hand, \ac{lmnn} and \ac{nca} metrics and all the evolution metrics take a lot of time to learn. Generally, \ac{jde} evolution strategy should be much faster compared to \ac{cmaes} strategy because calculating a covariance matrix inside \ac{cmaes} is expensive, however the \ac{jde} needs a much bigger population and the fitness evaluation is very expensive in our case as discussed in Section \ref{alg:jde}. Therefore, \ac{jde} is clearly much slower compared to \ac{cmaes} strategy in the results table. It is also clear that the \ac{fme} fitness is much slower compared to \ac{knn} fitness as discussed in \ref{alg:knn} when we compare \ac{cmaesknn} with \ac{cmaesfme} and \ac{jdeknn} with \ac{jdefme}. This makes the method \ac{jdefme} described in Section \ref{chap:rw:fukui} the slowest method in all of our benchmarked methods and is even several times slower than \ac{nca} algorithm. The \ac{cmaesknn} performs comparable to \ac{lmnn} in terms of learning time. The restricted versions of the evolutionary algorithms to a diagonal transformation matrix learn much faster thanks to smaller individuals which directly encode the Mahalanobis matrix and also the smaller populations as also discussed in \ref{alg:cmaes}. What is important to note, however, is that differences between learning a full and a diagonal matrices using \ac{cmaes} are much smaller than the differences between learning a full and a diagonal matrices using \ac{jde} algorithm, where for \ac{cmaes} the difference is about 2 times, but for \ac{jde} the difference is much more significant, even 10 times slower on some datasets.
+The results are in table \ref{tab:learning-times} where the learning times shown are averaged across all 10 runs. Calculating the Covariance metric is the fastest, closely followed by \ac{lfda} algorithm. Some of the datasets were so small that these two methods would take a less than a hundredth of a second. On the other hand, \ac{lmnn} and \ac{nca} metrics and all the evolution metrics take a lot of time to learn. Generally, \ac{jde} evolution strategy should be much faster compared to \ac{cmaes} strategy because calculating a covariance matrix inside \ac{cmaes} is expensive, however the \ac{jde} needs a much bigger population and the fitness evaluation is very expensive in our case as discussed in Section \ref{chap:rw:fukui}. Therefore, \ac{jde} is clearly much slower compared to \ac{cmaes} strategy in the results table. It is also clear that the \ac{fme} fitness is much slower compared to \ac{knn} fitness as discussed in \ref{alg:knn} when we compare \ac{cmaesknn} with \ac{cmaesfme} and \ac{jdeknn} with \ac{jdefme}. This makes the method \ac{jdefme} described in Section \ref{chap:rw:fukui} the slowest method in all of our benchmarked methods and is even several times slower than \ac{nca} algorithm. The \ac{cmaesknn} performs comparable to \ac{lmnn} in terms of learning time. The restricted versions of the evolutionary algorithms to a diagonal transformation matrix learn much faster thanks to smaller individuals which directly encode the Mahalanobis matrix and also the smaller populations as also discussed in \ref{alg:cmaes}. What is important to note, however, is that differences between learning a full and a diagonal matrices using \ac{cmaes} are much smaller than the differences between learning a full and a diagonal matrices using \ac{jde} algorithm, where for \ac{cmaes} the difference is about 2 times, but for \ac{jde} the difference is much more significant, even 10 times slower on some datasets.
 
 \input{results/learning-times}
 
@@ -831,6 +851,8 @@ Similarly, from figure \ref{fig:learning-times:dimensions} we can see that \ac{j
 
 
 \section{Experiment: Dimensionality reduction} \label{chap:exp:dimred}
+
+%TODO visualise learnt transformation? PCA vs CMAES vs LFDA vs NCA
 
 In this experiment we use \acl{dml} algorithms for dimensionality reduction into two dimensions and we compare the resulting visualisations. The same datasets, listed in Table \ref{tab:datasets}, are used in this experiments. The data are standardized as described in Section \ref{chap:exp:preprocessing}.
 
