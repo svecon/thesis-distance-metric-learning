@@ -535,11 +535,15 @@ After certain number of generations of the evolution algorithm, the individual w
 
 \section{Dimensionality Reduction}
 
-Metric learning can also be used for dimensionality reduction as discussed in mentioned in Section \ref{chap:intro}. This experiment was focused on dimensionality reduction into two dimensions where it is easy to visualise the data.
+Metric learning can also be used for dimensionality reduction as already discussed in Section \ref{chap:intro}. In this work we mainly focus on dimensionality reduction into two dimensions where it is easy to visualise the data.
 
-One of the most common and the simplest unsupervised dimensionality reduction method is \ac{pca} \citep{jolliffe2002principal}. \ac{pca} picks the dimensions of the data with the highest variance. This corresponds to finding the eigenvalues and eigenvectors of the covariance matrix, the eigenvectors with the largest eigenvalues correspond to the dimensions that have the strongest correlation in the dataset.
+One of the most common and the simplest unsupervised dimensionality reduction method is \ac{pca} \citep{jolliffe2002principal}. \ac{pca} performs an orthogonal linear transformation of the data so that the greatest variance by some projection of the data lies on the first coordinate ("first principal component"), the second greatest variance on the second coordinate, and so on. These projections can be found by calculating the eigenvalues and eigenvectors of the covariance matrix, the eigenvectors with the largest eigenvalues correspond to the dimensions that have the strongest correlation in the dataset. The first principal component can be obtained by solving Equation \ref{eq:rw:pca}, it can be shown that the solution is the eigenvector of $\bm{X}^\top\bm{X}$ corresponding to its biggest eigenvalue.
 
-[Is Covariance Mahalanobis === PCA??]
+\begin{equation} 
+\bm{w}_{(1)} = \argmax_{||\bm{w}||=1} \bm{w}^\top\bm{X}^\top\bm{X}\bm{w} \label{eq:rw:pca}
+\end{equation}
+
+If all principal components are found and the \ac{pca} is used to transform the data while keeping all the components (not performing dimensionality reduction), then the Euclidean distances between the samples in the new \ac{pca}-transformed space will equal their Mahalanobis distances in the observed-variable space.
 
 LFDA uses the same trick for dimensionality reduction, it calculates the metric matrix and then picks the columns of this matrix with the largest corresponding eigenvalues.
 
