@@ -535,7 +535,7 @@ After certain number of generations of the evolution algorithm, the individual w
 
 \section{Dimensionality Reduction}
 
-Metric learning can also be used for dimensionality reduction as already discussed in Section \ref{chap:intro}. In this work we mainly focus on dimensionality reduction into two dimensions where it is easy to visualise the data.
+Metric learning can also be used for dimensionality reduction as already discussed in Chapter \ref{chap:intro}. In this work we mainly focus on dimensionality reduction into two dimensions where it is easy to visualise the data.
 
 One of the most common and the simplest unsupervised dimensionality reduction method is \ac{pca} \citep{jolliffe2002principal}. \ac{pca} performs an orthogonal linear transformation of the data so that the greatest variance by some projection of the data lies on the first coordinate ("first principal component"), the second greatest variance on the second coordinate, and so on. These projections can be found by calculating the eigenvalues and eigenvectors of the covariance matrix, the eigenvectors with the largest eigenvalues correspond to the dimensions that have the strongest correlation in the dataset. The first principal component can be obtained by solving Equation \ref{eq:rw:pca}, it can be shown that the solution is the eigenvector of $\bm{X}^\top\bm{X}$ corresponding to its biggest eigenvalue.
 
@@ -545,19 +545,19 @@ One of the most common and the simplest unsupervised dimensionality reduction me
 
 If all principal components are found and the \ac{pca} is used to transform the data while keeping all the components (not performing dimensionality reduction), then the Euclidean distances between the samples in the new \ac{pca}-transformed space will equal their Mahalanobis distances in the observed-variable space.
 
-LFDA uses the same trick for dimensionality reduction, it calculates the metric matrix and then picks the columns of this matrix with the largest corresponding eigenvalues.
-
-[Preprocessing for t-SNE]
-
-t-SNE \cite{maaten2008visualizing} is another unsupervised dimensionality reduction method which is getting a lot of attention recently. Compared to PCA, t-SNE has a non-convex objective function and is optimized using gradient descend, which means it may end up in a local minimum. .... recommended to run more times.
-
-[add how tsne works?]
-
-PCA is connected to Mahalanobis!!
+%TODO PCA is connected to Mahalanobis!!
 % http://stats.stackexchange.com/questions/2691/making-sense-of-principal-component-analysis-eigenvectors-eigenvalues
 % http://stats.stackexchange.com/questions/62092/bottom-to-top-explanation-of-the-mahalanobis-distance/62147#62147
-->
-formally explain that evolving 2*D matrix corresponds to some eigen value decomposition???
+
+As already mentioned earlier in this chapter, many \acl{dml} methods, also offer dimensionality reduction. Earlier in this chapter we already described \ac{nca} and \ac{lfda} methods. The method these algorithms use to perform dimensionality reduction is to restrict the shape of the transformation matrix to be a rectangular with the number of columns corresponding to the dimensionality of the desired space.
+
+%TODO [Preprocessing for t-SNE]
+
+\ac{tsne} \citep{maaten2008visualizing} is another unsupervised dimensionality reduction method which is getting a lot of attention recently. Compared to \ac{pca}, \ac{tsne} has a non-convex objective function and is optimized using gradient descend, which means it may end up in a local minimum. .... recommended to run more times.
+
+%TODO [add how tsne works?]
+
+%TODO formally explain that evolving 2*D matrix corresponds to some eigen value decomposition???
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
