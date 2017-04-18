@@ -563,9 +563,33 @@ As already mentioned earlier in this chapter, many \acl{dml} methods, also offer
 
 \chapter{Improving metric evolution} \label{chap:our-method}
 
-In this work, we extend upon the research of \cite{fukui2013evolutionary} and we also use \aclp{ea} to evolve a real-valued matrix for Mahalanobis metric, nevertheless, there are notable differences in our methods which we will describe in this chapter. Their work was focused on improving clustering, meanwhile our method focuses on classification and dimensionality reduction.
+In this work, we extend upon the research of \cite{fukui2013evolutionary} and we also use \aclp{ea} to evolve a real-valued matrix for Mahalanobis metric, nevertheless, there are notable differences between our methods which we will describe in this chapter.
 
+The work of \cite{fukui2013evolutionary} was focused on improving clustering, whereas our method focuses on classification and dimensionality reduction. To improve classification, a fitness function designed for this purpose should be optimized. The function should be fast because in every generation it will be evaluated number of times proportionally to the size of the population.
 
+In our experiments we use \acf{knn} classifier to measure the performance and so we propose to use a \acf{knn} classifier also as the fitness function. It is relatively fast, it takes $N\log{N}$ to build the underlying k-d tree structure with $N$ training samples and then $M \log{N}$ to classify $M$ testing samples. Optimizing the \ac{knn} classifier inside of the evolution to find a good metric should also directly translate to improving the performance of the final \ac{knn} classifier. It depends on how well the evolution algorithm will be able to find a Mahalanobis metric that will be able to generalize.
+
+The pseudocode describing how \ac{knn} classifier is used as a fitness function is shown In Figure \ref{pseudo:ea:knn}.
+
+\begin{figure}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\LinesNumbered
+\KwData{set of labelled instances $\mathcal{Z}=\{\bm{z}_i=(\bm{x}_i, y_i): \bm{x}_i \in \mathcal{X}, y_i \in \mathcal{Y}\}^n_{i=1}$, where $\mathcal{X}$ are training data and $\mathcal{Y}$ are their class labels}
+\KwIn{the individual $\bm{i}$ encoding the Mahalanobis metric}
+\KwResult{the fitness value of the $\bm{i}$ individual}
+\Begin{
+  Split instances into train-test sets\;
+  Initialize \ac{knn} classifier with a Mahalanobis metric encoded in the individual $\bm{i}$\;
+  Train the \ac{knn} classifier using the train set\;
+  Perform the classification using the \ac{knn} on the test set\;
+  \Return the success rate of the classification of the test set\;
+}
+%\KwResult{individual $\bm{x}$ that maximizes $f$}
+Generate population
+\end{algorithm} 
+\caption{Pseudocode for \ac{knn} as fitness in \ac{ea}} \label{pseudo:ea:knn}
+\end{figure}
 
 main difference: we evolve L (no adjustments needed!)
 proof that $L^TL$ is PSD matrix  (using SVD)
