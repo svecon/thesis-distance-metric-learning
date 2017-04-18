@@ -539,6 +539,7 @@ Metric learning can also be used for dimensionality reduction as already discuss
 
 One of the most common and the simplest unsupervised dimensionality reduction method is \ac{pca} \citep{jolliffe2002principal}. \ac{pca} performs an orthogonal linear transformation of the data so that the greatest variance by some projection of the data lies on the first coordinate ("first principal component"), the second greatest variance on the second coordinate, and so on. These projections can be found by calculating the eigenvalues and eigenvectors of the covariance matrix, the eigenvectors with the largest eigenvalues correspond to the dimensions that have the strongest correlation in the dataset. The first principal component can be obtained by solving Equation \ref{eq:rw:pca}, it can be shown that the solution is the eigenvector of $\bm{X}^\top\bm{X}$ corresponding to its biggest eigenvalue.
 
+%TODO check if it is the same in http://www.deeplearningbook.org/contents/linear_algebra.html
 \begin{equation} 
 \bm{w}_{(1)} = \argmax_{||\bm{w}||=1} \bm{w}^\top\bm{X}^\top\bm{X}\bm{w} \label{eq:rw:pca}
 \end{equation}
@@ -569,7 +570,8 @@ The work of \cite{fukui2013evolutionary} was focused on improving clustering, wh
 
 In our experiments we use \acf{knn} classifier to measure the performance and so we propose to use a \acf{knn} classifier also as the fitness function. It is relatively fast, it takes $N\log{N}$ to build the underlying k-d tree structure with $N$ training samples and then $M \log{N}$ to classify $M$ testing samples. Optimizing the \ac{knn} classifier inside of the evolution to find a good metric should also directly translate to improving the performance of the final \ac{knn} classifier. It depends on how well the evolution algorithm will be able to find a Mahalanobis metric that will be able to generalize.
 
-The pseudocode describing how \ac{knn} classifier is used as a fitness function is shown In Figure \ref{pseudo:ea:knn}.
+The pseudocode describing how \ac{knn} classifier is used as a fitness function is shown In Figure \ref{pseudo:ea:knn}. First, the labelled samples are split into training and testing sets. It is important to note that the splitting is done for each fitness evaluation and therefore the sets are split differently for each individual. The idea behind this is we would like the evolution to find individuals that generalize well. Secondly, Mahalanobis distance is decoded from the individual and a \ac{knn} classifier with this metric is initiated and trained using the training data. Then the classifier is used to predict labels of the testing data and an accuracy of this test is returned as a fitness value of the individual.
+%TODO is the splitting argument true?
 
 \begin{figure}
 \begin{algorithm}[H]
@@ -585,25 +587,24 @@ The pseudocode describing how \ac{knn} classifier is used as a fitness function 
   Perform the classification using the \ac{knn} on the test set\;
   \Return the success rate of the classification of the test set\;
 }
-%\KwResult{individual $\bm{x}$ that maximizes $f$}
-Generate population
 \end{algorithm} 
 \caption{Pseudocode for \ac{knn} as fitness in \ac{ea}} \label{pseudo:ea:knn}
 \end{figure}
 
-main difference: we evolve L (no adjustments needed!)
-proof that $L^TL$ is PSD matrix  (using SVD)
-% http://www.deeplearningbook.org/contents/linear_algebra.html
+Second distinction in our work compared to \cite{fukui2013evolutionary} is that instead of evolving the Mahalanobis matrix $\bm{M}$ directly, we evolve a matrix $\bm{L}$ such that $\bm{M}=\bm{L}^\top\bm{L}$. By evolving the matrix $\bm{L}$ we are guaranteed that the matrix $\bm{M}$ is \acf{psd} as proven in Equation \ref{eq:mah:proof}. Moreover if $\bm{L}$ is non-singular then $\bm{M}$ is \acf{pd}.
 
-CMAES + kNN
+\begin{equation}
+\bm{x}^\top \bm{A}\bm{x} \geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:psd:def}
+\end{equation}
+
+\begin{equation}
+\bm{x}^\top \bm{L}^\top \bm{L}\bm{x}=(\bm{Lx})^\top(\bm{Lx})=(\bm{Lx})\cdot (\bm{Lx})\geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:mah:proof}
+\end{equation}
 
 full matrix, diagonal matrix, neural network shape
 
-k-Means for dimensionality reduction
-
-% http://math.stackexchange.com/questions/158219/is-a-matrix-multiplied-with-its-transpose-something-special
-% Moreover if AA is regular, then AATAAT is also positive definite, since
-xTAATx=(ATx)T(ATx)>0
+%TODO mention CMAES and describe it in more detail in the next chapter
+%TODO describe the whole workflow
 
 \section{CMA-ES strategy} \label{alg:cmaes}
 
@@ -680,6 +681,8 @@ how, where, what...
 sigm, tanh, relu...
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%TODO FIX EVOLVING FULL VS TRIANGULAR
 
 \chapter{Experiments and Examples}
 We performed four different experiments to assess the performance of metric learning algorithms. In section \ref{chap:exp:classification} we use learnt metric in \ac{knn} classificator and compare classification errors on various datasets, which are described in \ref{chap:exp:datasets}. In the next experiment in section \ref{chap:exp:fitness} we compare different evolutionary algorithms together with various fitnesses and show how well they evolve and generalize. In section \ref{chap:exp:learning-times} we measure the training times of the algorithms and in the last experiment in section \ref{chap:exp:dimred} we use metric learning algorithms for visualisation and we compare the resulting embeddings.
