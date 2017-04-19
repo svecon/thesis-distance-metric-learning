@@ -562,7 +562,7 @@ As already mentioned earlier in this chapter, many \acl{dml} methods, also offer
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Improving metric evolution} \label{chap:our-method}
+\chapter{Improving Evolutionary DML} \label{chap:our-method}
 
 In this work, we extend upon the research of \cite{fukui2013evolutionary} and we also use \aclp{ea} to evolve a real-valued matrix for Mahalanobis metric, nevertheless, there are notable differences between our methods which we will describe in this chapter.
 
@@ -593,6 +593,7 @@ The pseudocode describing how \ac{knn} classifier is used as a fitness function 
 
 Second distinction in our work compared to \cite{fukui2013evolutionary} is that instead of evolving the Mahalanobis matrix $\bm{M}$ directly, we evolve a matrix $\bm{L}$ such that $\bm{M}=\bm{L}^\top\bm{L}$. By evolving the matrix $\bm{L}$ we are guaranteed that the matrix $\bm{M}$ is \acf{psd} as proven in Equation \ref{eq:mah:proof}. Moreover if $\bm{L}$ is non-singular then $\bm{M}$ is \acf{pd}.
 
+%TODO where to move this PSD definition?
 \begin{equation}
 \bm{x}^\top \bm{A}\bm{x} \geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:psd:def}
 \end{equation}
@@ -601,10 +602,22 @@ Second distinction in our work compared to \cite{fukui2013evolutionary} is that 
 \bm{x}^\top \bm{L}^\top \bm{L}\bm{x}=(\bm{Lx})^\top(\bm{Lx})=(\bm{Lx})\cdot (\bm{Lx})\geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:mah:proof}
 \end{equation}
 
-full matrix, diagonal matrix, neural network shape
+The final difference is that we use a \acf{cmaes} to evolve the individuals. This algorithm was introduced in \cite{hansen1996adapting} and it was further improved \citep{hansen2001completely} \citep{hansen2003reducing}, compared  and reviewed to other methods \citep{hansen2006cma}. It is a stochastic algorithm for optimizing non-linear and non-convex black-box optimization problems. In our experiments we use the most common version $(\mu_W, \lambda)$-\ac{cmaes}, described in \cite{hansen2001completely}, where in each iteration step a weighted combination of the μ best out of λ new candidate solutions is used to update the distribution parameters.
+
+We also use a concept called \acf{hof}, which is updated with the best individuals after every generation and stores only the best ones. After the evolution ends, the \ac{hof} contains the best individuals across all generations.
 
 %TODO mention CMAES and describe it in more detail in the next chapter
 %TODO describe the whole workflow
+
+% https://www.lri.fr/~hansen/cmaartic.pdf
+% https://www.lri.fr/~hansen/cmaesintro.html
+% https://www.lri.fr/~hansen/cmatutorial110628.pdf
+% https://en.wikipedia.org/wiki/CMA-ES
+% https://en.wikipedia.org/wiki/Condition_number
+% https://github.com/DEAP/deap/blob/master/deap/algorithms.py#L442
+% https://scholar.google.cz/scholar?q=Igel+2007&btnG=&hl=en&as_sdt=0%2C5
+% http://www.mitpressjournals.org/doi/pdfplus/10.1162/evco.2007.15.1.1
+% https://www.lri.fr/~hansen/cmaartic.pdf
 
 \section{CMA-ES strategy} \label{alg:cmaes}
 
@@ -668,13 +681,15 @@ wFme ??
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Dimensionality Reduction} \label{chap:dr}
+\section{Dimensionality Reduction} \label{chap:dr}
 
 %TODO mention curse of dimensionality
 
-\section{Linear} \label{chap:dr:linear}
+full matrix, diagonal matrix, neural network shape
 
-\section{Neural network transformation} \label{chap:dr:nn}
+\subsection{Linear} \label{chap:dr:linear}
+
+\subsection{Neural network transformation} \label{chap:dr:nn}
 
 how, where, what...
 
