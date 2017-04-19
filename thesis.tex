@@ -58,6 +58,7 @@
 \usepackage{float}
 \usepackage[section]{placeins}
 \usepackage{morefloats}
+\usepackage{mathtools}
 % \usepackage{capt-of}
 % \sloppy
 
@@ -602,13 +603,17 @@ Second distinction in our work compared to \cite{fukui2013evolutionary} is that 
 \bm{x}^\top \bm{L}^\top \bm{L}\bm{x}=(\bm{Lx})^\top(\bm{Lx})=(\bm{Lx})\cdot (\bm{Lx})\geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:mah:proof}
 \end{equation}
 
-The final difference is that we use a \acf{cmaes} to evolve the individuals. This algorithm was introduced in \cite{hansen1996adapting} and it was further improved \citep{hansen2001completely} \citep{hansen2003reducing}, compared  and reviewed to other methods \citep{hansen2006cma}. It is a stochastic algorithm for optimizing non-linear and non-convex black-box optimization problems. In our experiments we use the most common version $(\mu_W, \lambda)$-\ac{cmaes}, described in \cite{hansen2001completely}, where in each iteration step a weighted combination of the μ best out of λ new candidate solutions is used to update the distribution parameters.
+\section{CMA-ES} \label{alg:cmaes}
 
-We also use a concept called \acf{hof}, which is updated with the best individuals after every generation and stores only the best ones. After the evolution ends, the \ac{hof} contains the best individuals across all generations.
+The final difference is that we use a \acf{cmaes} to evolve the individuals. This algorithm was introduced in \cite{hansen1996adapting} and it was further improved in \cite{hansen2001completely} and \cite{hansen2003reducing}; it was also extensively reviewed and compared to other methods \citep{hansen2006cma}. It is a stochastic algorithm for optimizing non-linear and non-convex black-box optimization problems. In our experiments we use the most common version $(\mu_W, \lambda)$-\ac{cmaes}, described in \cite{hansen2001completely}, where in each iteration a weighted combination of $\mu$ best new candidates (out of $\lambda$) are used to update the distribution parameters.
+
+The main advantage of using \ac{cmaes} over \ac{jde}, which was described earlier, is that \ac{cmaes} needs smaller population size to still work well. Evaluation of the fitness function is very time consuming in our setting and therefore the size of the population directly influences training time. Recommended population size for \ac{cmaes} is $4+\floor{3\log{D}}$ \citep{hansen2006cma} whereas for \ac{jde} it is $10D$ \citep{brest2006self}, where $D$ is number of parameters to evolve. This makes \ac{jde} intractable for learning Mahalanobis distance in high-dimensional space, because it has to evaluate $10\cdot d(d+1)/2 \approx 5d^2$ ($d$ is dimensionality of the data) fitnesses in each generation, while \ac{cmaes} only needs to evaluate $4+\floor{3\log{d^2}} \approx 4+\floor{6\log{d}}$ fitnesses. We performed an experiment to verify that \ac{jde} algorithm does not perform well with the same population size as \ac{cmaes}. The experiment is discussed in Section \ref{chap:exp:logjde}.
+
+We also use a concept called \acf{hof}, which acts as a storage of the best individuals. It is updated with the best individuals after every generation and only keeps the best ones. After the evolution ends, the \ac{hof} contains the best individuals across all generations.
+
+The high level pseudocode for evolving Mahalanobis distance is shown in Figure \ref{pseudo:our-method}. First, all parameters are initialized along with an empty \acl{hof}. Then the evolution is run until a stopping criterion is met (e.g. number of generations, convergence tolerance...). In each generation new individuals are sampled from Multivariate normal distribution with the current parameters and the fitnesses of the individuals are evaluated. The \ac{hof} and the \ac{cmaes} are updated. After the evolution is finished, the best individual from the \ac{hof} is returned. The individual contains the weight of the transformation function $\bm{L}$.
 
 %TODO mention CMAES and describe it in more detail in the next chapter
-%TODO describe the whole workflow
-
 % https://www.lri.fr/~hansen/cmaartic.pdf
 % https://www.lri.fr/~hansen/cmaesintro.html
 % https://www.lri.fr/~hansen/cmatutorial110628.pdf
@@ -619,65 +624,27 @@ We also use a concept called \acf{hof}, which is updated with the best individua
 % http://www.mitpressjournals.org/doi/pdfplus/10.1162/evco.2007.15.1.1
 % https://www.lri.fr/~hansen/cmaartic.pdf
 
-\section{CMA-ES strategy} \label{alg:cmaes}
-
-simple evolution, jDE, CMAES, ...
-
-compare sizes of populations for full and diagonal matrices... and with jDE
-
-\begin{tabbing}
-\hspace{50pt}\=\kill
-$N$ \> number of samples \\
-$D$ \> number of attributes \\ 
-$G$ \> number of generations (200) \\
-\end{tabbing} 
-
-$\mathcal{O}(N^{2.376})$ matrix multiplication 
-
-\begin{table}[ht] \centering
-\begin{tabular}{rll}
-\hline
-Method & full matrix & diagonal matrix \\
-\hline
-Covariance & $\mathcal{O}(ND^2)$ & - \\
-LMNN & $i*\mathcal{O}()$ & - \\
-NCA & $i*\mathcal{O}(N^2D^2)$ & - \\
-LFDA & $\mathcal{O}(N^2D)$ & - \\
-CMAES.kNN & $\mathcal{O}()$ & - \\
-CMAES.fMe & $\mathcal{O}()$ & - \\
-jDE.kNN & $\mathcal{O}()$ & - \\
-jde.fMe & $\mathcal{O}()$ & - \\ 
-\hline
-\end{tabular}
-\caption{XXX} \label{tab:XXX}
-\end{table}
-
-
-jDE
-$P=10*D^2$ population size
-$\mathcal{O}(GP*(D^2+F_{eval}))$ for full
-$\mathcal{O}(GP*(D+F_{eval}))$ for diagonal
-
-CMAES
-$P=4*3\log{D^2}$ population size
-$\mathcal{O}(G*(PD+PD^2+PF_{eval}+D+D^2+D^3))$ for diagonal
-% generate pop PD, PD^2
-% update D, D^2
-% eigen decomp D^3
-
-Fitness
-$N$ split
-$D^2$ fit transformer (for full)
-$ND^2$ transform samples (for full)
-
-kNN
-$N\log{N}$ build
-$N^{1-\frac{1}{D}}+k$ retrieve
-
-wFme ??
-
-% http://stackoverflow.com/questions/9146086/time-complexity-of-genetic-algorithm
-% Genetic Algorithms are not chaotic, they are stochastic. The complexity depends on the genetic operators, their implementation (which may have a very significant effect on overall complexity), the representation of the individuals and the population, and obviously on the fitness function. Given the usual choices (point mutation, one point crossover, roulette wheel selection) a Genetic Algorithms complexity is O(g(nm + nm + n)) with g the number of generations, n the population size and m the size of the individuals. Therefore the complexity is on the order of O(gnm)). This is of cause ignoring the fitness function, which depends on the application.
+\begin{figure}
+\begin{algorithm}[H]
+\DontPrintSemicolon
+\LinesNumbered
+%\KwData{set of labelled instances $\mathcal{Z}=\{\bm{z}_i=(\bm{x}_i, y_i): \bm{x}_i \in \mathcal{X}, y_i \in \mathcal{Y}\}^n_{i=1}$, where $\mathcal{X}$ are training data and $\mathcal{Y}$ are their class labels}
+%\KwIn{the individual $\bm{i}$ encoding the Mahalanobis metric}
+%\KwResult{the fitness value of the $\bm{i}$ individual}
+\Begin{
+  Initialize \ac{cmaes} parameters\;
+  Initialize empty \acl{hof}\;
+  \Repeat{a termination criterion is met}{
+    Sample new individuals using the current \ac{cmaes} parameters\;
+    Evaluate fitnesses of the new individuals as described in Figure \ref{pseudo:ea:knn}\;
+    Update best individuals in \acl{hof}\;
+    Update \ac{cmaes} parameters\;
+  }
+  \Return the best individual from the \acl{hof}\;
+}
+\end{algorithm} 
+\caption{Pseudocode for evolving Mahalanobis distance using \ac{cmaes}} \label{pseudo:our-method}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -870,7 +837,7 @@ Now let's have a look at the methods with the \ac{fme} fitness function. The fit
 \cenfig{graphs/fitness/sonar}{Fitness evolution and generalization on `sonar` dataset}{fig:fitness:sonar}
 \cenfig{graphs/fitness/wine}{Fitness evolution and generalization on `wine` dataset}{fig:fitness:wine}
 
-\section{Experiment: jDE with log population}
+\section{Experiment: jDE with log population} \label{chap:exp:logjde}
 In our previous experiments for classification we used a different population sizes for \ac{cmaes} and \ac{jde} algorithms, $4+3\log{d^2}$ and $10d^2$ respectively ($d$ is the dimensionality of the problem and a full matrix was evolved). These population sizes for \ac{cmaes} and \ac{jde} are suggested in \cite{hansen2001completely} and \cite{brest2006self}. The size of the population directly translates into the performance of the \acl{ea}. \ac{ea} with a bigger population has much better exploration capabilities and is more robust.
 
 In the previous experiments in Sections \ref{chap:exp:classification}, \ref{chap:exp:fitness}, we showed that \ac{cmaes} performs better compared to \ac{jde} algorithm \cite{fukui2013evolutionary} even with this imbalance in the population sizes. Main drawback of a bigger population are increased computational needs, especially when the evaluation of the fitness function is expensive.
