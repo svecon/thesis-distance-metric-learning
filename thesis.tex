@@ -654,19 +654,20 @@ The high level pseudocode for evolving Mahalanobis distance is shown in Figure \
 %TODO is the claim about Mahalanobis metric correct?????
 \acl{dml} algorithms can also be used for dimensionality reduction as already discussed in Chapter \ref{chap:rw}. In this section we discuss how to extend \acl{ea} for dimensionality reduction. In the previous section we described how we use \ac{cmaes} algorithm to evolve a Mahalanobis transformation matrix $\bm{L} \in \mathcal{R}^{d\times d}$. By changing the shape of the matrix $\bm{L}$ to $d\times m$, where $m < d$, we obtain a singular transformation matrix that will transform the original $d$-dimensional space into $m$-dimensional. In this work we focus on visualisation in 2D space and so a matrix $\bm{L} \in \mathcal{R}^{d\times 2}$ is evolved. The problem with forcing the matrix $\bm{L}$ to be rectangular is that we still optimise the fitness function using the \ac{knn} with a Mahalanobis distance in the original $d$-dimensional space (Figure \ref{pseudo:ea:knn}. However, this can be fixed by applying the transformation property of the Mahalanobis metric from Equation \ref{eq:mahalanobis:transform}: instead of using \ac{knn} with Mahalanobis metric, we use the matrix $\bm{L}$ encoded in the individual to transform the data into a new low-dimensional space in which a \ac{knn} classifier can be used with a standard Euclidean metric and it also becomes much more efficient.
 
-By using the trick (??) of the Mahalanobis defined in Equation \ref{eq:mahalanobis:transform}
+By relaxing the need to use Mahalanobis metric and transforming the data before using the \ac{knn} classificator, we are not bound to use a linear transformation using matrix $\bm{L}$, but any function can be used to transform the data and the weights in the individual can be used to evolve the parameters of this function. 
 
 
-
-full matrix, diagonal matrix, neural network shape
 
 \subsection{Linear} \label{chap:dr:linear}
-
 \subsection{Neural network transformation} \label{chap:dr:nn}
 
 how, where, what...
 
-sigm, tanh, relu...
+\begin{align}
+\sigma(x) &= 1/(1+e^{-x}) \label{eq:nn:sigm} \\
+\text{tanh}(x) &= \frac{e^x-e^{-x}}{e^x+e^{-x}} = 2\sigma(2x)-1 \label{eq:nn:tanh} \\
+\text{ReLU}(x) &= max(0,x) \label{eq:nn:relu}
+\end{align}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
