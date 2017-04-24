@@ -981,7 +981,10 @@ Simple Covariance metric was impossible to calculate on certain datasets
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 
-This worked, this didn't work. What we did.
+%TODO This worked, this didn't work. What we did.
+We presented a evolutionary algorithm for metric learning and dimensionality reduction with focus on visualization. The algorithm extends previous ideas of Fukui~\cite{fukui2013evolutionary} and improves on its results. The main idea of the algorithm is to use a $k$-NN based fitness function and CMA-ES in order to find distance metrics and mappings to lower dimensional spaces. We have further extended the ideas by replacing the usual linear transformation with a more complex non-linear mapping represented as a neural networks. In the metric learning experiments, we were able to find metrics better than other algorithms in four out of the ten cases, while in the remaining cases the results were mostly comparable to those obtained by the best algorithms, in the dimensionality reduction experiments, we obtained the best results on five of the ten datasets. On the rest of the datasets, the other methods obtained (especially NCA) better results, however, these methods sometimes failed completely due to their complexity or numerical instability, the proposed method does not have these problems.
+
+It might be possible to evaluate the fitness on subsamples of the dataset to speed up the evolution, similarly to the way how batches are used in stochastic gradient descend and improve the speed of the algorithm. Further extensions in this direction are left as future work, as well as experiments with other architectures of neural networks.
 
 \chapter*{Future work}
 
