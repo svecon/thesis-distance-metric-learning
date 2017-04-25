@@ -71,6 +71,10 @@
 \usepackage{acro}
 \include{acronyms}
 
+\makeatletter
+\renewcommand{\@algocf@capt@plain}{above}% formerly {bottom}
+\makeatother
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -172,11 +176,9 @@ In this work, we propose a novel method for a supervised dimensionality reductio
 
 %TODO "nekde v diplomce mi pripadalo, ze pisescholesky rozklady matice, ktera je low rank a to mam pocit, ze nejde ze musi byt regularni, aby  ho slo udelat"
 
-A metric is ubiquitous in machine learning. For instance, in classification, \ac{knn} classifier \citep{cover1967nearest} uses a metric to find the nearest neighbours. In clustering, many clustering algorithms, including wildly used k-Means \citep{hartigan1979algorithm}, calculate distance between data points and groups similar instances together. In information retrieval, when searching for the most relevant document, the documents themselves are ranked according to their similarity scores. Also security systems use a metric for face verification.
+A metric is ubiquitous in machine learning. For instance, in classification, \ac{knn} classifier \citep{cover1967nearest} uses a metric to find the nearest neighbours. In clustering, many clustering algorithms, including wildly used k-Means \citep{hartigan1979algorithm}, calculate distance between data points and groups similar instances together. In information retrieval, when searching for the most relevant document, the documents themselves are ranked according to their similarity scores. Also security systems use a metric for face verification. Obviously, the performance of all these algorithms depends on the quality of the metric defined on the input space. The better the metric judges how close or how similar any two instances in the space are, the more the final machine learning algorithm will behave.
 
-It is obvious that performance of all these algorithms depends on the quality of the metric defined on the input space. The better the metric judges how close or how similar any two instances in the space are, the more the final machine learning algorithm will behave.
-
-Several general purpose metrics exist, such as Euclidean distance, defined in Equation \ref{eq:euclid}, or its generalized Minkowski distance, defined in Equation \ref{eq:minkowski}, and cosine similarity, defined in Equation \ref{eq:cosine} used for vectors of real numbers, Levenshtein distance (also called edit distance) for measuring distances between strings or $\chi^2$ distance used for calculating distances between histograms in Equation \ref{eq:chisq}.
+Several general purpose metrics exist, such as Euclidean distance, defined in Equation \ref{eq:euclid}, or its generalized Minkowski distance, defined in Equation \ref{eq:minkowski} and cosine similarity defined in Equation \ref{eq:cosine}, are all used for measuring distances between vectors of real numbers; Levenshtein distance (also called edit distance) for measuring distances between strings or $\chi^2$ distance (in Equation \ref{eq:chisq}) used for calculating distances between histograms.
 
 % https://numerics.mathdotnet.com/distance.html
 \begin{align}
@@ -188,7 +190,7 @@ d_{\mathbf{p}}(\textbf{x}, \textbf{y}) &= \|\textbf{x}-\textbf{y}\|_p = \bigg(\s
 
 These metric, however, do not take any advantage of a prior knowledge of the task being solved or the structure of the data. Improved results are expected when the metric is designed for a particular task. Nevertheless, manually hand-crafting a metric is a strenuous and tedious process, which requires an expert knowledge of the task and the data. This has led to an introduction of \ac{dml} where the distance metrics or similarities are learnt from the data themselves.
 
-Therefore the goal of metric learning is to adapt some pairwise metric function to the task at hand by using the training examples. This process requires almost no prior knowledge about the data and is very fast compared to hand-crafting a metric function, which may take months of experimenting. That is why metric learning algorithms that learn a distance metric or similarity directly from the data have been getting more and more traction in the recent years.
+The goal of metric learning is to adapt some pairwise metric function to the task at hand by using the training examples. This process requires almost no prior knowledge about the data and is very fast compared to hand-crafting a metric function, which may take months of experimenting. That is why metric learning algorithms that learn a distance metric or similarity directly from the data have been getting more and more traction in the recent years.
 
 Another important area of machine learning is dimensionality reduction whose goal is to embed high-dimensional space in a low-dimensional space so that most of the information contained in the data is preserved (such as the variance or local distance measurements) in the low-dimensional space. Some metric learning algorithms do not scale well when the data are high-dimensional and so the dimensionality reduction can be used to transform data into a low-dimensional space just to save computational time. Another dimensionality reduction application is visualisation where the data are reduced into a 2-dimensional or 3-dimensional space in which they can be plotted and inspected more easily. The reason why we include dimensionality reduction in this work is because some of the metric learning algorithms search for a projection into a low-dimensional space and thus can also be used for dimensionality reduction.
 
@@ -250,7 +252,11 @@ The figure \ref{fig:corrdata} demonstrates this problem in two dimensions: the f
 \cenfig{graphs/correlated_data}{Correlated data centered around origin}{fig:corrdata}
 
 % http://blogs.sas.com/content/iml/2012/02/08/use-the-cholesky-transformation-to-correlate-and-uncorrelate-variables.html
-The data can be uncorrelated using the covariance matrix $\bm{\Sigma}$, which is a \ac{psd} matrix and therefore the Cholesky decomposition $\bm{\Sigma}=\bm{L}\bm{L}^T$ can be used to obtain a lower triangular matrix $\bm{L}$. The inverse of this triangular matrix $\bm{L}$ can be used to remove the correlation from the data defined by $\bm{\Sigma}$. The figure \ref{fig:uncorrdata} demonstrates the effect of multiplying the original data by $\bm{L}^{-1}$. In this figure, it is now clear that the point at original coordinates $[2,0]$ is much closer to the origin in Euclidean distance than the the point with original coordinates $[0,1]$.
+The data can be uncorrelated using the covariance matrix $\bm{\Sigma}$, which is a \ac{psd} matrix (\ac{psd} is defined in Equation \ref{eq:psd:def}) and therefore the Cholesky decomposition $\bm{\Sigma}=\bm{L}\bm{L}^T$ can be used to obtain a lower triangular matrix $\bm{L}$. The inverse of this triangular matrix $\bm{L}$ can be used to remove the correlation from the data defined by $\bm{\Sigma}$. The figure \ref{fig:uncorrdata} demonstrates the effect of multiplying the original data by $\bm{L}^{-1}$. In this figure, it is now clear that the point at original coordinates $[2,0]$ is much closer to the origin in Euclidean distance than the the point with original coordinates $[0,1]$.
+
+\begin{equation}
+\bm{x}^\top \bm{A}\bm{x} \geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:psd:def}
+\end{equation}
 
 \cenfig{graphs/uncorrelated_data}{Uncorrelated data using Cholesky decomposition of covariance matrix}{fig:uncorrdata}
 
@@ -332,7 +338,10 @@ Learning Mahalanobis distance comes with two challenges. The first challenge is 
 % - Co nového hodlá udělat autor
 
 \section{Outline}
-%TODO
+In this work, we extend the ideas from DML and apply them to the problem of dimensionality reduction and visualization. The connection between dimensionality reduction and DML and the motivation for this work is quite simple. Given a generalized Mahalanobis distance $d_{\bm{M}}(\textbf{x},\textbf{y}) = \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{M}(\textbf{x}-\textbf{y})}$ with a positive definite matrix $M$ and its Cholesky decomposition $M=L^TL$, we get that $d_{\bm{M}}(\textbf{x},\textbf{y}) = d_{2}(\bm{L}\textbf{x},\bm{L}\textbf{y})$, where $d_2$ is the Euclidean distance. Therefore, the matrix $L$ is a mapping from an original space $O$ to another space $D$. We can generalize this notion further and look for general mappings $f: O \to D$. An example of such a mapping is a linear mapping. In such a case the matrix $L$ may have a lower rank and thus it maps the points of the original space to a lower-dimensional space. Another example of mapping may be a neural network, which makes a non-linear transformation of $O$ to $D$. The distances of points in $O$ are then computed as Euclidean distances of their projections to $D$. Here, we deal mostly with mapping to low dimensional spaces suitable for visualization, however, most of the ideas can be extended even for mappings to spaces with higher dimension, and thus to dimensionality reduction in general. The techniques described here are supervised, and the mappings we seek optimize the accuracy of the \ac{knn} classifier applied in the low dimensional space. The motivation is that in case the \ac{knn} classifier has high accuracy, instances from the same class are close together.
+
+%TODO REWRITE AFTER EVERYTHING IS DONE
+In Chapter \ref{chap:rw} we describe current approaches to \acl{dml}, in Chapter \ref{chap:our-method} we generalize the notion of \ac{dml} to general mappings and propose our own method useful for classification and dimensionality reduction. In Chapter \ref{chap:exp} we compare our method to other state-of-the-art methods in several different tasks such as classification and visualisation.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -399,7 +408,7 @@ The work of \cite{xing2002distance} is the first Mahalanobis distance learning a
 They solve this convex program using gradient ascend to maximize the distances between dissimilar instances, followed by projections to ensure the conditions of the program are held (matrix $\bm{M}$ must stay \ac{psd} and the distances between similar pair must stay low).
 
 \section{Large Margin Nearest Neighbor} \label{chap:rw:lmnn}
-The \acf{lmnn} method designed by \cite{weinberger2009distance} is a very popular method that has been improved upon by many other researchers, such as Multiple-Metrics \ac{lmnn} \citep{weinberger2008fast}, Multi-task \ac{lmnn} \citep{parameswaran2010large} and Gradient-Boosted \ac{lmnn} \citep{kedem2012non}. The goal of this method is to improve the performance of the \ac{knn} algorithm and so the idea is that $k$-nearest neighbours with the same class should stay together while separating the imposters (instances with a different class) by a large margin. It works by defining the constraints in a local way: it optimizes only over similar points that are also in a close neighbourhood of each other as defined in Equation \ref{eq:rw:lmnn:similar}. This neighbourhood is usually determined using Euclidean distance.
+The \acf{lmnn} method designed by \cite{weinberger2009distance} is a very popular method that has been improved upon by work of many other researchers, such as Multiple-Metrics \ac{lmnn} \citep{weinberger2008fast}, Multi-task \ac{lmnn} \citep{parameswaran2010large} and Gradient-Boosted \ac{lmnn} \citep{kedem2012non}. The goal of this method is to improve the performance of the \ac{knn} algorithm and so the idea is that $k$-nearest neighbours with the same class should stay together while separating the imposters (instances with a different class) by a large margin. It works by defining the constraints in a local way: it optimizes only over similar points that are also in a close neighbourhood of each other as defined in Equation \ref{eq:rw:lmnn:similar}. This neighbourhood is usually determined using Euclidean distance.
 
 \begin{align}
 \mathcal{S} &= \lbrace(\bm{x}_i,\bm{x}_j): y_i = y_j \text{ and } \bm{x}_j \text{ is in the }k\text{-neighbourhood of } \bm{x}_i \rbrace  \label{eq:rw:lmnn:similar} \\
@@ -472,9 +481,9 @@ Both \ac{lda} and \ac{lpp} methods can be used for dimensionality reduction and 
 
 %TODO what is the difference between Differential Evolution and Evolution Strategy? DE vs ES???
 
-\Acl{dml} paired together with \acp{ea} has been getting more attention recently. For example the work of \cite{koloseni2012optimized} uses \ac{ea} to select the best possible metric out of a predefined list to improve a classification error. The work of \cite{fukui2013evolutionary} also uses \ac{ea}, but taking a different approach and instead of choosing a metric from a predefined list, they try to evolve a Mahalanobis distance matrix. \Acl{de} is used in which an individual encodes the Mahalanobis matrix, which is symmetric and so it can be encoded as a real-valued vector of length $d(d+1)/2$. \Acl{de} is a special case of an \ac{ea} which is a stochastic, population based algorithm that tries to optimize a real-valued objective function with many parameters. The \ac{ea} is typically used when the objective function is non-differentiable and non-continuous. A typical schema of an \ac{ea} is shown in Figure \ref{fig:rw:ea:schema}: a population of individuals is randomly initiated and evaluated using the objective (fitness) function. Then the algorithm breeds new individuals through mutation and crossover, the individuals are evaluated and a new population of the individuals is selected. This whole process is repeated until some termination rule is met.
+\Acl{dml} paired together with \acp{ea} has been getting more attention recently. For example the work of \cite{koloseni2012optimized} uses \ac{ea} to select the best possible metric out of a predefined list to improve a classification error. The work of \cite{fukui2013evolutionary} also uses \ac{ea}, but takes a different approach and instead of choosing a metric from a predefined list, they try to evolve a Mahalanobis distance matrix. \Acl{de} is used in which an individual encodes the Mahalanobis matrix, which is symmetric and so it can be encoded as a real-valued vector of length $d(d+1)/2$. \Acl{de} is a special case of an \ac{ea} which is a stochastic, population based algorithm suitable for solving a real-valued objective function with many parameters. The \ac{ea} is typically used when the objective function is non-differentiable and non-continuous. A typical schema of an \ac{ea} is shown in Figure \ref{fig:rw:ea:schema}: a population of individuals is randomly initiated and evaluated using the objective (fitness) function. Then the algorithm breeds new individuals through mutation and crossover, the individuals are evaluated and a new population of the individuals is selected. This whole process is repeated until some termination rule is met.
 
-\Ac{de} is a special type of an evolutionary algorithm that has a special type of mutation and crossover operations. The pseudocode for \ac{de} is shown in Figure \ref{pseudo:de}. It follows the schema from Figure \ref{fig:rw:ea:schema} and the special crossover operation is defined on Line \ref{pseudo:de:mut}, where three different individuals are combined to create a new one. \ac{de} algorithm has two hyperparameters apart from the size of the population: crossover probability $CR$ and differential weight $F$. \ac{de} algorithm can be very sensitive to the choice of these two hyperparameters. \cite{fukui2013evolutionary} uses an improved version of \ac{de} called \acf{jde} \citep{brest2006self}, which encodes the hyperparameters $CR$ and $F$ inside of every single individual. When a new individual is bred using the mutation and crossover, the $CR$ and $F$ parameters from the parent individual are used. Therefore these two hyperparameters do not need to be specified (or guessed) for \ac{jde} and the algorithm itself is more robust.
+\Ac{de} is a special type of an evolutionary algorithm that has a special type of mutation and crossover operations. The pseudocode for \ac{de} is shown in Figure \ref{pseudo:de}. It follows the schema from Figure \ref{fig:rw:ea:schema} and the special crossover operation is defined on Line \ref{pseudo:de:mut}, where three different individuals are combined to create a new one. \ac{de} algorithm has two hyperparameters apart from the size of the population: crossover probability $CR$ and differential weight $F$. \ac{de} algorithm can be very sensitive to the choice of these two hyperparameters. \cite{fukui2013evolutionary} uses an improved version of \ac{de} called \acf{jde} \citep{brest2006self}, which alleviates this problem by encoding the hyperparameters $CR$ and $F$ inside of every single individual. When a new individual is bred using the mutation and crossover, the $CR$ and $F$ parameters from the parent individual are used. Therefore these two hyperparameters do not need to be specified for \ac{jde} and the algorithm itself is more robust.
 
 \cenfig{graphs/ea_scheme}{Scheme of an evolutionary algorithm}{fig:rw:ea:schema}
 
@@ -513,9 +522,9 @@ d_{i,j}^{repair} = \frac{m_{i,j}}{\sum_j \abs{m_{i,j}}}, \; (i \neq j)
 \label{eq:rw:jde:repair}
 \end{equation}
 
-The authors wanted to improve clustering algorithms using their algorithm and so they used the external clustering indexes as the fitness function in their \acl{ea}. External clustering indexes, compared to internal clustering indexes, use the class labels of the data for the evaluation. In their work they use Purity, \ac{fme} and Entropy. Authors also use a so called "neighbour relation" to improve the performance of the indexes by incorporating a weighted function inside of the indexes. 
+\cite{fukui2013evolutionary} wanted to improve clustering algortihms using their method and so they use external clustering indexes as the fitness function in their \acl{ea}. External clustering indexes, compared to internal clustering indexes, use the class labels of the data for the evaluation. In their work they use Purity, \ac{fme} (harmonic mean of the precision and recall) and Entropy. Authors also use a so called "neighbour relation" to improve the performance of the indexes by incorporating a weighted function inside of the indexes. 
 
-The \acl{fme} index performed the best in their experimental results and so we chose to further experiment with this index only. \acl{fme} is a harmonic mean of the precision and recall. All these are defined in Equation \ref{eq:rw:fme} where $C$ is a cluster set, $Y$ are class labels, $N_{s,i}$ is number of data points with class $s \in Y$ and in $i^{th}$ cluster, $y(k)$ and $c(k)$ denote the class/cluster assignment for $x_k$.
+The \acl{fme} index performed the best in their experimental results and so we chose to further experiment with this index only. All these are defined in Equation \ref{eq:rw:fme} where $C$ is a cluster set, $Y$ are class labels, $N_{s,i}$ is number of data points with class $s \in Y$ and in $i^{th}$ cluster, $y(k)$ and $c(k)$ denote the class/cluster assignment for $x_k$.
 
 \begin{align*}
 Fme(s,C_i) &= \frac{2 \cdot Prec(s,C_i) \cdot Rec(s, C_i)}{Prec(s,C_i) + Rec(s, C_i)} \\
@@ -541,9 +550,9 @@ After certain number of generations of the evolution algorithm, the individual w
 
 \section{Dimensionality Reduction}
 
-Metric learning can also be used for dimensionality reduction as already discussed in Chapter \ref{chap:intro}. In this work we mainly focus on dimensionality reduction into two dimensions where it is easy to visualise the data.
+Metric learning can also be used for dimensionality reduction as already discussed in Chapter \ref{chap:intro}. In this work we mainly focus on dimensionality reduction into two dimensions where it is easy to visualise the data. Earlier in this chapter we already described \ac{nca} and \ac{lfda} methods. These algorithms perform dimensionality reduction by restricting the shape of the transformation matrix to be a rectangular with the number of columns corresponding to the dimensionality of the desired space.
 
-One of the most common and the simplest unsupervised dimensionality reduction method is \ac{pca} \citep{jolliffe2002principal}. \ac{pca} performs an orthogonal linear transformation of the data so that the greatest variance by some projection of the data lies on the first coordinate ("first principal component"), the second greatest variance on the second coordinate, and so on. These projections can be found by calculating the eigenvalues and eigenvectors of the covariance matrix, the eigenvectors with the largest eigenvalues correspond to the dimensions that have the strongest correlation in the dataset. The first principal component can be obtained by solving Equation \ref{eq:rw:pca}, it can be shown that the solution is the eigenvector of $\bm{X}^\top\bm{X}$ corresponding to its biggest eigenvalue.
+One of the most common and the simplest unsupervised dimensionality reduction method is \ac{pca} \citep{jolliffe2002principal} which decomposes the dataset in a set of successive orthogonal components that explain maximum amount of the variance inside of the data. The first principal component can be obtained by solving Equation \ref{eq:rw:pca}, it can be shown that the solution is the eigenvector of $\bm{X}^\top\bm{X}$ corresponding to its biggest eigenvalue.
 
 %TODO check if it is the same in http://www.deeplearningbook.org/contents/linear_algebra.html
 \begin{equation} 
@@ -556,11 +565,9 @@ If all principal components are found and the \ac{pca} is used to transform the 
 % http://stats.stackexchange.com/questions/2691/making-sense-of-principal-component-analysis-eigenvectors-eigenvalues
 % http://stats.stackexchange.com/questions/62092/bottom-to-top-explanation-of-the-mahalanobis-distance/62147#62147
 
-As already mentioned earlier in this chapter, many \acl{dml} methods, also offer dimensionality reduction. Earlier in this chapter we already described \ac{nca} and \ac{lfda} methods. The method these algorithms use to perform dimensionality reduction is to restrict the shape of the transformation matrix to be a rectangular with the number of columns corresponding to the dimensionality of the desired space.
-
 %TODO [Preprocessing for t-SNE]
 
-\ac{tsne} \citep{maaten2008visualizing} is another unsupervised dimensionality reduction method which is getting a lot of attention recently. Compared to \ac{pca}, \ac{tsne} has a non-convex objective function and is optimized using gradient descend, which means it may end up in a local minimum. .... recommended to run more times.
+Another dimensionality reduction method is \ac{tsne} \citep{maaten2008visualizing}, which maps the points from the high dimensional space to a low dimensional one. The mapping aims to minimize the Kullback-Leibler divergence of the distribution of distances between points in the high and low dimensional spaces. While t-SNE is getting a lot of attention recently, it does not provide any explicit mapping between the two spaces, therefore it cannot be used to map new data into the lower-dimensional space without re-running the whole method. However, we also show the visualizations obtained by t-SNE and compare them to those obtained by the method presented in this work in the experiments.
 
 %TODO [add how tsne works?]
 
@@ -568,55 +575,71 @@ As already mentioned earlier in this chapter, many \acl{dml} methods, also offer
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Improving Evolutionary DML} \label{chap:our-method}
+\chapter{Generalizing Evolutionary Distance Learning} \label{chap:our-method}
 
-In this work, we extend upon the research of \cite{fukui2013evolutionary} and we also use \aclp{ea} to evolve a real-valued matrix for Mahalanobis metric, nevertheless, there are notable differences between our methods which we will describe in this chapter.
+In this work, we aim to find a mapping from the original space $O$ of the input data, to a (potentially low dimensional) space $D$. The mapping $f: O \to D$ is then used in the distance metric found by the algorithm. The evolved metric is defined as $d_f(x, y) = d_2(f(x), f(y))$, where $d_2$ is the Euclidean metric in the $D$ space. We have already discussed that in case $f$ is represented by a lower triangular matrix $L$, $d_f$ represents a Mahalanobis distance with matrix $L^TL$. However, the mappings may be more general. If the mapping is represented by a rectangular matrix, the technique can be used for dimensionality reduction. Moreover, we can seek a non-linear mapping $f$ which is able to transform the input data in such a way that they are easier for the classifier.
 
-The work of \cite{fukui2013evolutionary} was focused on improving clustering, whereas our method focuses on classification and dimensionality reduction. To improve classification, a fitness function designed for this purpose should be optimized. The function should be fast because in every generation it will be evaluated number of times proportionally to the size of the population.
+In this work, we consider mappings which can be represented as vectors or matrices of real numbers numbers. Such mappings include both linear transformations and non-linear transformation such as neural networks (which can be represented as vectors of their weights). The goal of the algorithm is to find a mapping that maximizes the performance of the classifier that follows the preprocessing step. In this paper, we consider the \ac{knn} classifier, however different classifiers can also be used. The performance of the \ac{knn} classifier is used as the fitness in the evolutionary algorithm. One of the reasons is that it is relatively fast, it takes $N\log{N}$ to build the underlying k-d tree structure with $N$ training samples and then $M \log{N}$ to classify $M$ testing samples. Another advantage of using the \ac{knn} classifier is that the resulting mappings should also provide nice visualizations of the data. The \ac{knn} classifier is local, and therefore works the best in case instances from the same class are close together.
 
-In our experiments we use \acf{knn} classifier to measure the performance and so we propose to use a \acf{knn} classifier also as the fitness function. It is relatively fast, it takes $N\log{N}$ to build the underlying k-d tree structure with $N$ training samples and then $M \log{N}$ to classify $M$ testing samples. Optimizing the \ac{knn} classifier inside of the evolution to find a good metric should also directly translate to improving the performance of the final \ac{knn} classifier. It depends on how well the evolution algorithm will be able to find a Mahalanobis metric that will be able to generalize.
+The \ac{knn} classifier function is not differentiable and so we focus on finding the mapping using \aclp{ea}. \Ac{ea} algorithms are typically non-elitist (i.e. they can lose the best individual in the search) and so we use a concept called \acf{hof}, which acts as a storage of the best individuals. It is updated with the best individuals after every generation and only keeps the best ones.
 
-The pseudocode describing how \ac{knn} classifier is used as a fitness function is shown In Figure \ref{pseudo:ea:knn}. First, the labelled samples are split into training and testing sets. It is important to note that the splitting is done for each fitness evaluation and therefore the sets are split differently for each individual. The idea behind this is we would like the evolution to find individuals that generalize well. Secondly, Mahalanobis distance is decoded from the individual and a \ac{knn} classifier with this metric is initiated and trained using the training data. Then the classifier is used to predict labels of the testing data and an accuracy of this test is returned as a fitness value of the individual.
-%TODO is the splitting argument true?
+The high level pseudocode for the evolution of the mapping is shown in Algorithm \ref{pseudo:our-method}. First, all parameters are initialized randomly along with an empty \ac{hof}. The individuals are vectors of real numbers, that encode the mapping. In case of evolving the matrix $L$ for the Mahalanobis distance, this is a vector of $d^2$ numbers. In case of evolving the neural networks, the individual contains all the weights from the network. Then the \ac{cmaes} algorithm is run until a stopping criterion is met. In each generation new individuals are sampled and the fitnesses of the individuals are evaluated. The \ac{hof} and the internal parameters of \ac{cmaes} are updated. After the evolution is finished, the best individual from the \ac{hof} is returned. The individual contains the weights that represent the corresponding mapping.
 
-\begin{figure}
-\begin{algorithm}[H]
+In our experiments we use the most common version $(\mu_W, \lambda)$-\ac{cmaes}, described in \cite{hansen2001completely}, where in each iteration a weighted combination of $\mu$ best new candidates (out of $\lambda$) are used to update the distribution parameters. The reason for choosing \ac{cmaes} algorithm is that it only needs a small population to perform well compared to other algorithms. Evaluation of the fitness function is time consuming in our setting and therefore the size of the population directly influences the training time. Recommended population size for \ac{cmaes} is $4+\floor{3\log{D}}$ \citep{hansen2006cma} whereas for \ac{jde} it is $10D$ \citep{brest2006self}, where $D$ is number of parameters to evolve. This makes \ac{jde} intractable for learning Mahalanobis distance in high-dimensional space, because it has to evaluate $10\cdot d(d+1)/2 \approx 5d^2$ ($d$ is dimensionality of the data) fitnesses in each generation, while \ac{cmaes} only needs to evaluate $4+\floor{3\log{d^2}} \approx 4+\floor{6\log{d}}$ fitnesses. We performed an experiment to verify that \ac{jde} algorithm does not perform well with the same population size as \ac{cmaes}. The experiment is discussed in Section \ref{chap:exp:logjde}.
+
+\begin{algorithm}[t]
+\caption{Evolving the mapping using \ac{cmaes}} \label{pseudo:our-method}
 \DontPrintSemicolon
 \LinesNumbered
-\KwData{set of labelled instances $\mathcal{Z}=\{\bm{z}_i=(\bm{x}_i, y_i): \bm{x}_i \in \mathcal{X}, y_i \in \mathcal{Y}\}^n_{i=1}$, where $\mathcal{X}$ are training data and $\mathcal{Y}$ are their class labels}
-\KwIn{the individual $\bm{i}$ encoding the Mahalanobis metric}
+\Begin{
+  Initialize \ac{cmaes} parameters\;
+  Initialize empty HOF\;
+  \Repeat{a termination criterion is met}{
+    Sample new individuals using the current \ac{cmaes} parameters\;
+    Evaluate fitnesses of the new individuals (described in Algorithm \ref{pseudo:ea:knn})\;
+    Update best individuals in HOF\;
+    Update \ac{cmaes} parameters\;
+  }
+  \Return the best individual from the HOF\;
+}
+\end{algorithm} 
+
+The most important step here is the evaluation of the fitness function, which is computed as the success rate of the \ac{knn} classifier on the data in the $D$ space. The pseudocode is shown in Algorithm~\ref{pseudo:ea:knn}. First, the labeled samples are split into training and testing sets. It is important to note that the splitting is done for each fitness evaluation and therefore the sets are split differently for each individual. The idea behind this is we would like the evolution to find individuals that generalize well. Secondly, the mapping is decoded from the individual, the instances are mapped to the $D$ space and a \ac{knn} classifier with Euclidean metric trained using the training data. Then the classifier is used to predict labels of the testing data and an accuracy of this test is returned as a fitness value of the individual.
+
+\begin{algorithm}[t]
+\caption{\ac{knn} as fitness function in EA} \label{pseudo:ea:knn}
+\DontPrintSemicolon
+\LinesNumbered
+\KwData{set of labeled instances}
+\KwIn{the individual $\bm{i}$ encoding the mapping}
 \KwResult{the fitness value of the $\bm{i}$ individual}
 \Begin{
   Split instances into train-test sets\;
-  Initialize \ac{knn} classifier with a Mahalanobis metric encoded in the individual $\bm{i}$\;
+  Extract the mapping from the individual $\bm{i}$\;
+  Map the instances to the $D$ space\;
+  Initialize \ac{knn} classifier in the $D$ space\;
   Train the \ac{knn} classifier using the train set\;
   Perform the classification using the \ac{knn} on the test set\;
   \Return the success rate of the classification of the test set\;
 }
 \end{algorithm} 
-\caption{Pseudocode for \ac{knn} as fitness in \ac{ea}} \label{pseudo:ea:knn}
-\end{figure}
 
-Second distinction in our work compared to \cite{fukui2013evolutionary} is that instead of evolving the Mahalanobis matrix $\bm{M}$ directly, we evolve a matrix $\bm{L}$ such that $\bm{M}=\bm{L}^\top\bm{L}$. By evolving the matrix $\bm{L}$ we are guaranteed that the matrix $\bm{M}$ is \acf{psd} as proven in Equation \ref{eq:mah:proof}. Moreover if $\bm{L}$ is non-singular then $\bm{M}$ is \acf{pd}. We do not have to evolve the full matrix with $d\times d$ parameters, but it is enough to only evolve a triangular matrix $\bm{L}$ with $d(d+1)/2$ parameters. Also, $\bm{L}$ can be forced to be diagonal, which corresponds to scaling the original space alongside the axis, but it does not account for correlation between the dimensions.
+To perform a non-linear transformation using a neural network, the activation functions need to be used between the layers. Without activation functions a fully connected neural network essentially reduces to a linear transformation. Typical activation functions used in neural networks are sigmoid function ($\sigma$), hyperbolic tangent (tanh) and rectified linear unit (ReLU), which are defined as $\sigma(x) = 1/(1+e^{-x})$, $\text{tanh}(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}} = 2\sigma(2x)-1$ and $\text{ReLU}(x) = \max(0,x)$.
 
-%TODO where to move this PSD definition?
-\begin{equation}
-\bm{x}^\top \bm{A}\bm{x} \geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:psd:def}
-\end{equation}
+To perform a dimensionality reduction using the neural network, the shape and the activation functions need to be chosen beforehand, the only criteria is that the first layer has the size $d$ and the last layer has the desired size $m$. The individual in the evolution then contains weights corresponding to all parameters of the neural network. We experiment with the activation functions and the depth of the neural network used for visualization in Section \ref{chap:exp:dimred}.
+
+The algorithm described here is similar to the algorithm described by \cite{fukui2013evolutionary}, however, there are some important differences:
+\begin{itemize}
+\item \cite{fukui2013evolutionary} focused on improving clustering and therefore they used the f-measure as the fitness function, we deal with classification and therefore we minimize the error rate of the \ac{knn} classifier;
+\item we evolve the mapping instead of the matrix for the Mahalanobis distance, therefore we do not need to repair the matrix in such a way that it is PD, as proved in Equation \ref{eq:mah:proof};
+\item we use \ac{cmaes} instead of \ac{jde}, therefore we can use smaller population size which leads to faster optimization (recommended population size for \ac{cmaes} is only $4+\floor{3\log{d}}$ \cite{hansen2006cma} whereas for \ac{jde} it is $10d$~\cite{brest2006self}, where $d$ is number of parameters to evolve).
+\end{itemize}
 
 \begin{equation}
 \bm{x}^\top \bm{L}^\top \bm{L}\bm{x}=(\bm{Lx})^\top(\bm{Lx})=(\bm{Lx})\cdot (\bm{Lx})\geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:mah:proof}
 \end{equation}
 
 \section{CMA-ES} \label{alg:cmaes}
-
-The final difference is that we use a \acf{cmaes} to evolve the individuals. This algorithm was introduced in \cite{hansen1996adapting} and it was further improved in \cite{hansen2001completely} and \cite{hansen2003reducing}; it was also extensively reviewed and compared to other methods \citep{hansen2006cma}. It is a stochastic algorithm for optimizing non-linear and non-convex black-box optimization problems. In our experiments we use the most common version $(\mu_W, \lambda)$-\ac{cmaes}, described in \cite{hansen2001completely}, where in each iteration a weighted combination of $\mu$ best new candidates (out of $\lambda$) are used to update the distribution parameters.
-
-The main advantage of using \ac{cmaes} over \ac{jde}, which was described earlier, is that \ac{cmaes} needs smaller population size to still work well. Evaluation of the fitness function is very time consuming in our setting and therefore the size of the population directly influences training time. Recommended population size for \ac{cmaes} is $4+\floor{3\log{D}}$ \citep{hansen2006cma} whereas for \ac{jde} it is $10D$ \citep{brest2006self}, where $D$ is number of parameters to evolve. This makes \ac{jde} intractable for learning Mahalanobis distance in high-dimensional space, because it has to evaluate $10\cdot d(d+1)/2 \approx 5d^2$ ($d$ is dimensionality of the data) fitnesses in each generation, while \ac{cmaes} only needs to evaluate $4+\floor{3\log{d^2}} \approx 4+\floor{6\log{d}}$ fitnesses. We performed an experiment to verify that \ac{jde} algorithm does not perform well with the same population size as \ac{cmaes}. The experiment is discussed in Section \ref{chap:exp:logjde}.
-
-We also use a concept called \acf{hof}, which acts as a storage of the best individuals. It is updated with the best individuals after every generation and only keeps the best ones. After the evolution ends, the \ac{hof} contains the best individuals across all generations.
-
-The high level pseudocode for evolving Mahalanobis distance is shown in Figure \ref{pseudo:our-method}. First, all parameters are initialized along with an empty \acl{hof}. Then the evolution is run until a stopping criterion is met (e.g. number of generations, convergence tolerance...). In each generation new individuals are sampled from Multivariate normal distribution with the current parameters and the fitnesses of the individuals are evaluated. The \ac{hof} and the \ac{cmaes} are updated. After the evolution is finished, the best individual from the \ac{hof} is returned. The individual contains the weight of the transformation function $\bm{L}$.
 
 %TODO mention CMAES and describe it in more detail in the next chapter
 % https://www.lri.fr/~hansen/cmaartic.pdf
@@ -628,28 +651,6 @@ The high level pseudocode for evolving Mahalanobis distance is shown in Figure \
 % https://scholar.google.cz/scholar?q=Igel+2007&btnG=&hl=en&as_sdt=0%2C5
 % http://www.mitpressjournals.org/doi/pdfplus/10.1162/evco.2007.15.1.1
 % https://www.lri.fr/~hansen/cmaartic.pdf
-
-\begin{figure}
-\begin{algorithm}[H]
-\DontPrintSemicolon
-\LinesNumbered
-%\KwData{set of labelled instances $\mathcal{Z}=\{\bm{z}_i=(\bm{x}_i, y_i): \bm{x}_i \in \mathcal{X}, y_i \in \mathcal{Y}\}^n_{i=1}$, where $\mathcal{X}$ are training data and $\mathcal{Y}$ are their class labels}
-%\KwIn{the individual $\bm{i}$ encoding the Mahalanobis metric}
-%\KwResult{the fitness value of the $\bm{i}$ individual}
-\Begin{
-  Initialize \ac{cmaes} parameters\;
-  Initialize empty \acl{hof}\;
-  \Repeat{a termination criterion is met}{
-    Sample new individuals using the current \ac{cmaes} parameters\;
-    Evaluate fitnesses of the new individuals as described in Figure \ref{pseudo:ea:knn}\;
-    Update best individuals in \acl{hof}\;
-    Update \ac{cmaes} parameters\;
-  }
-  \Return the best individual from the \acl{hof}\;
-}
-\end{algorithm} 
-\caption{Pseudocode for evolving Mahalanobis distance using \ac{cmaes}} \label{pseudo:our-method}
-\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -982,7 +983,7 @@ Simple Covariance metric was impossible to calculate on certain datasets
 \addcontentsline{toc}{chapter}{Conclusion}
 
 %TODO This worked, this didn't work. What we did.
-We presented a evolutionary algorithm for metric learning and dimensionality reduction with focus on visualization. The algorithm extends previous ideas of Fukui~\cite{fukui2013evolutionary} and improves on its results. The main idea of the algorithm is to use a $k$-NN based fitness function and CMA-ES in order to find distance metrics and mappings to lower dimensional spaces. We have further extended the ideas by replacing the usual linear transformation with a more complex non-linear mapping represented as a neural networks. In the metric learning experiments, we were able to find metrics better than other algorithms in four out of the ten cases, while in the remaining cases the results were mostly comparable to those obtained by the best algorithms, in the dimensionality reduction experiments, we obtained the best results on five of the ten datasets. On the rest of the datasets, the other methods obtained (especially NCA) better results, however, these methods sometimes failed completely due to their complexity or numerical instability, the proposed method does not have these problems.
+We presented a evolutionary algorithm for metric learning and dimensionality reduction with focus on visualization. The algorithm extends previous ideas of Fukui~\cite{fukui2013evolutionary} and improves on its results. The main idea of the algorithm is to use a \ac{knn} based fitness function and \ac{cmaes} in order to find distance metrics and mappings to lower dimensional spaces. We have further extended the ideas by replacing the usual linear transformation with a more complex non-linear mapping represented as a neural networks. In the metric learning experiments, we were able to find metrics better than other algorithms in four out of the ten cases, while in the remaining cases the results were mostly comparable to those obtained by the best algorithms, in the dimensionality reduction experiments, we obtained the best results on five of the ten datasets. On the rest of the datasets, the other methods obtained (especially NCA) better results, however, these methods sometimes failed completely due to their complexity or numerical instability, the proposed method does not have these problems.
 
 It might be possible to evaluate the fitness on subsamples of the dataset to speed up the evolution, similarly to the way how batches are used in stochastic gradient descend and improve the speed of the algorithm. Further extensions in this direction are left as future work, as well as experiments with other architectures of neural networks.
 
