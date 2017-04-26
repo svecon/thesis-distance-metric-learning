@@ -11,7 +11,7 @@
 & \multicolumn{1}{c}{balance-scale} & \multicolumn{1}{c}{breast-cancer} & \multicolumn{1}{c}{digits6} & \multicolumn{1}{c}{digits10} & \multicolumn{1}{c}{gaussians} \\ 
 \midrule
 s:PCA & 44.26\,$\pm$\,13.07 & \emph{\textbf{3.43\,$\pm$\,2.73}} & 24.06\,$\pm$\,3.07 & 46.12\,$\pm$\,2.91 & 9.75\,$\pm$\,2.61 \\
-s:NCA & 11.65\,$\pm$\,3.25 & 3.58\,$\pm$\,2.33 & Error  & Error  & 0.50\,$\pm$\,1.00 \\
+s:NCA & 11.65\,$\pm$\,3.25 & 3.58\,$\pm$\,2.33 & Memory  & Memory  & 0.50\,$\pm$\,1.00 \\
 s:LFDA & 12.11\,$\pm$\,2.52 & 4.58\,$\pm$\,2.48 & 38.02\,$\pm$\,10.99 & 57.07\,$\pm$\,6.76 & \emph{\textbf{0.25\,$\pm$\,0.75}} \\
 s:CMAES.kNN & \emph{9.39\,$\pm$\,3.78} & 4.16\,$\pm$\,2.90 & 16.74\,$\pm$\,3.94 & 41.22\,$\pm$\,3.46 & 1.25\,$\pm$\,2.02 \\
 s:t-SNE & 22.32\,$\pm$\,3.22 & 4.44\,$\pm$\,2.26 & \textbf{1.39\,$\pm$\,1.12} & \textbf{2.90\,$\pm$\,1.13} & 3.25\,$\pm$\,2.97 \\
@@ -26,7 +26,7 @@ s:NN.ReLU (deep) & 14.81\,$\pm$\,2.46 & 5.01\,$\pm$\,3.52 & 35.75\,$\pm$\,6.89 &
 & \multicolumn{1}{c}{iris} & \multicolumn{1}{c}{mice-protein} & \multicolumn{1}{c}{pima-indians} & \multicolumn{1}{c}{sonar} & \multicolumn{1}{c}{wine} \\ 
 \midrule
 s:PCA & 10.00\,$\pm$\,4.47 & 67.80\,$\pm$\,3.43 & 31.50\,$\pm$\,4.39 & 39.43\,$\pm$\,6.61 & 3.99\,$\pm$\,3.72 \\
-s:NCA & \emph{\textbf{2.67\,$\pm$\,3.27}} & Error  & 26.44\,$\pm$\,2.87 & \emph{\textbf{22.02\,$\pm$\,7.87}} & \emph{\textbf{1.70\,$\pm$\,2.60}} \\
+s:NCA & \emph{\textbf{2.67\,$\pm$\,3.27}} & Memory  & 26.44\,$\pm$\,2.87 & \emph{\textbf{22.02\,$\pm$\,7.87}} & \emph{\textbf{1.70\,$\pm$\,2.60}} \\
 s:LFDA & 6.67\,$\pm$\,5.96 & 64.75\,$\pm$\,12.90 & 27.87\,$\pm$\,2.61 & 22.61\,$\pm$\,4.33 & 1.74\,$\pm$\,2.66 \\
 s:CMAES.kNN & 6.00\,$\pm$\,5.54 & \emph{36.09\,$\pm$\,6.29} & \emph{\textbf{26.18\,$\pm$\,3.94}} & 31.35\,$\pm$\,6.61 & 9.59\,$\pm$\,7.92 \\
 s:t-SNE & 24.67\,$\pm$\,14.62 & 4.18\,$\pm$\,1.80 & 28.65\,$\pm$\,4.55 & 45.82\,$\pm$\,15.06 & 33.30\,$\pm$\,12.25 \\
@@ -42,5 +42,5 @@ s:NN.ReLU (deep) & 5.33\,$\pm$\,4.00 & 58.56\,$\pm$\,5.91 & 29.68\,$\pm$\,4.10 &
 \bottomrule
 \end{tabular}
 }
-\caption{Error rates (in \%) for the dimensionality reduction experiment} \label{tab:dim-error-rates}
+\caption{Memory rates (in \%) for the dimensionality reduction experiment} \label{tab:dim-Memory-rates}
 \end{table}
