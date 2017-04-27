@@ -161,16 +161,7 @@ In this work, we propose a novel method for a supervised dimensionality reductio
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\include{preface}
-%\include{chap01_competition}
-%\include{chap01}
-%\include{chap02}
-%\include{chap03_mahalanobis}
-%\include{epilog}
-
 \chapter{Introduction} \label{chap:intro}
-\addcontentsline{toc}{chapter}{Introduction}
-
 %TODO curse of dimensionality
 % http://jotterbach.github.io/2016/05/23/TSNE/
 
@@ -676,7 +667,7 @@ To perform a dimensionality reduction using the neural network, the shape and th
 
 %TODO FIX EVOLVING FULL VS TRIANGULAR
 
-\chapter{Experiments and Examples}
+\chapter{Experiments and Examples} \label{chap:exp}
 We performed five different experiments to assess the performance of the metric learning algorithm presented in this work. In Section \ref{chap:exp:classification} we learn a metric for the \ac{knn} classifier and compare classification errors on various datasets, which are described in Section \ref{chap:exp:datasets}. In the next experiment in Section \ref{chap:exp:fitness} we compare different evolutionary algorithms together with various fitnesses and show how well they evolve and generalize, while in Section \ref{chap:exp:logjde} the performance of different population sizes of \ac{jde} is compared. In Section \ref{chap:exp:learning-times} we measure the training times of the \ac{dml} algorithms and in the last experiment in Section \ref{chap:exp:dimred} we use metric learning algorithms for visualisation and we compare the resulting embeddings with more traditional methods, \ac{pca} and \ac{tsne}.
 
 \section{Experimental settings} 
