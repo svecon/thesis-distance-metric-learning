@@ -368,10 +368,10 @@ jDE.wFme & 2013 & Full & Local & None & Evolution \\
 
 \section{k-Nearest Neighbour classifier} \label{alg:knn}
 
-Some \acl{dml} methods were designed to directly improve \acl{knn} classifier effectiveness. The performance of the \ac{knn} classifier largely depends on the metric used. In Figure \ref{pseudo:knn} you can see the pseudocode for classifying an unknown sample using \ac{knn} classifier. Any metric can be used in the algorithm simply by changing the distance metric on Line \ref{pseudo:knn:dist}. Modifying the \ac{knn} algorithm to use a custom metric is trivial even for faster implementations using trees for nearest neighbour search.
+Some \acl{dml} methods were designed to directly improve \acl{knn} classifier effectiveness. The performance of the \ac{knn} classifier largely depends on the metric used. In Algorithm \ref{pseudo:knn} you can see the pseudocode for classifying an unknown sample using \ac{knn} classifier. Any metric can be used in the algorithm simply by changing the distance metric on Line \ref{pseudo:knn:dist}. Modifying the \ac{knn} algorithm to use a custom metric is trivial even for faster implementations using trees for nearest neighbour search.
 
-\begin{figure}
-\begin{algorithm}[H]
+\begin{algorithm}[t]
+\caption{Pseudocode for k-NN classification} \label{pseudo:knn}
 \DontPrintSemicolon
 \LinesNumbered
 \KwData{set of labelled instances $\mathcal{Z}=\{\bm{z}_i=(\bm{x}_i, y_i): \bm{x}_i \in \mathcal{X}, y_i \in \mathcal{Y}\}^n_{i=1}$, where $\mathcal{X}$ are training data and $\mathcal{Y}$ are their class labels}
@@ -384,8 +384,6 @@ Some \acl{dml} methods were designed to directly improve \acl{knn} classifier ef
   \Return majority class from the $k$ smallest $distances$\;
 }
 \end{algorithm} 
-\caption{Pseudocode for k-NN classification} \label{pseudo:knn}
-\end{figure}
 
 \section{MMC Xing method} \label{chap:rw:xing}
 The work of \cite{xing2002distance} is the first Mahalanobis distance learning algorithm leveraging some information about the data. It is a weakly supervised method that takes information in a form of pairs of similar and dissimilar instances as defined in Equations \ref{eq:similar} and \ref{eq:dissimilar}. They formulate a convex optimisation problem that tries to maximize the distance between dissimilar pairs of instances while keeping the sum of the distances between similar pairs as low as possible ($\leq 1$). The convex program is shown in Equation \ref{eq:rw:xing}.
@@ -474,7 +472,7 @@ Both \ac{lda} and \ac{lpp} methods can be used for dimensionality reduction and 
 
 \Acl{dml} paired together with \acp{ea} has been getting more attention recently. For example the work of \cite{koloseni2012optimized} uses \ac{ea} to select the best possible metric out of a predefined list to improve a classification error. The work of \cite{fukui2013evolutionary} also uses \ac{ea}, but takes a different approach and instead of choosing a metric from a predefined list, they try to evolve a Mahalanobis distance matrix. \Acl{de} is used in which an individual encodes the Mahalanobis matrix, which is symmetric and so it can be encoded as a real-valued vector of length $d(d+1)/2$. \Acl{de} is a special case of an \ac{ea} which is a stochastic, population based algorithm suitable for solving a real-valued objective function with many parameters. The \ac{ea} is typically used when the objective function is non-differentiable and non-continuous. A typical schema of an \ac{ea} is shown in Figure \ref{fig:rw:ea:schema}: a population of individuals is randomly initiated and evaluated using the objective (fitness) function. Then the algorithm breeds new individuals through mutation and crossover, the individuals are evaluated and a new population of the individuals is selected. This whole process is repeated until some termination rule is met.
 
-\Ac{de} is a special type of an evolutionary algorithm that has a special type of mutation and crossover operations. The pseudocode for \ac{de} is shown in Figure \ref{pseudo:de}. It follows the schema from Figure \ref{fig:rw:ea:schema} and the special crossover operation is defined on Line \ref{pseudo:de:mut}, where three different individuals are combined to create a new one. \ac{de} algorithm has two hyperparameters apart from the size of the population: crossover probability $CR$ and differential weight $F$. \ac{de} algorithm can be very sensitive to the choice of these two hyperparameters. \cite{fukui2013evolutionary} uses an improved version of \ac{de} called \acf{jde} \citep{brest2006self}, which alleviates this problem by encoding the hyperparameters $CR$ and $F$ inside of every single individual. When a new individual is bred using the mutation and crossover, the $CR$ and $F$ parameters from the parent individual are used. Therefore these two hyperparameters do not need to be specified for \ac{jde} and the algorithm itself is more robust.
+\Ac{de} is a special type of an evolutionary algorithm that has a special type of mutation and crossover operations. The pseudocode for \ac{de} is shown in Algorithm~\ref{pseudo:de}. It follows the schema from Figure \ref{fig:rw:ea:schema} and the special crossover operation is defined on Line \ref{pseudo:de:mut}, where three different individuals are combined to create a new one. \ac{de} algorithm has two hyperparameters apart from the size of the population: crossover probability $CR$ and differential weight $F$. \ac{de} algorithm can be very sensitive to the choice of these two hyperparameters. \cite{fukui2013evolutionary} uses an improved version of \ac{de} called \acf{jde} \citep{brest2006self}, which alleviates this problem by encoding the hyperparameters $CR$ and $F$ inside of every single individual. When a new individual is bred using the mutation and crossover, the $CR$ and $F$ parameters from the parent individual are used. Therefore these two hyperparameters do not need to be specified for \ac{jde} and the algorithm itself is more robust.
 
 \cenfig{graphs/ea_scheme}{Scheme of an evolutionary algorithm}{fig:rw:ea:schema}
 
@@ -484,8 +482,8 @@ Both \ac{lda} and \ac{lpp} methods can be used for dimensionality reduction and 
 %TODO https://www.quora.com/What-is-the-difference-between-Genetic-algorithm-and-differential-evolution
 %TODO http://www.maths.uq.edu.au/MASCOS/Multi-Agent04/Fleetwood.pdf
 
-\begin{figure}
-\begin{algorithm}[H]
+\begin{algorithm}[t]
+\caption{Pseudocode for Differential Evolution algorithm} \label{pseudo:de}
 \DontPrintSemicolon
 \LinesNumbered
 \KwIn{fitness function $f$, crossover probability $CR \in [0,1]$, differential weight $F \in [0,2]$}
@@ -503,8 +501,6 @@ Initialize all agents with random positions in the search-space.\;
   }
 }
 \end{algorithm} 
-\caption{Pseudocode for Differential Evolution algorithm} \label{pseudo:de}
-\end{figure}
 
 To ensure that the evolved matrix is \ac{psd} during the evolution, the authors "repair" the matrix so that it is diagonally dominant using a rule defined in Equation \ref{eq:rw:jde:repair}. Diagonally dominant matrix with positive diagonal elements is \ac{psd}.
 
@@ -949,23 +945,23 @@ Interestingly, the neural networks with \ac{sigm} and \ac{tanh} activations tend
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Implementation} \label{chap:impl}
-
-\section{Hierarchical Grid search}
-
-how it works - scheme
-
-how cross-validation is in memory
-
-\section{Metric learning in metric\_learn package}
-
-Description of modules, fitnesses, transformers, ...
-
-\begin{figure}[h!] \label{fig:implementation-modules}
-	\centering
-    \includegraphics[width=0.2\textwidth]{img/notfound}
-    \caption{Interaction between modules for Metric evolution}
-\end{figure}
+%\chapter{Implementation} \label{chap:impl}
+%
+%\section{Hierarchical Grid search}
+%
+%how it works - scheme
+%
+%how cross-validation is in memory
+%
+%\section{Metric learning in metric\_learn package}
+%
+%Description of modules, fitnesses, transformers, ...
+%
+%\begin{figure}[h!] \label{fig:implementation-modules}
+%	\centering
+%    \includegraphics[width=0.2\textwidth]{img/notfound}
+%    \caption{Interaction between modules for Metric evolution}
+%\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -1022,6 +1018,9 @@ In spite of our best effort, not everything was finished on time and there is ro
 
 %%% Figures used in the thesis (consider if this is needed)
 \listoffigures
+
+%%% Algorithms used in the thesis 
+\listofalgorithmes
 
 %%% Tables used in the thesis (consider if this is needed)
 %%% In mathematical theses, it could be better to move the list of tables to the beginning of the thesis.
