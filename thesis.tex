@@ -651,7 +651,7 @@ The algorithm described here is similar to the algorithm described by \cite{fuku
 %TODO is the claim about Mahalanobis metric correct?????
 \acl{dml} algorithms can also be used for dimensionality reduction as already discussed in Chapter \ref{chap:rw}. In this section we discuss how to extend \acl{ea} for dimensionality reduction. In the previous section we described how we use \ac{cmaes} algorithm to evolve a Mahalanobis transformation matrix $\bm{L} \in \mathcal{R}^{d\times d}$. By changing the shape of the matrix $\bm{L}$ to $d\times m$, where $m < d$, we obtain a singular transformation matrix that will transform the original $d$-dimensional space into $m$-dimensional. In this work we focus on visualisation in 2D space and so a matrix $\bm{L} \in \mathcal{R}^{d\times 2}$ is evolved. The problem with forcing the matrix $\bm{L}$ to be rectangular is that we still optimise the fitness function using the \ac{knn} with a Mahalanobis distance in the original $d$-dimensional space (Figure \ref{pseudo:ea:knn}. However, this can be fixed by applying the transformation property of the Mahalanobis metric from Equation \ref{eq:mahalanobis:transform}: instead of using \ac{knn} with Mahalanobis metric, we use the matrix $\bm{L}$ encoded in the individual to transform the data into a new low-dimensional space in which a \ac{knn} classifier can be used with a standard Euclidean metric and it also becomes much more efficient.
 
-By relaxing the need to use Mahalanobis metric and transforming the data before using the \ac{knn} classificator, we are not bound to use a linear transformation using matrix $\bm{L}$, but any function can be used to transform the data and the weights in the individual can be used to evolve the parameters of this function. We chose to use a fully connected neural network as a transformation function. The input layer of the network has a size of $d$ (dimensionality of the data) and the output layer has the size of the desired dimensionality (2 for visualisation in our case), the number of hidden layers and their sizes can be chosen at will. 
+By relaxing the need to use Mahalanobis metric and transforming the data before using the \ac{knn} classifier, we are not bound to use a linear transformation using matrix $\bm{L}$, but any function can be used to transform the data and the weights in the individual can be used to evolve the parameters of this function. We chose to use a fully connected neural network as a transformation function. The input layer of the network has a size of $d$ (dimensionality of the data) and the output layer has the size of the desired dimensionality (2 for visualisation in our case), the number of hidden layers and their sizes can be chosen at will. 
 
 To perform a non-linear transformation using a neural network, the activation functions need to be used between the layers. Without activation functions a fully connected neural network essentially reduces to a linear transformation. Typical activation functions used in neural networks are sigmoid function ($\sigma$), hyperbolic tangent (tanh) and rectified linear unit (ReLU), which are defined in Equations \ref{eq:nn:sigm}, \ref{eq:nn:tanh} and \ref{eq:nn:relu}.
 
@@ -996,29 +996,22 @@ It might be possible to evaluate the fitness on subsamples of the dataset to spe
 %TODO
 % http://researchers.lille.inria.fr/abellet/talks/metric_learning_tutorial_ECML_PKDD.pdf
 
-What wasn`t finished and should be.
+In spite of our best effort, not everything was finished on time and there is room for further research. We recommend focusing on these improvements:
 
-- early stopping in cmaes (how? they have periods. maybe evaluate test knn every X generations?)
+\begin{itemize}
+\item \Aclp{ea} are stochastic and multiple runs might improve the results in both classification and dimensionality reduction experiments.
+\item Evolution sometimes overfits the metric and it does not generalize well. This problem might be mitigated using early stopping technique.
 
-- adding regularizer slide 23-24
+\item Another approach to overfitting might be adding a regularizing technique to the fitness function, such as Frobenius Norm~\citep{schultz2003learning} or LogDet divergence~\citep{davis2007information}.
 
-- other than global metrics
+\item Our work focused mainly on learning linear metrics, but further extensions to non-linear metrics are possible using the kernel trick \citep{chatpatanasiri2010new} or multiple local metrics as discussed in \cite{bellet2013survey}. We also experimented with fully connected neural networks, but many other architectures can be experimented on.
 
-- nonlinear extensions: kernelizations of linear methods (slides 28-32)
+\item Instead of choosing a single individual with the best fitness across all generations for the final transformation, multiple individuals can be combined together to form the final transformation.
 
-- learning multiple local metrics at once (would it be faster with Evolution?)
+\item Additional objectives can be added to the fitness function together with the \ac{knn} classifier to improve the generalization.  Some clustering indexes (e.g. purity, homogeneity) could work well with \ac{knn} in describing the final embedding. \ac{cmaes} is naturally extended to handle multi-objective optimisation.
 
-- large scale metric learning -- online learning
-
-- metric learning for structured data (slide 46+)
-
-- neural network shape for classification??
-
-- add more values to fitness (multi-objective optimisation)
-
-- compare evolving only a triangular matrix! (generalization? performance?)
-
-- ...
+\item In our work we evolved a transformation matrix that could be used to form Mahalanobis metric. We focused on evolving a full and a diagonal matrix, however evolving a triangular matrix could be good compromise between model performance and computation feasibility.
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
