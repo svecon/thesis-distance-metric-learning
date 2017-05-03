@@ -965,48 +965,54 @@ Interestingly, the neural networks with \ac{sigm} and \ac{tanh} activations tend
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\chapter{Discussion}
+%\chapter{Discussion}
 
-Graphs, performace, caveats, what worked, what didnt work...
+%Graphs, performace, caveats, what worked, what didnt work...
 
-LMNN, ITML, SDML take too long to calculate
+%LMNN, ITML, SDML take too long to calculate
 
-LMNN and LFDA perform very well
+%LMNN and LFDA perform very well
 
-LMNN has too many hyper parameters
+%LMNN has too many hyper parameters
 
-Simple Covariance metric was impossible to calculate on certain datasets
+%Simple Covariance metric was impossible to calculate on certain datasets
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter*{Conclusion}
 \addcontentsline{toc}{chapter}{Conclusion}
 
-%TODO This worked, this didn't work. What we did.
-We presented a evolutionary algorithm for metric learning and dimensionality reduction with focus on visualization. The algorithm extends previous ideas of Fukui~\cite{fukui2013evolutionary} and improves on its results. The main idea of the algorithm is to use a \ac{knn} based fitness function and \ac{cmaes} in order to find distance metrics and mappings to lower dimensional spaces. We have further extended the ideas by replacing the usual linear transformation with a more complex non-linear mapping represented as a neural networks. In the metric learning experiments, we were able to find metrics better than other algorithms in four out of the ten cases, while in the remaining cases the results were mostly comparable to those obtained by the best algorithms, in the dimensionality reduction experiments, we obtained the best results on five of the ten datasets. On the rest of the datasets, the other methods obtained (especially NCA) better results, however, these methods sometimes failed completely due to their complexity or numerical instability, the proposed method does not have these problems.
+We presented an evolutionary algorithm for metric learning and dimensionality reduction with focus on visualization. The algorithm extends previous ideas of \cite{fukui2013evolutionary} and improves on its results. The main idea of the algorithm is to use a \ac{knn} based fitness function and \ac{cmaes} in order to find distance metrics and mappings to lower dimensional spaces. We have further extended the ideas by replacing the usual linear transformation with a more complex non-linear mapping represented as a neural networks.
 
-It might be possible to evaluate the fitness on subsamples of the dataset to speed up the evolution, similarly to the way how batches are used in stochastic gradient descend and improve the speed of the algorithm. Further extensions in this direction are left as future work, as well as experiments with other architectures of neural networks.
+We compared our algorithm to standard Euclidean distance and state-of-the-art \acl{dml} algorithms: \ac{lmnn}, \ac{nca}, \ac{lfda} and \ac{jdefme}. In the metric learning experiment focused on improving classification, we were able to find metrics better than other algorithms in four out of the ten cases, while in the remaining cases the results were mostly comparable to those obtained by the best algorithms. In the dimensionality reduction experiment, we obtained the best results on five out of ten datasets. On the rest of the datasets, the other methods obtained (especially \ac{nca}) better results, however, these methods sometimes failed completely due to their complexity or numerical instability, the proposed method does not have these problems.
+
+Lastly we performed an experiment to measure the generalization performance of the evolutionary algorithms and their fitnesses. We found that \ac{jde} algorithm needs much bigger population to perform well, compared to \ac{cmaes}. We also found that \ac{cmaes} generalizes well, but can overfit in some cases. Lastly the \ac{knn} classifier used as a fitness function performs better than \acl{fme}.
+
+We also measured the scalability and time-performance of all algorithms. We found that our proposed algorithm \ac{cmaesknn} scales very well with number of samples and also scales relatively well with an increasing dimensionality of the dataset. \ac{cmaesknn} is $10-20\times$ faster than compared to the competing evolutionary \ac{jdefme} algorithm described by \cite{fukui2013evolutionary} due to the population size. When compared to non-evolutionary methods, \ac{cmaesknn} also performs several times faster than \ac{nca}, nevertheless, \ac{lmnn} and \ac{lfda} are faster.
+
 
 \chapter*{Future work}
 
-%TODO
-% http://researchers.lille.inria.fr/abellet/talks/metric_learning_tutorial_ECML_PKDD.pdf
+% Inspired by http://researchers.lille.inria.fr/abellet/talks/metric_learning_tutorial_ECML_PKDD.pdf
 
-In spite of our best effort, not everything was finished on time and there is room for further research. We recommend focusing on these improvements:
+In spite of our best effort, not everything was finished and there is room for further extensions and research. We recommend focusing on these areas:
 
 \begin{itemize}
 \item \Aclp{ea} are stochastic and multiple runs might improve the results in both classification and dimensionality reduction experiments.
-\item Evolution sometimes overfits the metric and it does not generalize well. This problem might be mitigated using early stopping technique.
+
+\item Evolution is sometimes overfitting the metric and not generalizing well. This problem might be mitigated using early stopping technique.
 
 \item Another approach to overfitting might be adding a regularizing technique to the fitness function, such as Frobenius Norm~\citep{schultz2003learning} or LogDet divergence~\citep{davis2007information}.
 
-\item Our work focused mainly on learning linear metrics, but further extensions to non-linear metrics are possible using the kernel trick \citep{chatpatanasiri2010new} or multiple local metrics as discussed in \cite{bellet2013survey}. We also experimented with fully connected neural networks, but many other architectures can be experimented on.
+\item Our work focused mainly on learning linear metrics, but further extensions to non-linear metrics are possible using the kernel trick \citep{chatpatanasiri2010new} or multiple local metrics as discussed in \cite{bellet2013survey}. We also experimented with fully connected neural networks, however more experiments can be conducted using other neural network architectures.
 
 \item Instead of choosing a single individual with the best fitness across all generations for the final transformation, multiple individuals can be combined together to form the final transformation.
 
 \item Additional objectives can be added to the fitness function together with the \ac{knn} classifier to improve the generalization.  Some clustering indexes (e.g. purity, homogeneity) could work well with \ac{knn} in describing the final embedding. \ac{cmaes} is naturally extended to handle multi-objective optimisation.
 
 \item In our work we evolved a transformation matrix that could be used to form Mahalanobis metric. We focused on evolving a full and a diagonal matrix, however evolving a triangular matrix could be good compromise between model performance and computation feasibility.
+
+\item It might be possible to evaluate the fitness on subsamples of the dataset to speed up the evolution, similarly to the way how batches are used in stochastic gradient descend and improve the speed of the algorithm.
 \end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
