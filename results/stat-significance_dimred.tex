@@ -3,23 +3,23 @@
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:PCA} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:t-SNE} & \rot{s:CMAES.kNN+t-SNE} & \rot{s:NN.Sigm (shallow)} & \rot{s:NN.Tanh (shallow)} & \rot{s:NN.ReLU (shallow)} & \rot{s:NN.Sigmoid (deep)} & \rot{s:NN.Tanh (deep)} & \rot{s:NN.ReLU (deep)} \\ \midrule
-s:PCA & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NCA & **** & . & . & . & **** & . & . & . & . & . & ** & * \\
-s:LFDA & **** & . & . & . & **** & . & . & . & . & . & *** & * \\
-s:CMAES.kNN & **** & . & . & . & **** & . & . & . & . & * & *** & ** \\
-s:t-SNE & *** & . & . & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN+t-SNE & **** & * & ** & . & **** & . & * & . & ** & *** & **** & **** \\
-s:NN.Sigm (shallow) & **** & . & . & . & **** & . & . & . & . & . & *** & * \\
-s:NN.Tanh (shallow) & **** & . & * & . & **** & . & . & . & * & ** & **** & *** \\
-s:NN.ReLU (shallow) & **** & . & . & . & **** & . & . & . & . & . & ** & . \\
-s:NN.Sigmoid (deep) & **** & . & . & . & *** & . & . & . & . & . & . & . \\
-s:NN.Tanh (deep) & **** & . & . & . & * & . & . & . & . & . & . & . \\
-s:NN.ReLU (deep) & **** & . & . & . & **** & . & . & . & . & . & * & . \\
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+s:\ac{pca} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{nca} & **** & . & . & . & **** & . & . & . & . & . & ** & * \\
+s:\ac{lfda} & **** & . & . & . & **** & . & . & . & . & . & *** & * \\
+s:\ac{cmaesknn} & **** & . & . & . & **** & . & . & . & . & * & *** & ** \\
+s:\ac{tsne} & *** & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn}+\ac{tsne} & **** & * & ** & . & **** & . & * & . & ** & *** & **** & **** \\
+s:NN.\ac{sigm} (shallow) & **** & . & . & . & **** & . & . & . & . & . & *** & * \\
+s:NN.\ac{tanh} (shallow) & **** & . & * & . & **** & . & . & . & * & ** & **** & *** \\
+s:NN.\ac{relu} (shallow) & **** & . & . & . & **** & . & . & . & . & . & ** & . \\
+s:NN.\ac{sigm} (deep) & **** & . & . & . & *** & . & . & . & . & . & . & . \\
+s:NN.\ac{tanh} (deep) & **** & . & . & . & * & . & . & . & . & . & . & . \\
+s:NN.\ac{relu} (deep) & **** & . & . & . & **** & . & . & . & . & . & * & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `balance-scale` dataset in the dimensionality reduction experiment} \label{tab:statsign:dimred:balance-scale}
+\caption{Statistical significance for the~dimensionality reduction experiment using \dataset{balance-scale} dataset} \label{tab:statsign:dimred:balance-scale}
 \end{table}
 
 
@@ -28,23 +28,23 @@ s:NN.ReLU (deep) & **** & . & . & . & **** & . & . & . & . & . & * & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:PCA} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:t-SNE} & \rot{s:CMAES.kNN+t-SNE} & \rot{s:NN.Sigm (shallow)} & \rot{s:NN.Tanh (shallow)} & \rot{s:NN.ReLU (shallow)} & \rot{s:NN.Sigmoid (deep)} & \rot{s:NN.Tanh (deep)} & \rot{s:NN.ReLU (deep)} \\ \midrule
-s:PCA & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NCA & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:LFDA & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:t-SNE & . & . & . & . & . & . & . & . & . & . & ** & . \\
-s:CMAES.kNN+t-SNE & . & . & ** & . & . & . & . & . & . & . & . & . \\
-s:NN.Sigm (shallow) & . & . & . & . & . & . & . & . & ** & . & . & . \\
-s:NN.Tanh (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.ReLU (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.Sigmoid (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.Tanh (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.ReLU (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+s:\ac{pca} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{nca} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{lfda} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{tsne} & . & . & . & . & . & . & . & . & . & . & ** & . \\
+s:\ac{cmaesknn}+\ac{tsne} & . & . & ** & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{sigm} (shallow) & . & . & . & . & . & . & . & . & ** & . & . & . \\
+s:NN.\ac{tanh} (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{relu} (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{sigm} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{tanh} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{relu} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `breast-cancer` dataset in the dimensionality reduction experiment} \label{tab:statsign:dimred:breast-cancer}
+\caption{Statistical significance for the~dimensionality reduction experiment using \dataset{breast-cancer} dataset} \label{tab:statsign:dimred:breast-cancer}
 \end{table}
 
 
@@ -53,23 +53,23 @@ s:NN.ReLU (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:PCA} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:t-SNE} & \rot{s:CMAES.kNN+t-SNE} & \rot{s:NN.Sigm (shallow)} & \rot{s:NN.Tanh (shallow)} & \rot{s:NN.ReLU (shallow)} & \rot{s:NN.Sigmoid (deep)} & \rot{s:NN.Tanh (deep)} & \rot{s:NN.ReLU (deep)} \\ \midrule
-s:PCA & . & ? & ** & . & . & . & . & . & . & **** & **** & *** \\
-s:NCA & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
-s:LFDA & . & ? & . & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN & *** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
-s:t-SNE & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
-s:CMAES.kNN+t-SNE & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
-s:NN.Sigm (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
-s:NN.Tanh (shallow) & **** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
-s:NN.ReLU (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
-s:NN.Sigmoid (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
-s:NN.Tanh (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
-s:NN.ReLU (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+s:\ac{pca} & . & ? & ** & . & . & . & . & . & . & **** & **** & *** \\
+s:\ac{nca} & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:\ac{lfda} & . & ? & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn} & *** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
+s:\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
+s:\ac{cmaesknn}+\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
+s:NN.\ac{sigm} (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
+s:NN.\ac{tanh} (shallow) & **** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
+s:NN.\ac{relu} (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
+s:NN.\ac{sigm} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{tanh} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{relu} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `digits6` dataset in the dimensionality reduction experiment} \label{tab:statsign:dimred:digits6}
+\caption{Statistical significance for the~dimensionality reduction experiment using \dataset{digits6} dataset} \label{tab:statsign:dimred:digits6}
 \end{table}
 
 
@@ -78,23 +78,23 @@ s:NN.ReLU (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:PCA} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:t-SNE} & \rot{s:CMAES.kNN+t-SNE} & \rot{s:NN.Sigm (shallow)} & \rot{s:NN.Tanh (shallow)} & \rot{s:NN.ReLU (shallow)} & \rot{s:NN.Sigmoid (deep)} & \rot{s:NN.Tanh (deep)} & \rot{s:NN.ReLU (deep)} \\ \midrule
-s:PCA & . & ? & *** & . & . & . & . & . & . & **** & **** & **** \\
-s:NCA & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
-s:LFDA & . & ? & . & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
-s:t-SNE & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
-s:CMAES.kNN+t-SNE & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
-s:NN.Sigm (shallow) & *** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
-s:NN.Tanh (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
-s:NN.ReLU (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
-s:NN.Sigmoid (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
-s:NN.Tanh (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
-s:NN.ReLU (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+s:\ac{pca} & . & ? & *** & . & . & . & . & . & . & **** & **** & **** \\
+s:\ac{nca} & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:\ac{lfda} & . & ? & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn} & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
+s:\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
+s:\ac{cmaesknn}+\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
+s:NN.\ac{sigm} (shallow) & *** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
+s:NN.\ac{tanh} (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
+s:NN.\ac{relu} (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
+s:NN.\ac{sigm} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{tanh} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{relu} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `digits10` dataset in the dimensionality reduction experiment} \label{tab:statsign:dimred:digits10}
+\caption{Statistical significance for the~dimensionality reduction experiment using \dataset{digits10} dataset} \label{tab:statsign:dimred:digits10}
 \end{table}
 
 
@@ -103,23 +103,23 @@ s:NN.ReLU (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:PCA} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:t-SNE} & \rot{s:CMAES.kNN+t-SNE} & \rot{s:NN.Sigm (shallow)} & \rot{s:NN.Tanh (shallow)} & \rot{s:NN.ReLU (shallow)} & \rot{s:NN.Sigmoid (deep)} & \rot{s:NN.Tanh (deep)} & \rot{s:NN.ReLU (deep)} \\ \midrule
-s:PCA & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NCA & **** & . & . & . & * & . & * & * & * & **** & **** & *** \\
-s:LFDA & **** & . & . & . & ** & . & ** & * & ** & **** & **** & *** \\
-s:CMAES.kNN & **** & . & . & . & . & . & . & . & . & **** & *** & *** \\
-s:t-SNE & *** & . & . & . & . & . & . & . & . & ** & ** & ** \\
-s:CMAES.kNN+t-SNE & **** & . & . & . & . & . & . & . & . & *** & *** & ** \\
-s:NN.Sigm (shallow) & **** & . & . & . & . & . & . & . & . & *** & *** & ** \\
-s:NN.Tanh (shallow) & *** & . & . & . & . & . & . & . & . & ** & ** & ** \\
-s:NN.ReLU (shallow) & **** & . & . & . & . & . & . & . & . & *** & *** & ** \\
-s:NN.Sigmoid (deep) & . & . & . & . & . & . & . & . & . & . & * & . \\
-s:NN.Tanh (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.ReLU (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+s:\ac{pca} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{nca} & **** & . & . & . & * & . & * & * & * & **** & **** & *** \\
+s:\ac{lfda} & **** & . & . & . & ** & . & ** & * & ** & **** & **** & *** \\
+s:\ac{cmaesknn} & **** & . & . & . & . & . & . & . & . & **** & *** & *** \\
+s:\ac{tsne} & *** & . & . & . & . & . & . & . & . & ** & ** & ** \\
+s:\ac{cmaesknn}+\ac{tsne} & **** & . & . & . & . & . & . & . & . & *** & *** & ** \\
+s:NN.\ac{sigm} (shallow) & **** & . & . & . & . & . & . & . & . & *** & *** & ** \\
+s:NN.\ac{tanh} (shallow) & *** & . & . & . & . & . & . & . & . & ** & ** & ** \\
+s:NN.\ac{relu} (shallow) & **** & . & . & . & . & . & . & . & . & *** & *** & ** \\
+s:NN.\ac{sigm} (deep) & . & . & . & . & . & . & . & . & . & . & * & . \\
+s:NN.\ac{tanh} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{relu} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `gaussians` dataset in the dimensionality reduction experiment} \label{tab:statsign:dimred:gaussians}
+\caption{Statistical significance for the~dimensionality reduction experiment using \dataset{gaussians} dataset} \label{tab:statsign:dimred:gaussians}
 \end{table}
 
 
@@ -128,23 +128,23 @@ s:NN.ReLU (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:PCA} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:t-SNE} & \rot{s:CMAES.kNN+t-SNE} & \rot{s:NN.Sigm (shallow)} & \rot{s:NN.Tanh (shallow)} & \rot{s:NN.ReLU (shallow)} & \rot{s:NN.Sigmoid (deep)} & \rot{s:NN.Tanh (deep)} & \rot{s:NN.ReLU (deep)} \\ \midrule
-s:PCA & . & . & . & . & * & * & . & . & . & . & * & . \\
-s:NCA & *** & . & . & . & *** & *** & . & . & . & * & **** & . \\
-s:LFDA & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
-s:CMAES.kNN & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
-s:t-SNE & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN+t-SNE & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.Sigm (shallow) & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
-s:NN.Tanh (shallow) & . & . & . & . & ** & * & . & . & . & . & * & . \\
-s:NN.ReLU (shallow) & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
-s:NN.Sigmoid (deep) & . & . & . & . & * & . & . & . & . & . & . & . \\
-s:NN.Tanh (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.ReLU (deep) & * & . & . & . & ** & ** & . & . & . & . & *** & . \\
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+s:\ac{pca} & . & . & . & . & * & * & . & . & . & . & * & . \\
+s:\ac{nca} & *** & . & . & . & *** & *** & . & . & . & * & **** & . \\
+s:\ac{lfda} & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
+s:\ac{cmaesknn} & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
+s:\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn}+\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{sigm} (shallow) & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
+s:NN.\ac{tanh} (shallow) & . & . & . & . & ** & * & . & . & . & . & * & . \\
+s:NN.\ac{relu} (shallow) & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
+s:NN.\ac{sigm} (deep) & . & . & . & . & * & . & . & . & . & . & . & . \\
+s:NN.\ac{tanh} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{relu} (deep) & * & . & . & . & ** & ** & . & . & . & . & *** & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `iris` dataset in the dimensionality reduction experiment} \label{tab:statsign:dimred:iris}
+\caption{Statistical significance for the~dimensionality reduction experiment using \dataset{iris} dataset} \label{tab:statsign:dimred:iris}
 \end{table}
 
 
@@ -153,23 +153,23 @@ s:NN.ReLU (deep) & * & . & . & . & ** & ** & . & . & . & . & *** & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:PCA} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:t-SNE} & \rot{s:CMAES.kNN+t-SNE} & \rot{s:NN.Sigm (shallow)} & \rot{s:NN.Tanh (shallow)} & \rot{s:NN.ReLU (shallow)} & \rot{s:NN.Sigmoid (deep)} & \rot{s:NN.Tanh (deep)} & \rot{s:NN.ReLU (deep)} \\ \midrule
-s:PCA & . & ? & . & . & . & . & . & . & . & . & . & . \\
-s:NCA & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
-s:LFDA & . & ? & . & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN & **** & ? & **** & . & . & . & ** & ** & ** & **** & **** & **** \\
-s:t-SNE & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
-s:CMAES.kNN+t-SNE & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
-s:NN.Sigm (shallow) & **** & ? & ** & . & . & . & . & . & . & *** & **** & *** \\
-s:NN.Tanh (shallow) & **** & ? & ** & . & . & . & . & . & . & *** & **** & *** \\
-s:NN.ReLU (shallow) & **** & ? & *** & . & . & . & . & . & . & *** & **** & *** \\
-s:NN.Sigmoid (deep) & **** & ? & . & . & . & . & . & . & . & . & . & . \\
-s:NN.Tanh (deep) & ** & ? & . & . & . & . & . & . & . & . & . & . \\
-s:NN.ReLU (deep) & *** & ? & . & . & . & . & . & . & . & . & . & . \\
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+s:\ac{pca} & . & ? & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{nca} & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:\ac{lfda} & . & ? & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn} & **** & ? & **** & . & . & . & ** & ** & ** & **** & **** & **** \\
+s:\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
+s:\ac{cmaesknn}+\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
+s:NN.\ac{sigm} (shallow) & **** & ? & ** & . & . & . & . & . & . & *** & **** & *** \\
+s:NN.\ac{tanh} (shallow) & **** & ? & ** & . & . & . & . & . & . & *** & **** & *** \\
+s:NN.\ac{relu} (shallow) & **** & ? & *** & . & . & . & . & . & . & *** & **** & *** \\
+s:NN.\ac{sigm} (deep) & **** & ? & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{tanh} (deep) & ** & ? & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{relu} (deep) & *** & ? & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `mice-protein` dataset in the dimensionality reduction experiment} \label{tab:statsign:dimred:mice-protein}
+\caption{Statistical significance for the~dimensionality reduction experiment using \dataset{mice-protein} dataset} \label{tab:statsign:dimred:mice-protein}
 \end{table}
 
 
@@ -178,23 +178,23 @@ s:NN.ReLU (deep) & *** & ? & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:PCA} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:t-SNE} & \rot{s:CMAES.kNN+t-SNE} & \rot{s:NN.Sigm (shallow)} & \rot{s:NN.Tanh (shallow)} & \rot{s:NN.ReLU (shallow)} & \rot{s:NN.Sigmoid (deep)} & \rot{s:NN.Tanh (deep)} & \rot{s:NN.ReLU (deep)} \\ \midrule
-s:PCA & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NCA & ** & . & . & . & . & . & . & . & . & ** & ** & . \\
-s:LFDA & * & . & . & . & . & . & . & . & . & ** & * & . \\
-s:CMAES.kNN & * & . & . & . & . & . & . & . & . & ** & * & . \\
-s:t-SNE & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN+t-SNE & * & . & . & . & . & . & . & . & . & ** & * & . \\
-s:NN.Sigm (shallow) & . & . & . & . & . & . & . & . & . & * & . & . \\
-s:NN.Tanh (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.ReLU (shallow) & * & . & . & . & . & . & . & . & . & ** & * & . \\
-s:NN.Sigmoid (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.Tanh (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.ReLU (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+s:\ac{pca} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{nca} & ** & . & . & . & . & . & . & . & . & ** & ** & . \\
+s:\ac{lfda} & * & . & . & . & . & . & . & . & . & ** & * & . \\
+s:\ac{cmaesknn} & * & . & . & . & . & . & . & . & . & ** & * & . \\
+s:\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn}+\ac{tsne} & * & . & . & . & . & . & . & . & . & ** & * & . \\
+s:NN.\ac{sigm} (shallow) & . & . & . & . & . & . & . & . & . & * & . & . \\
+s:NN.\ac{tanh} (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{relu} (shallow) & * & . & . & . & . & . & . & . & . & ** & * & . \\
+s:NN.\ac{sigm} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{tanh} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{relu} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `pima-indians` dataset in the dimensionality reduction experiment} \label{tab:statsign:dimred:pima-indians}
+\caption{Statistical significance for the~dimensionality reduction experiment using \dataset{pima-indians} dataset} \label{tab:statsign:dimred:pima-indians}
 \end{table}
 
 
@@ -203,23 +203,23 @@ s:NN.ReLU (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:PCA} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:t-SNE} & \rot{s:CMAES.kNN+t-SNE} & \rot{s:NN.Sigm (shallow)} & \rot{s:NN.Tanh (shallow)} & \rot{s:NN.ReLU (shallow)} & \rot{s:NN.Sigmoid (deep)} & \rot{s:NN.Tanh (deep)} & \rot{s:NN.ReLU (deep)} \\ \midrule
-s:PCA & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NCA & **** & . & . & * & *** & ** & . & * & * & *** & * & . \\
-s:LFDA & **** & . & . & ** & *** & ** & . & * & * & **** & * & . \\
-s:CMAES.kNN & * & . & . & . & * & . & . & . & . & * & . & . \\
-s:t-SNE & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN+t-SNE & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.Sigm (shallow) & *** & . & . & * & *** & * & . & . & . & *** & * & . \\
-s:NN.Tanh (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.ReLU (shallow) & * & . & . & . & * & . & . & . & . & * & . & . \\
-s:NN.Sigmoid (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.Tanh (deep) & . & . & . & . & . & * & . & . & . & . & . & . \\
-s:NN.ReLU (deep) & * & . & . & . & * & . & . & . & . & * & . & . \\
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+s:\ac{pca} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{nca} & **** & . & . & * & *** & ** & . & * & * & *** & * & . \\
+s:\ac{lfda} & **** & . & . & ** & *** & ** & . & * & * & **** & * & . \\
+s:\ac{cmaesknn} & * & . & . & . & * & . & . & . & . & * & . & . \\
+s:\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn}+\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{sigm} (shallow) & *** & . & . & * & *** & * & . & . & . & *** & * & . \\
+s:NN.\ac{tanh} (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{relu} (shallow) & * & . & . & . & * & . & . & . & . & * & . & . \\
+s:NN.\ac{sigm} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{tanh} (deep) & . & . & . & . & . & * & . & . & . & . & . & . \\
+s:NN.\ac{relu} (deep) & * & . & . & . & * & . & . & . & . & * & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `sonar` dataset in the dimensionality reduction experiment} \label{tab:statsign:dimred:sonar}
+\caption{Statistical significance for the~dimensionality reduction experiment using \dataset{sonar} dataset} \label{tab:statsign:dimred:sonar}
 \end{table}
 
 
@@ -228,21 +228,21 @@ s:NN.ReLU (deep) & * & . & . & . & * & . & . & . & . & * & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:PCA} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:t-SNE} & \rot{s:CMAES.kNN+t-SNE} & \rot{s:NN.Sigm (shallow)} & \rot{s:NN.Tanh (shallow)} & \rot{s:NN.ReLU (shallow)} & \rot{s:NN.Sigmoid (deep)} & \rot{s:NN.Tanh (deep)} & \rot{s:NN.ReLU (deep)} \\ \midrule
-s:PCA & . & . & . & . & **** & **** & . & . & * & * & ** & . \\
-s:NCA & . & . & . & * & **** & **** & . & * & ** & ** & *** & * \\
-s:LFDA & . & * & . & * & **** & **** & . & * & ** & ** & *** & * \\
-s:CMAES.kNN & . & . & . & . & *** & **** & . & . & . & . & . & . \\
-s:t-SNE & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN+t-SNE & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.Sigm (shallow) & . & . & . & . & **** & **** & . & . & . & . & * & . \\
-s:NN.Tanh (shallow) & . & . & . & . & **** & **** & . & . & . & . & * & . \\
-s:NN.ReLU (shallow) & . & . & . & . & **** & **** & . & . & . & . & . & . \\
-s:NN.Sigmoid (deep) & . & . & . & . & *** & *** & . & . & . & . & . & . \\
-s:NN.Tanh (deep) & . & . & . & . & ** & *** & . & . & . & . & . & . \\
-s:NN.ReLU (deep) & . & . & . & . & *** & **** & . & . & . & . & . & . \\
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+s:\ac{pca} & . & . & . & . & **** & **** & . & . & * & * & ** & . \\
+s:\ac{nca} & . & . & . & * & **** & **** & . & * & ** & ** & *** & * \\
+s:\ac{lfda} & . & * & . & * & **** & **** & . & * & ** & ** & *** & * \\
+s:\ac{cmaesknn} & . & . & . & . & *** & **** & . & . & . & . & . & . \\
+s:\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn}+\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.\ac{sigm} (shallow) & . & . & . & . & **** & **** & . & . & . & . & * & . \\
+s:NN.\ac{tanh} (shallow) & . & . & . & . & **** & **** & . & . & . & . & * & . \\
+s:NN.\ac{relu} (shallow) & . & . & . & . & **** & **** & . & . & . & . & . & . \\
+s:NN.\ac{sigm} (deep) & . & . & . & . & *** & *** & . & . & . & . & . & . \\
+s:NN.\ac{tanh} (deep) & . & . & . & . & ** & *** & . & . & . & . & . & . \\
+s:NN.\ac{relu} (deep) & . & . & . & . & *** & **** & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `wine` dataset in the dimensionality reduction experiment} \label{tab:statsign:dimred:wine}
+\caption{Statistical significance for the~dimensionality reduction experiment using \dataset{wine} dataset} \label{tab:statsign:dimred:wine}
 \end{table}

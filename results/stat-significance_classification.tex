@@ -3,20 +3,20 @@
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:\ac{lmnn}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{cmaesfme}} & \rot{s:\ac{jdefme}} & \rot{s:\ac{jdeknn}} \\ \midrule
 s:Euclidean & . & . & . & . & . & . & . & . & . \\
 s:Covariance & . & . & . & . & . & . & . & . & . \\
-s:LMNN & **** & **** & . & . & . & . & ** & * & . \\
-s:NCA & **** & **** & . & . & ** & . & *** & ** & . \\
-s:LFDA & ** & ** & . & . & . & . & . & . & . \\
-s:CMAES.kNN & **** & **** & . & . & ** & . & *** & *** & . \\
-s:CMAES.fMe & . & . & . & . & . & . & . & . & . \\
-s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
-s:jDE.kNN & **** & **** & . & . & ** & . & *** & *** & . \\
+s:\ac{lmnn} & **** & **** & . & . & . & . & ** & * & . \\
+s:\ac{nca} & **** & **** & . & . & ** & . & *** & ** & . \\
+s:\ac{lfda} & ** & ** & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn} & **** & **** & . & . & ** & . & *** & *** & . \\
+s:\ac{cmaesfme} & . & . & . & . & . & . & . & . & . \\
+s:\ac{jdefme} & . & . & . & . & . & . & . & . & . \\
+s:\ac{jdeknn} & **** & **** & . & . & ** & . & *** & *** & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `balance-scale` dataset in the classification experiment} \label{tab:statsign:classification:balance-scale}
+\caption{Statistical significance for the~classification experiment using \dataset{balance-scale} dataset} \label{tab:statsign:classification:balance-scale}
 \end{table}
 
 
@@ -25,20 +25,20 @@ s:jDE.kNN & **** & **** & . & . & ** & . & *** & *** & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:\ac{lmnn}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{cmaesfme}} & \rot{s:\ac{jdefme}} & \rot{s:\ac{jdeknn}} \\ \midrule
 s:Euclidean & . & * & . & . & . & . & . & . & . \\
 s:Covariance & . & . & . & . & . & . & . & . & . \\
-s:LMNN & . & * & . & . & . & . & . & . & . \\
-s:NCA & . & * & . & . & . & . & . & . & . \\
-s:LFDA & . & ** & . & . & . & . & . & . & . \\
-s:CMAES.kNN & . & ** & . & . & . & . & . & . & . \\
-s:CMAES.fMe & . & * & . & **** & . & . & . & . & . \\
-s:jDE.fMe & . & * & ** & . & . & . & . & . & . \\
-s:jDE.kNN & . & ** & . & . & . & . & . & . & . \\
+s:\ac{lmnn} & . & * & . & . & . & . & . & . & . \\
+s:\ac{nca} & . & * & . & . & . & . & . & . & . \\
+s:\ac{lfda} & . & ** & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn} & . & ** & . & . & . & . & . & . & . \\
+s:\ac{cmaesfme} & . & * & . & **** & . & . & . & . & . \\
+s:\ac{jdefme} & . & * & ** & . & . & . & . & . & . \\
+s:\ac{jdeknn} & . & ** & . & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `breast-cancer` dataset in the classification experiment} \label{tab:statsign:classification:breast-cancer}
+\caption{Statistical significance for the~classification experiment using \dataset{breast-cancer} dataset} \label{tab:statsign:classification:breast-cancer}
 \end{table}
 
 
@@ -47,20 +47,20 @@ s:jDE.kNN & . & ** & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:\ac{lmnn}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{cmaesfme}} & \rot{s:\ac{jdefme}} & \rot{s:\ac{jdeknn}} \\ \midrule
 s:Euclidean & . & ? & . & ? & ? & . & . & . & . \\
 s:Covariance & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
-s:LMNN & . & ? & . & ? & ? & . & * & . & . \\
-s:NCA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
-s:LFDA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
-s:CMAES.kNN & . & ? & . & ? & ? & . & . & . & . \\
-s:CMAES.fMe & . & ? & . & ? & ? & . & . & . & . \\
-s:jDE.fMe & . & ? & . & ? & ? & . & . & . & . \\
-s:jDE.kNN & . & ? & . & ? & ? & . & . & . & . \\
+s:\ac{lmnn} & . & ? & . & ? & ? & . & * & . & . \\
+s:\ac{nca} & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:\ac{lfda} & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:\ac{cmaesknn} & . & ? & . & ? & ? & . & . & . & . \\
+s:\ac{cmaesfme} & . & ? & . & ? & ? & . & . & . & . \\
+s:\ac{jdefme} & . & ? & . & ? & ? & . & . & . & . \\
+s:\ac{jdeknn} & . & ? & . & ? & ? & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `digits6` dataset in the classification experiment} \label{tab:statsign:classification:digits6}
+\caption{Statistical significance for the~classification experiment using \dataset{digits6} dataset} \label{tab:statsign:classification:digits6}
 \end{table}
 
 
@@ -69,20 +69,20 @@ s:jDE.kNN & . & ? & . & ? & ? & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:\ac{lmnn}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{cmaesfme}} & \rot{s:\ac{jdefme}} & \rot{s:\ac{jdeknn}} \\ \midrule
 s:Euclidean & . & ? & . & ? & ? & . & . & . & . \\
 s:Covariance & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
-s:LMNN & * & ? & . & ? & ? & . & *** & *** & ** \\
-s:NCA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
-s:LFDA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
-s:CMAES.kNN & . & ? & . & ? & ? & . & * & * & . \\
-s:CMAES.fMe & . & ? & . & ? & ? & . & . & . & . \\
-s:jDE.fMe & . & ? & . & ? & ? & . & . & . & . \\
-s:jDE.kNN & . & ? & . & ? & ? & . & . & . & . \\
+s:\ac{lmnn} & * & ? & . & ? & ? & . & *** & *** & ** \\
+s:\ac{nca} & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:\ac{lfda} & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:\ac{cmaesknn} & . & ? & . & ? & ? & . & * & * & . \\
+s:\ac{cmaesfme} & . & ? & . & ? & ? & . & . & . & . \\
+s:\ac{jdefme} & . & ? & . & ? & ? & . & . & . & . \\
+s:\ac{jdeknn} & . & ? & . & ? & ? & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `digits10` dataset in the classification experiment} \label{tab:statsign:classification:digits10}
+\caption{Statistical significance for the~classification experiment using \dataset{digits10} dataset} \label{tab:statsign:classification:digits10}
 \end{table}
 
 
@@ -91,20 +91,20 @@ s:jDE.kNN & . & ? & . & ? & ? & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:\ac{lmnn}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{cmaesfme}} & \rot{s:\ac{jdefme}} & \rot{s:\ac{jdeknn}} \\ \midrule
 s:Euclidean & . & . & . & . & . & . & . & . & . \\
 s:Covariance & . & . & . & . & . & . & . & . & . \\
-s:LMNN & . & . & . & . & . & . & . & . & . \\
-s:NCA & . & . & . & . & . & . & . & . & . \\
-s:LFDA & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN & . & . & . & . & . & . & . & . & . \\
-s:CMAES.fMe & . & . & . & . & . & . & . & . & . \\
-s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
-s:jDE.kNN & . & . & . & . & . & . & . & . & . \\
+s:\ac{lmnn} & . & . & . & . & . & . & . & . & . \\
+s:\ac{nca} & . & . & . & . & . & . & . & . & . \\
+s:\ac{lfda} & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn} & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesfme} & . & . & . & . & . & . & . & . & . \\
+s:\ac{jdefme} & . & . & . & . & . & . & . & . & . \\
+s:\ac{jdeknn} & . & . & . & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `gaussians` dataset in the classification experiment} \label{tab:statsign:classification:gaussians}
+\caption{Statistical significance for the~classification experiment using \dataset{gaussians} dataset} \label{tab:statsign:classification:gaussians}
 \end{table}
 
 
@@ -113,20 +113,20 @@ s:jDE.kNN & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:\ac{lmnn}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{cmaesfme}} & \rot{s:\ac{jdefme}} & \rot{s:\ac{jdeknn}} \\ \midrule
 s:Euclidean & . & . & . & . & . & . & . & . & . \\
 s:Covariance & . & . & . & . & . & . & . & . & . \\
-s:LMNN & . & * & . & . & . & . & . & . & . \\
-s:NCA & . & * & . & . & . & . & . & . & . \\
-s:LFDA & . & * & . & . & . & . & . & . & . \\
-s:CMAES.kNN & . & * & . & . & . & . & . & . & . \\
-s:CMAES.fMe & . & * & . & . & . & . & . & . & . \\
-s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
-s:jDE.kNN & . & * & . & . & . & . & . & . & . \\
+s:\ac{lmnn} & . & * & . & . & . & . & . & . & . \\
+s:\ac{nca} & . & * & . & . & . & . & . & . & . \\
+s:\ac{lfda} & . & * & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn} & . & * & . & . & . & . & . & . & . \\
+s:\ac{cmaesfme} & . & * & . & . & . & . & . & . & . \\
+s:\ac{jdefme} & . & . & . & . & . & . & . & . & . \\
+s:\ac{jdeknn} & . & * & . & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `iris` dataset in the classification experiment} \label{tab:statsign:classification:iris}
+\caption{Statistical significance for the~classification experiment using \dataset{iris} dataset} \label{tab:statsign:classification:iris}
 \end{table}
 
 
@@ -135,20 +135,20 @@ s:jDE.kNN & . & * & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:\ac{lmnn}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{cmaesfme}} & \rot{s:\ac{jdefme}} & \rot{s:\ac{jdeknn}} \\ \midrule
 s:Euclidean & . & * & . & ? & ? & . & . & . & . \\
 s:Covariance & . & . & . & ? & ? & . & . & . & . \\
-s:LMNN & . & * & . & ? & ? & . & . & . & . \\
-s:NCA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
-s:LFDA & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
-s:CMAES.kNN & . & * & . & ? & ? & . & . & . & . \\
-s:CMAES.fMe & . & * & . & ? & ? & . & . & . & . \\
-s:jDE.fMe & * & * & . & ? & ? & . & . & . & . \\
-s:jDE.kNN & . & * & . & ? & ? & . & . & . & . \\
+s:\ac{lmnn} & . & * & . & ? & ? & . & . & . & . \\
+s:\ac{nca} & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:\ac{lfda} & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
+s:\ac{cmaesknn} & . & * & . & ? & ? & . & . & . & . \\
+s:\ac{cmaesfme} & . & * & . & ? & ? & . & . & . & . \\
+s:\ac{jdefme} & * & * & . & ? & ? & . & . & . & . \\
+s:\ac{jdeknn} & . & * & . & ? & ? & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `mice-protein` dataset in the classification experiment} \label{tab:statsign:classification:mice-protein}
+\caption{Statistical significance for the~classification experiment using \dataset{mice-protein} dataset} \label{tab:statsign:classification:mice-protein}
 \end{table}
 
 
@@ -157,20 +157,20 @@ s:jDE.kNN & . & * & . & ? & ? & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:\ac{lmnn}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{cmaesfme}} & \rot{s:\ac{jdefme}} & \rot{s:\ac{jdeknn}} \\ \midrule
 s:Euclidean & . & . & . & . & . & . & . & . & . \\
 s:Covariance & . & . & . & . & . & . & . & . & . \\
-s:LMNN & . & . & . & . & . & . & . & . & . \\
-s:NCA & . & . & . & . & . & . & . & * & . \\
-s:LFDA & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN & . & ** & . & . & . & . & . & . & . \\
-s:CMAES.fMe & . & * & . & . & . & . & . & . & . \\
-s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
-s:jDE.kNN & . & . & . & . & * & . & . & . & . \\
+s:\ac{lmnn} & . & . & . & . & . & . & . & . & . \\
+s:\ac{nca} & . & . & . & . & . & . & . & * & . \\
+s:\ac{lfda} & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn} & . & ** & . & . & . & . & . & . & . \\
+s:\ac{cmaesfme} & . & * & . & . & . & . & . & . & . \\
+s:\ac{jdefme} & . & . & . & . & . & . & . & . & . \\
+s:\ac{jdeknn} & . & . & . & . & * & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `pima-indians` dataset in the classification experiment} \label{tab:statsign:classification:pima-indians}
+\caption{Statistical significance for the~classification experiment using \dataset{pima-indians} dataset} \label{tab:statsign:classification:pima-indians}
 \end{table}
 
 
@@ -179,20 +179,20 @@ s:jDE.kNN & . & . & . & . & * & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:\ac{lmnn}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{cmaesfme}} & \rot{s:\ac{jdefme}} & \rot{s:\ac{jdeknn}} \\ \midrule
 s:Euclidean & . & . & . & . & . & . & . & . & . \\
 s:Covariance & . & . & . & . & . & . & . & . & . \\
-s:LMNN & . & * & . & . & . & . & . & * & . \\
-s:NCA & . & . & . & . & . & . & . & . & . \\
-s:LFDA & . & . & . & . & . & . & . & . & . \\
-s:CMAES.kNN & . & * & . & . & . & . & * & * & . \\
-s:CMAES.fMe & . & * & . & . & . & . & . & * & . \\
-s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
-s:jDE.kNN & . & . & . & . & . & . & . & . & . \\
+s:\ac{lmnn} & . & * & . & . & . & . & . & * & . \\
+s:\ac{nca} & . & . & . & . & . & . & . & . & . \\
+s:\ac{lfda} & . & . & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn} & . & * & . & . & . & . & * & * & . \\
+s:\ac{cmaesfme} & . & * & . & . & . & . & . & * & . \\
+s:\ac{jdefme} & . & . & . & . & . & . & . & . & . \\
+s:\ac{jdeknn} & . & . & . & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `sonar` dataset in the classification experiment} \label{tab:statsign:classification:sonar}
+\caption{Statistical significance for the~classification experiment using \dataset{sonar} dataset} \label{tab:statsign:classification:sonar}
 \end{table}
 
 
@@ -201,18 +201,18 @@ s:jDE.kNN & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:LMNN} & \rot{s:NCA} & \rot{s:LFDA} & \rot{s:CMAES.kNN} & \rot{s:CMAES.fMe} & \rot{s:jDE.fMe} & \rot{s:jDE.kNN} \\ \midrule
+ & \rot{s:Euclidean} & \rot{s:Covariance} & \rot{s:\ac{lmnn}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{cmaesfme}} & \rot{s:\ac{jdefme}} & \rot{s:\ac{jdeknn}} \\ \midrule
 s:Euclidean & . & . & . & . & . & . & . & . & . \\
 s:Covariance & . & . & . & . & . & . & . & . & . \\
-s:LMNN & . & * & . & . & . & . & . & . & . \\
-s:NCA & . & . & . & . & . & * & . & * & . \\
-s:LFDA & . & * & . & . & . & . & . & . & . \\
-s:CMAES.kNN & . & . & . & . & . & . & . & * & . \\
-s:CMAES.fMe & . & . & . & . & . & . & . & . & ** \\
-s:jDE.fMe & . & . & . & . & . & . & . & . & . \\
-s:jDE.kNN & . & . & . & . & . & . & . & . & . \\
+s:\ac{lmnn} & . & * & . & . & . & . & . & . & . \\
+s:\ac{nca} & . & . & . & . & . & * & . & * & . \\
+s:\ac{lfda} & . & * & . & . & . & . & . & . & . \\
+s:\ac{cmaesknn} & . & . & . & . & . & . & . & * & . \\
+s:\ac{cmaesfme} & . & . & . & . & . & . & . & . & ** \\
+s:\ac{jdefme} & . & . & . & . & . & . & . & . & . \\
+s:\ac{jdeknn} & . & . & . & . & . & . & . & . & . \\
 \bottomrule
 \multicolumn{10}{l}{**** $p<0.0001$, *** $p<0.001$, ** $p<0.01$, * $p<0.05$}
 \end{tabular} }
-\caption{Statistical significance for the `wine` dataset in the classification experiment} \label{tab:statsign:classification:wine}
+\caption{Statistical significance for the~classification experiment using \dataset{wine} dataset} \label{tab:statsign:classification:wine}
 \end{table}
