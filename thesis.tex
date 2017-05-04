@@ -169,8 +169,6 @@ V této práci jsme navrhli novou metodu pro supervised redukci dimence, která 
 %TODO curse of dimensionality
 % http://jotterbach.github.io/2016/05/23/TSNE/
 
-%TODO "nekde v diplomce mi pripadalo, ze pisescholesky rozklady matice, ktera je low rank a to mam pocit, ze nejde ze musi byt regularni, aby  ho slo udelat"
-
 A metric is ubiquitous in machine learning. For instance, in classification, \ac{knn} classifier \citep{cover1967nearest} uses a metric to find the nearest neighbours. In clustering, many clustering algorithms, including wildly used k-Means \citep{hartigan1979algorithm}, calculate distance between data points and groups similar instances together. In information retrieval, when searching for the most relevant document, the documents themselves are ranked according to their similarity scores. Also security systems use a metric for face verification. Obviously, the performance of all these algorithms depends on the quality of the metric defined on the input space. The better the metric judges how close or how similar any two instances in the space are, the more the final machine learning algorithm will behave.
 
 Several general purpose metrics exist, such as Euclidean distance, defined in Equation \ref{eq:euclid}, or its generalized Minkowski distance, defined in Equation \ref{eq:minkowski} and cosine similarity defined in Equation \ref{eq:cosine}, are all used for measuring distances between vectors of real numbers; Levenshtein distance (also called edit distance) for measuring distances between strings or $\chi^2$ distance (in Equation \ref{eq:chisq}) used for calculating distances between histograms.
@@ -247,7 +245,7 @@ The figure \ref{fig:corrdata} demonstrates this problem in two dimensions: the f
 \cenfig{graphs/correlated_data}{Correlated data centered around origin}{fig:corrdata}
 
 % http://blogs.sas.com/content/iml/2012/02/08/use-the-cholesky-transformation-to-correlate-and-uncorrelate-variables.html
-The data can be uncorrelated using the covariance matrix $\bm{\Sigma}$, which is a \ac{psd} matrix (\ac{psd} is defined in Equation \ref{eq:psd:def}) and therefore the Cholesky decomposition $\bm{\Sigma}=\bm{L}\bm{L}^T$ can be used to obtain a lower triangular matrix $\bm{L}$. The inverse of this triangular matrix $\bm{L}$ can be used to remove the correlation from the data defined by $\bm{\Sigma}$. The figure \ref{fig:uncorrdata} demonstrates the effect of multiplying the original data by $\bm{L}^{-1}$. In this figure, it is now clear that the point at original coordinates $[2,0]$ is much closer to the origin in Euclidean distance than the the point with original coordinates $[0,1]$.
+The data can be uncorrelated using the covariance matrix $\bm{\Sigma}$, which is guaranteed to be a \ac{psd} matrix (\ac{psd} is defined in Equation \ref{eq:psd:def}). Sometimes, however the covariance matrix is even \ac{pd} and thus the Cholesky decomposition $\bm{\Sigma}=\bm{L}\bm{L}^T$ can be used to obtain a lower triangular matrix $\bm{L}$. The inverse of this triangular matrix $\bm{L}$ can be used to remove the correlation from the data defined by $\bm{\Sigma}$. The figure \ref{fig:uncorrdata} demonstrates the effect of multiplying the original data by $\bm{L}^{-1}$. In this figure, it is now clear that the point at original coordinates $[2,0]$ is much closer to the origin in Euclidean distance than the the point with original coordinates $[0,1]$.
 
 \begin{equation}
 \bm{x}^\top \bm{A}\bm{x} \geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:psd:def}
@@ -335,13 +333,11 @@ Learning Mahalanobis distance comes with two challenges. The first challenge is 
 \section{Outline}
 In this work, we extend the ideas from DML and apply them to the problem of dimensionality reduction and visualization. The connection between dimensionality reduction and DML and the motivation for this work is quite simple. Given a generalized Mahalanobis distance $d_{\bm{M}}(\textbf{x},\textbf{y}) = \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{M}(\textbf{x}-\textbf{y})}$ with a positive definite matrix $M$ and its Cholesky decomposition $M=L^TL$, we get that $d_{\bm{M}}(\textbf{x},\textbf{y}) = d_{2}(\bm{L}\textbf{x},\bm{L}\textbf{y})$, where $d_2$ is the Euclidean distance. Therefore, the matrix $L$ is a mapping from an original space $O$ to another space $D$. We can generalize this notion further and look for general mappings $f: O \to D$. An example of such a mapping is a linear mapping. In such a case the matrix $L$ may have a lower rank and thus it maps the points of the original space to a lower-dimensional space. Another example of mapping may be a neural network, which makes a non-linear transformation of $O$ to $D$. The distances of points in $O$ are then computed as Euclidean distances of their projections to $D$. Here, we deal mostly with mapping to low dimensional spaces suitable for visualization, however, most of the ideas can be extended even for mappings to spaces with higher dimension, and thus to dimensionality reduction in general. The techniques described here are supervised, and the mappings we seek optimize the accuracy of the \ac{knn} classifier applied in the low dimensional space. The motivation is that in case the \ac{knn} classifier has high accuracy, instances from the same class are close together.
 
-%TODO REWRITE AFTER EVERYTHING IS DONE
-In Chapter \ref{chap:rw} we describe current approaches to \acl{dml}, in Chapter \ref{chap:our-method} we generalize the notion of \ac{dml} to general mappings and propose our own method useful for classification and dimensionality reduction. In Chapter \ref{chap:exp} we compare our method to other state-of-the-art methods in several different tasks such as classification and visualisation.
+In Chapter \ref{chap:rw} we describe current approaches to \acl{dml}, in Chapter \ref{chap:our-method} we generalize the notion of \ac{dml} to general mappings and propose our own method useful for classification and dimensionality reduction. In Chapter \ref{chap:exp} we compare our method to other state-of-the-art methods in several different tasks such as classification and visualisation and time-performance and discuss the results. In Chapters \ref{chap:conclusion} and \ref{chap:future-work} we conclude our work and suggest some ideas for further investigation and research.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \chapter{Related work} \label{chap:rw}
-%TODO [Scalability in N and D] 
 
 As already mentioned in Chapter \ref{chap:intro}, \acl{dml} is rapidly gaining traction in the recent years and it has found many applications in many fields as discussed in Section \ref{chap:intro:applications}. The survey from \cite{bellet2013survey} is a comprehensive review of the supervised Mahalanobis distance learning methods. In the survey in addition to \textit{Linear methods} that we present here, they also review \textit{Online methods} where the metric is updated after every instance; \textit{Multi-Task methods} in which the metric is trained for multiple related tasks at once to improve performance; \textit{Nonlinear methods} where the metric is no longer linear, typically achieved by kernelization of some linear method; \textit{Local Metric methods} where multiple metrics are learnt for different parts of the space and methods for \textit{Semi-Supervised Setting} in which most of the instances do not have labels. In this work we mostly focus on the Linear metric learning methods because the rest of the categories extend these simpler methods and build on top of them.
 
@@ -478,13 +474,8 @@ Both \ac{lda} and \ac{lpp} methods can be used for dimensionality reduction and 
 
 \Ac{de} is a special type of an evolutionary algorithm that has a special type of mutation and crossover operations. The pseudocode for \ac{de} is shown in Algorithm~\ref{pseudo:de}. It follows the schema from Figure \ref{fig:rw:ea:schema} and the special crossover operation is defined on Line \ref{pseudo:de:mut}, where three different individuals are combined to create a new one. \ac{de} algorithm has two hyperparameters apart from the size of the population: crossover probability $CR$ and differential weight $F$. \ac{de} algorithm can be very sensitive to the choice of these two hyperparameters. \cite{fukui2013evolutionary} uses an improved version of \ac{de} called \acf{jde} \citep{brest2006self}, which alleviates this problem by encoding the hyperparameters $CR$ and $F$ inside of every single individual. When a new individual is bred using the mutation and crossover, the $CR$ and $F$ parameters from the parent individual are used. Therefore these two hyperparameters do not need to be specified for \ac{jde} and the algorithm itself is more robust.
 
+% Source: http://www.maths.uq.edu.au/MASCOS/Multi-Agent04/Fleetwood.pdf
 \cenfig{graphs/ea_scheme}{Scheme of an evolutionary algorithm}{fig:rw:ea:schema}
-
-%TODO https://en.wikipedia.org/wiki/CMA-ES
-%TODO https://en.wikipedia.org/wiki/Evolutionary_algorithm
-%TODO https://en.wikipedia.org/wiki/Differential_evolution
-%TODO https://www.quora.com/What-is-the-difference-between-Genetic-algorithm-and-differential-evolution
-%TODO http://www.maths.uq.edu.au/MASCOS/Multi-Agent04/Fleetwood.pdf
 
 \begin{algorithm}[t]
 \caption{Pseudocode for Differential Evolution algorithm} \label{pseudo:de}
@@ -545,24 +536,13 @@ Metric learning can also be used for dimensionality reduction as already discuss
 
 One of the most common and the simplest unsupervised dimensionality reduction method is \ac{pca} \citep{jolliffe2002principal} which decomposes the dataset in a set of successive orthogonal components that explain maximum amount of the variance inside of the data. The first principal component can be obtained by solving Equation \ref{eq:rw:pca}, it can be shown that the solution is the eigenvector of $\bm{X}^\top\bm{X}$ corresponding to its biggest eigenvalue.
 
-%TODO check if it is the same in http://www.deeplearningbook.org/contents/linear_algebra.html
 \begin{equation} 
 \bm{w}_{(1)} = \argmax_{||\bm{w}||=1} \bm{w}^\top\bm{X}^\top\bm{X}\bm{w} \label{eq:rw:pca}
 \end{equation}
 
 If all principal components are found and the \ac{pca} is used to transform the data while keeping all the components (not performing dimensionality reduction), then the Euclidean distances between the samples in the new \ac{pca}-transformed space will equal their Mahalanobis distances in the observed-variable space.
 
-%TODO PCA is connected to Mahalanobis!!
-% http://stats.stackexchange.com/questions/2691/making-sense-of-principal-component-analysis-eigenvectors-eigenvalues
-% http://stats.stackexchange.com/questions/62092/bottom-to-top-explanation-of-the-mahalanobis-distance/62147#62147
-
-%TODO [Preprocessing for t-SNE]
-
 Another dimensionality reduction method is \ac{tsne} \citep{maaten2008visualizing}, which maps the points from the high dimensional space to a low dimensional one. The mapping aims to minimize the Kullback-Leibler divergence of the distribution of distances between points in the high and low dimensional spaces. While t-SNE is getting a lot of attention recently, it does not provide any explicit mapping between the two spaces, therefore it cannot be used to map new data into the lower-dimensional space without re-running the whole method. However, we also show the visualizations obtained by t-SNE and compare them to those obtained by the method presented in this work in the experiments.
-
-%TODO [add how tsne works?]
-
-%TODO formally explain that evolving 2*D matrix corresponds to some eigen value decomposition???
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -570,7 +550,7 @@ Another dimensionality reduction method is \ac{tsne} \citep{maaten2008visualizin
 
 In this work, we aim to find a mapping from the original space $O$ of the input data, to a (potentially low dimensional) space $D$. The mapping $f: O \to D$ is then used in the distance metric found by the algorithm. The evolved metric is defined as $d_f(x, y) = d_2(f(x), f(y))$, where $d_2$ is the Euclidean metric in the $D$ space. We have already discussed that in case $f$ is represented by a lower triangular matrix $L$, $d_f$ represents a Mahalanobis distance with matrix $L^TL$. However, the mappings may be more general. If the mapping is represented by a rectangular matrix, the technique can be used for dimensionality reduction. Moreover, we can seek a non-linear mapping $f$ which is able to transform the input data in such a way that they are easier for the classifier.
 
-In this work, we consider mappings which can be represented as vectors or matrices of real numbers numbers. Such mappings include both linear transformations and non-linear transformation such as neural networks (which can be represented as vectors of their weights). The goal of the algorithm is to find a mapping that maximizes the performance of the classifier that follows the preprocessing step. In this paper, we consider the \ac{knn} classifier, however different classifiers can also be used. The performance of the \ac{knn} classifier is used as the fitness in the evolutionary algorithm. One of the reasons is that it is relatively fast, it takes $N\log{N}$ to build the underlying k-d tree structure with $N$ training samples and then $M \log{N}$ to classify $M$ testing samples. Another advantage of using the \ac{knn} classifier is that the resulting mappings should also provide nice visualizations of the data. The \ac{knn} classifier is local, and therefore works the best in case instances from the same class are close together.
+In this work, we consider mappings which can be represented as vectors or matrices of real numbers numbers. Such mappings include both linear transformations and non-linear transformation such as neural networks (which can be represented as vectors of their weights). The goal of the algorithm is to find a mapping that maximizes the performance of the classifier that follows the preprocessing step. In this work, we consider the \ac{knn} classifier, however different classifiers can also be used. The performance of the \ac{knn} classifier is used as the fitness in the evolutionary algorithm. One of the reasons is that it is relatively fast, it takes $N\log{N}$ to build the underlying k-d tree structure with $N$ training samples and then $M \log{N}$ to classify $M$ testing samples. Another advantage of using the \ac{knn} classifier is that the resulting mappings should also provide nice visualizations of the data. The \ac{knn} classifier is local, and therefore works the best in case instances from the same class are close together.
 
 The \ac{knn} classifier function is not differentiable and so we focus on finding the mapping using \aclp{ea}. \Ac{ea} algorithms are typically non-elitist (i.e. they can lose the best individual in the search) and so we use a concept called \acf{hof}, which acts as a storage of the best individuals. It is updated with the best individuals after every generation and only keeps the best ones.
 
@@ -615,9 +595,15 @@ The most important step here is the evaluation of the fitness function, which is
 }
 \end{algorithm} 
 
-To perform a non-linear transformation using a neural network, the activation functions need to be used between the layers. Without activation functions a fully connected neural network essentially reduces to a linear transformation. Typical activation functions used in neural networks are sigmoid function ($\sigma$), hyperbolic tangent (tanh) and rectified linear unit (ReLU), which are defined as $\sigma(x) = 1/(1+e^{-x})$, $\text{tanh}(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}} = 2\sigma(2x)-1$ and $\text{ReLU}(x) = \max(0,x)$.
+By relaxing the need to use Mahalanobis metric and by transforming the data before using the \ac{knn} classifier, we are not bound to use a linear transformation using matrix $\bm{L}$, but any function can be used to transform the data and the weights in the individual can be used to evolve the parameters of this function. As already mentioned, neural network can be used as a transformation function among others. To perform a non-linear transformation using a neural network, the activation functions need to be used between the layers. Without activation functions a fully connected neural network essentially reduces to a linear transformation. Typical activation functions used in neural networks are sigmoid function ($\sigma$), hyperbolic tangent (tanh) and rectified linear unit (ReLU), which are defined as $\sigma(x) = 1/(1+e^{-x})$, $\text{tanh}(x) = \frac{e^x-e^{-x}}{e^x+e^{-x}} = 2\sigma(2x)-1$ and $\text{ReLU}(x) = \max(0,x)$.
 
-To perform a dimensionality reduction using the neural network, the shape and the activation functions need to be chosen beforehand, the only criteria is that the first layer has the size $d$ and the last layer has the desired size $m$. The individual in the evolution then contains weights corresponding to all parameters of the neural network. We experiment with the activation functions and the depth of the neural network used for visualization in Section \ref{chap:exp:dimred}.
+\Acl{dml} algorithms can also be used for dimensionality reduction as already discussed in Chapter \ref{chap:rw}. As already discussed, our mapping $f: O \to D$ is very general and can take any form. By evolving transformation matrix $\bm{L} \in \mathcal{R}^{m\times d}$, where $m < d$, we obtain a singular transformation matrix that will transform the original $d$-dimensional space into $m$-dimensional. To perform a dimensionality reduction using the neural network, the shape and the activation functions need to be chosen beforehand, the only criteria is that the first layer has the size $d$ and the last layer has the desired size $m$. Without activation functions a fully connected neural network essentially reduces to a linear transformation. The individual in the evolution then contains weights corresponding to all parameters of the neural network. Typical activation functions used in neural networks are \acf{sigm} function, \acf{tanh} and \acf{relu}, which are defined in Equations \ref{eq:nn:sigm}, \ref{eq:nn:tanh} and \ref{eq:nn:relu}. We experiment with the activation functions and the depth of the neural network used for visualization in Section \ref{chap:exp:dimred}.
+
+\begin{align}
+\text{sigm}(x) &= \sigma(x) = 1/(1+e^{-x}) \label{eq:nn:sigm} \\
+\text{tanh}(x) &= \frac{e^x-e^{-x}}{e^x+e^{-x}} = 2\sigma(2x)-1 \label{eq:nn:tanh} \\
+\text{ReLU}(x) &= \max(0,x) \label{eq:nn:relu}
+\end{align}
 
 The algorithm described here is similar to the algorithm described by \cite{fukui2013evolutionary}, however, there are some important differences:
 \begin{itemize}
@@ -629,39 +615,6 @@ The algorithm described here is similar to the algorithm described by \cite{fuku
 \begin{equation}
 \bm{x}^\top \bm{L}^\top \bm{L}\bm{x}=(\bm{Lx})^\top(\bm{Lx})=(\bm{Lx})\cdot (\bm{Lx})\geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:mah:proof}
 \end{equation}
-
-\section{CMA-ES} \label{alg:cmaes}
-
-%TODO mention CMAES and describe it in more detail in the next chapter
-% https://www.lri.fr/~hansen/cmaartic.pdf
-% https://www.lri.fr/~hansen/cmaesintro.html
-% https://www.lri.fr/~hansen/cmatutorial110628.pdf
-% https://en.wikipedia.org/wiki/CMA-ES
-% https://en.wikipedia.org/wiki/Condition_number
-% https://github.com/DEAP/deap/blob/master/deap/algorithms.py#L442
-% https://scholar.google.cz/scholar?q=Igel+2007&btnG=&hl=en&as_sdt=0%2C5
-% http://www.mitpressjournals.org/doi/pdfplus/10.1162/evco.2007.15.1.1
-% https://www.lri.fr/~hansen/cmaartic.pdf
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Dimensionality Reduction} \label{chap:dr}
-
-%TODO use letter "m"?
-%TODO is the claim about Mahalanobis metric correct?????
-\acl{dml} algorithms can also be used for dimensionality reduction as already discussed in Chapter \ref{chap:rw}. In this section we discuss how to extend \acl{ea} for dimensionality reduction. In the previous section we described how we use \ac{cmaes} algorithm to evolve a Mahalanobis transformation matrix $\bm{L} \in \mathcal{R}^{d\times d}$. By changing the shape of the matrix $\bm{L}$ to $d\times m$, where $m < d$, we obtain a singular transformation matrix that will transform the original $d$-dimensional space into $m$-dimensional. In this work we focus on visualisation in 2D space and so a matrix $\bm{L} \in \mathcal{R}^{d\times 2}$ is evolved. The problem with forcing the matrix $\bm{L}$ to be rectangular is that we still optimise the fitness function using the \ac{knn} with a Mahalanobis distance in the original $d$-dimensional space (Figure \ref{pseudo:ea:knn}. However, this can be fixed by applying the transformation property of the Mahalanobis metric from Equation \ref{eq:mahalanobis:transform}: instead of using \ac{knn} with Mahalanobis metric, we use the matrix $\bm{L}$ encoded in the individual to transform the data into a new low-dimensional space in which a \ac{knn} classifier can be used with a standard Euclidean metric and it also becomes much more efficient.
-
-By relaxing the need to use Mahalanobis metric and transforming the data before using the \ac{knn} classifier, we are not bound to use a linear transformation using matrix $\bm{L}$, but any function can be used to transform the data and the weights in the individual can be used to evolve the parameters of this function. We chose to use a fully connected neural network as a transformation function. The input layer of the network has a size of $d$ (dimensionality of the data) and the output layer has the size of the desired dimensionality (2 for visualisation in our case), the number of hidden layers and their sizes can be chosen at will. 
-
-To perform a non-linear transformation using a neural network, the activation functions need to be used between the layers. Without activation functions a fully connected neural network essentially reduces to a linear transformation. Typical activation functions used in neural networks are sigmoid function ($\sigma$), hyperbolic tangent (tanh) and rectified linear unit (ReLU), which are defined in Equations \ref{eq:nn:sigm}, \ref{eq:nn:tanh} and \ref{eq:nn:relu}.
-
-\begin{align}
-\sigma(x) &= 1/(1+e^{-x}) \label{eq:nn:sigm} \\
-\text{tanh}(x) &= \frac{e^x-e^{-x}}{e^x+e^{-x}} = 2\sigma(2x)-1 \label{eq:nn:tanh} \\
-\text{ReLU}(x) &= \max(0,x) \label{eq:nn:relu}
-\end{align}
-
-To perform a dimensionality reduction using the neural network, the shape and the activation functions need to be chosen beforehand, the only criteria is that the first layer has the size $d$ and the last layer has the desired size $m$. The individual in the evolution then contains weights corresponding to all parameters of the neural network. We experiment with the activation functions and the depth of the neural network used for visualisation in Section \ref{chap:exp:dimred}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -812,7 +765,7 @@ Next we look at the hyperparameters of the individual methods shown in figure \r
 
 \section{Experiment: Generalization of EAs} \label{chap:exp:fitness}
 
-To test out how well do solutions from evolution algorithms evolve and generalize we performed another series of tests. Using \ac{cmaes} and \ac{jde} evolution strategies described in Sections \ref{alg:cmaes} and \ref{chap:rw:fukui}, combined with \ac{knn} and \ac{fme} fitnesses described in Sections \ref{alg:knn} and \ref{chap:rw:fukui} respectively. Both strategies with both fitnesses were tested, giving us 4 different algorithms: \ac{cmaesknn}, \ac{cmaesfme}, \ac{jdeknn} and \ac{jdefme}. Both full and diagonal Mahalanobis matrices were experimented on during this experiment, totalling to 8 different models.
+To test out how well do solutions from evolution algorithms evolve and generalize we performed another series of tests. Using \ac{cmaes} and \ac{jde} evolution strategies described in Chapters \ref{chap:our-method} and \ref{chap:rw}, combined with \ac{knn} and \ac{fme} fitnesses described in Sections \ref{alg:knn} and \ref{chap:rw:fukui} respectively. Both strategies with both fitnesses were tested, giving us 4 different algorithms: \ac{cmaesknn}, \ac{cmaesfme}, \ac{jdeknn} and \ac{jdefme}. Both full and diagonal Mahalanobis matrices were experimented on during this experiment, totalling to 8 different models.
 
 All methods have some hyperparameters and in order to avoid the time consuming hyperparameter search, the hyperparameters for the models in this experiment were picked according to results from the previous experiment in Section \ref{chap:exp:classification}. Only one set of hyperparameters was picked for all datasets. The number of nearest neighbours in the \ac{knn} classifier used in the fitness function was chosen to be 8 and the number of nearest neighbours in the final \ac{knn} classifier was set to 4. All methods were evolved for a full thousand generations.
 
