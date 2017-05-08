@@ -4,6 +4,8 @@
 Method & Parameter name & Parameter values \\
 \hline
 
+\ac{knn} classifier
+    & n\_neighbors & 1, 2, 4, 8, 16, 32, 64, 128  \\
 \ac{lmnn}
     & k & 1, 2, 4, 8, 16, 32  \\
     & regularization & 0.1, 0.5, 0.9  \\
@@ -14,26 +16,26 @@ Method & Parameter name & Parameter values \\
     & learn\_rate & 0.1, 0.01  \\
 
 \ac{lfda}
-    & metric & 'weighted', 'orthonormalized'  \\
+    & metric & weighted, orthonormalized  \\
 
 \ac{cmaesknn}
-    & transformer & 'full', 'diagonal'  \\
+    & transformer & full, diagonal  \\
     & n\_gen & 50, 100, 250, 1000  \\
     & knn\_neighbors & 1, 4, 8, 16  \\
-    & knn\_weights & 'uniform', 'distance'  \\
+    & knn\_weights & uniform, distance  \\
 
 \ac{jdeknn}
-    & transformer & 'full', 'diagonal'  \\
+    & transformer & full, diagonal  \\
     & n\_gen & 50, 100, 250, 1000  \\
     & knn\_neighbors & 1, 4, 8, 16  \\
-    & knn\_weights & 'uniform', 'distance'  \\
+    & knn\_weights & uniform, distance  \\
 
 \ac{cmaesfme}
-    & transformer & 'full', 'diagonal'  \\
+    & transformer & full, diagonal  \\
     & n\_gen & 50, 100, 250, 1000  \\
 
 \ac{jdefme}
-    & transformer & 'full', 'diagonal'  \\
+    & transformer & full, diagonal  \\
     & n\_gen & 50, 100, 250, 1000  \\
 
 % ITML
@@ -54,5 +56,5 @@ Method & Parameter name & Parameter values \\
 
 \hline
 \end{tabular}
-\caption{Set of hyperparameters tried for each metric learning method} \label{tab:hyperparams}
+\caption{Set of hyperparameters tested for each algorithm} \label{tab:hyperparams}
 \end{table}
