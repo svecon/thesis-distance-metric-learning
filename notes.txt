@@ -1,0 +1,16 @@
+Notes from Adam
+- remove "we", use passive
+- GB vs US https://www.quora.com/Grammar-When-do-you-use-the-sing-and-zing-suffixes
+- however vs although https://www.kaplaninternational.com/blog/however-vs-although-quick-english
+- defining vs non-defining relative clauses http://dictionary.cambridge.org/grammar/british-grammar/relative-clauses/relative-clauses-defining-and-non-defining
+- oxford comma (two strippers, Stalin, and Lenin) https://www.grammarly.com/blog/what-is-the-oxford-comma-and-why-do-people-care-so-much-about-it/
+- ", that" NEVER
+- "you" NEVER
+
+TODOs:
+- remove all \acl, \acf, ...
+- bullet points:
+	\section{Metric learning} \label{chap:intro:ml}
+	\item [Form of metric]
+- correlated, uncorrelated figures: name points X,Y,Z
+- eqref for equations?
