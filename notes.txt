@@ -6,11 +6,13 @@ Notes from Adam
 - oxford comma (two strippers, Stalin, and Lenin) https://www.grammarly.com/blog/what-is-the-oxford-comma-and-why-do-people-care-so-much-about-it/
 - ", that" NEVER
 - "you" NEVER
+- big -> large
 
 TODOs:
 - remove all \acl, \acf, ...
 - bullet points:
 	\section{Metric learning} \label{chap:intro:ml}
 	\item [Form of metric]
+	\chapter{Related work} \label{chap:rw}
 - correlated, uncorrelated figures: name points X,Y,Z
 - eqref for equations?
