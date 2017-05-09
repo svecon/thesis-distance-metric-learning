@@ -10,7 +10,6 @@ Notes from Adam
 - ization, ize, izing -> isation, ise, ising (GB)
 
 TODOs:
-- remove all \acl, \acf, ...
 - bullet points:
 	\section{Metric learning} \label{chap:intro:ml}
 	\item [Form of metric]
@@ -19,8 +18,11 @@ TODOs:
 	Next, we focus on the hyperparameters of the individual
 - correlated, uncorrelated figures: name points X,Y,Z
 - eqref for equations?
-- remove 'algorithm' when preceeded by \ac{lfda}
-- remove \ac{ea}, ...???
 - testsuccessrate in figures
 - read Dim Reduction
 - read Conclusion
+- Restricted vs diagonal!!
+
+Done:
+- remove all \acl, \acf, ...
+- remove 'algorithm' when preceeded by \ac{lfda}
