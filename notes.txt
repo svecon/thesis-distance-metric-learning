@@ -20,9 +20,9 @@ TODOs:
 - eqref for equations?
 - testsuccessrate in figures
 - read Dim Reduction
-- read Conclusion
 
 Done:
 - remove all \acl, \acf, ...
 - remove 'algorithm' when preceeded by \ac{lfda}
 - Restricted vs diagonal
+- read Conclusion
