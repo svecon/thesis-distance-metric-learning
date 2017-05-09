@@ -21,8 +21,8 @@ TODOs:
 - testsuccessrate in figures
 - read Dim Reduction
 - read Conclusion
-- Restricted vs diagonal!!
 
 Done:
 - remove all \acl, \acf, ...
 - remove 'algorithm' when preceeded by \ac{lfda}
+- Restricted vs diagonal
