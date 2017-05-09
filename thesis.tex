@@ -210,19 +210,31 @@ In this thesis, we review existing state-of-the-art methods for learning global 
 
 The origins of metric learning can be traced back to~\citep{short1981optimal}, however, the first work that received a lot of attention was done by~\citep{xing2002distance}, where the metric learning is formulated as a convex optimisation problem. Since then, metric learning has obtained a lot of attention and appeared at ICML 2010\footnote{\url{http://www.icml2010.org/program.html}}, ECCV 2010\footnote{\url{http://www.ics.forth.gr/eccv2010/tutorials.php}} coferences and ICCV 2011\footnote{\url{http://www.iccv2011.org/authors/workshops}}, NIPS 2011\footnote{\url{https://nips.cc/Conferences/2011/Schedule}} and ICML 2013\footnote{\url{http://icml.cc/2013/?page_id=41}} workshops.
 
-The goal of the metric learning is to find a pairwise real valued metric function $d(x,y)$ for the given problem such that it leverages the most information it can using the training samples. Every metric learning algorithm has some defining properties. These properties are well described and categorised in a survey done by~\citep{bellet2013survey}. According to the survey the most important properties are: learning paradigm, form of the metric, scalability, optimality of the solution and if it supports dimensionality reduction. All these properties and their categories are summarised in Figure~\ref{fig:metric-learning}.
+The goal of the metric learning is to find a pairwise real valued metric function $d(x,y)$ for the given problem such that it leverages the most information it can using the training samples. Every metric learning algorithm has some defining properties. These properties are well described and categorised in a survey done by~\citep{bellet2013survey}. All these properties and their categories are summarised in Figure~\ref{fig:metric-learning}.
 
 \cenfig{graphs/metric_learning}{Properties of metric learning algorithm. This work is focused on the highlighted categories.}{fig:metric-learning}
 
+\newpage
+
 \begin{description}
-\item [Learning paradigm] can be \textit{fully supervised}, where every sample of the dataset $z_i=(x_i,y_i) \in \mathcal{X} \times \mathcal{Y}$ is composed of the instance $x_i \in \mathcal{X}$ and its label (class) $x_y \in \mathcal{Y}$, which is a discrete and finite set of $\abs{\mathcal{Y}}$ labels. If the algorithm is \textit{weakly supervised} it does not have access to the labels of the instances, it only receives a side information, typically in a form of constraints $\mathcal{S}, \mathcal{D}$ defined as pairs of instances, which are either similar or dissimilar (Equations~\ref{eq:similar}--\ref{eq:dissimilar}). The metric learning algorithm then tries to exploit these constraints to find the best parameters of a metric that best agree with these constraints. While getting labelled instances can be very hard or costly to obtain, obtaining similar and dissimilar pairs is easier. In \textit{semi-supervised} paradigm, there is some information (fully supervised or weakly supervised) about a portion of the data, but some (usually large) portion of the data comes with no information.
-
+\item [Learning paradigm] can be categorized into three categories, depending on what kind of information about the data is avaiable:
+\begin{itemize}
+\item in \textit{fully supervised} paradigm, every sample of the dataset $z_i=(x_i,y_i) \in \mathcal{X} \times \mathcal{Y}$ is composed of the instance $x_i \in \mathcal{X}$ and its label (class) $x_y \in \mathcal{Y}$, which is a discrete and finite set of $\abs{\mathcal{Y}}$ labels.
+\item in \textit{weakly supervised} paradigm, the instances are unlabeled, but they come with a side information, typically in a form of constraints $\mathcal{S}, \mathcal{D}$ defined as % pairs of instances, which are either similar or dissimilar, defined as %Equations~\ref{eq:similar}---\ref{eq:dissimilar}).
 \begin{align}
-\mathcal{S} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be similar} \rbrace \label{eq:similar} \\
-\mathcal{D} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be dissimilar} \rbrace \label{eq:dissimilar}
+\mathcal{S} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be similar} \rbrace, \label{eq:similar} \\
+\mathcal{D} &= \lbrace(x_i,x_j): x_i \text{ and } x_j \text{ should be dissimilar} \rbrace. \label{eq:dissimilar}
 \end{align}
+The metric learning algorithm tries to exploit these constraints to find the best parameters of a metric that best agree with these constraints. While obtaining labelled instances can be hard or costly, obtaining similar and dissimilar pairs is easier.
+\item in \textit{semi-supervised} paradigm, there is some information (fully supervised or weakly supervised) about a portion of the data, but some (usually large) portion of the data comes with no information.
+\end{itemize}
 
-\item [Form of metric] is one of the defining features of a metric learning algorithm. Form of the metric categorizes the metric function into three main categories: \textit{Linear metrics} where the distance measures a length of a straight line between two points in Euclidean space. Typical example is Euclidean distance or Mahalanobis distance. \textit{Nonlinear metrics} can capture nonlinear dependencies inside data, typical example is $\chi^2$ histogram distance defined earlier in Equation~\ref{eq:chisq}. Metric learning algorithm can also learn multiple \textit{local metrics} where different metric is used for different parts of the input space. The local metrics can be linear or nonlinear and all the metrics are usually trained in parallel.
+\item [Form of metric] is one of the defining features of a metric learning algorithm. It categorizes the metrics into three main categories: 
+\begin{itemize}
+\item \textit{Linear metrics} where the distance measures a length of a straight line between two points in Euclidean space. Typical example is Euclidean distance or Mahalanobis distance.
+\item \textit{Nonlinear metrics} can capture nonlinear dependencies inside data, typical example is $\chi^2$ histogram distance, which was defined in Equation~\ref{eq:chisq}.
+\item \textit{Local metrics} where multiple different metrics are used for different parts of the input space. Local metrics can be linear or nonlinear and all metrics are usually trained in parallel.
+\end{itemize}
 
 \item [Scalability] is an important factor to be considered for any machine learning algorithm. Having a great method that is intractable to calculate for large amounts of data is useless. Therefore the algorithms need to scale well with respect to \textit{number of samples}. Also, metric learning algorithms should scale well with respect to \textit{number of dimensions} of the data. However, since many metric learning algorithms are trying to learn a $d \times d$ matrix, designing an algorithm that scales well with an increasing dimensionality is a challenge.
 
@@ -316,7 +328,7 @@ d(\textbf{x},\textbf{y}) &= d(\textbf{y},\textbf{x}) & symmetry \label{eq:pseudo
 d(\textbf{x},\textbf{z}) &\leq d(\textbf{x},\textbf{y}) + d(\textbf{y},\textbf{z}) & triangle \ inequality \label{eq:pseudodef-4}
 \end{align} 
 
-If the matrix $\bm{M}$ in the generalised Mahalanobis distance is \ac{pd}, it can be decomposed using a Cholesky decomposition into $\bm{\Sigma}=\bm{L}\bm{L}^T$ and then the same trick from Equation~\ref{eq:matrix:decorrelation} can be used. From Equation~\ref{eq:mahalanobis:transform} it is clear that every Mahalanobis distance with a \ac{pd} matrix can be instead replaced by a linear transformation of the original space using a matrix $\bm{L}$ and then calculating the Euclidean distance in the transformed space. This interesting feature of Mahalanobis distance allows us to look at metric learning algorithms also as a data transformation or data preprocessing.
+If the matrix $\bm{M}$ in the generalised Mahalanobis distance is \ac{pd}, it can be decomposed using a Cholesky decomposition into $\bm{\Sigma}=\bm{L}\bm{L}^T$ and then the same trick from Equation~\ref{eq:mahalanobis:decorrelation} can be used. From Equation~\ref{eq:mahalanobis:transform} it is clear that every Mahalanobis distance with a \ac{pd} matrix can be instead replaced by a linear transformation of the original space using a matrix $\bm{L}$ and then calculating the Euclidean distance in the transformed space. This interesting feature of Mahalanobis distance allows us to look at metric learning algorithms also as a data transformation or data preprocessing.
 
 \begin{align}
   d_{\bm{M}}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{M}(\textbf{x}-\textbf{y})} \nonumber\\
@@ -342,13 +354,22 @@ Current approaches to \ac{dml} are described in Chapter~\ref{chap:rw}, the notio
 
 \chapter{Related work} \label{chap:rw}
 
-As already mentioned in Chapter~\ref{chap:intro}, \ac{dml} has been gaining traction in the recent years and it has found many applications in many fields as discussed in Section~\ref{chap:intro:applications}. The survey from~\citep{bellet2013survey} is a comprehensive review of the supervised Mahalanobis distance learning methods. In the survey in addition to \textit{Linear methods} presented here, the authors also review \textit{Online methods} where the metric is updated after every instance; \textit{Multi-Task methods} in which the metric is trained for multiple related tasks at once to improve performance; \textit{Nonlinear methods} where the metric is no longer linear, typically achieved by kernelisation of a linear method; \textit{Local Metric methods} where multiple metrics are learnt for different parts of the space and methods for \textit{Semi-Supervised Setting} in which most of the instances do not have labels. This work mostly focuses on the Linear metric learning methods because the rest of the categories extend these simpler methods and build on top of them.
+As already mentioned in Chapter~\ref{chap:intro}, \ac{dml} has been gaining traction in the recent years and it has found many applications in many fields as discussed in Section~\ref{chap:intro:applications}. The survey from~\citep{bellet2013survey} is a comprehensive review of the supervised Mahalanobis distance learning methods. In the survey categorises \ac{dml} methods into the following categories: 
+\begin{itemize}
+\item \textit{Linear methods} are the simplest methods, they are typically using Mahalanobis metric.
+\item \textit{Online methods} are updated after each individual instance.
+\item \textit{Multi-Task methods} learn the metric for multiple related tasks at once to improve the performance.
+\item \textit{Nonlinear methods} no longer have linear metric, typically achieved by kernelisation of a linear method.
+\item \textit{Local Metric methods} learn multiple metrics for different parts of the space.
+\item \textit{Semi-Supervised methods} in are designed to work well in semi-supervised paradigm, where most of the instances do not have labels.
+\end{itemize}
+This work mostly focuses on linear \ac{dml} methods because the rest of the categories extend these simpler methods and build on top of them.
 
-Most of the research has been focused on learning a metric from labelled training instances (supervised setting), nevertheless, researchers also focus on weakly-supervised tasks, where the labels of the instances are unknown, but the information about the data comes in the form of similar and dissimilar pairs (Equations~\ref{eq:similar}---\ref{eq:dissimilar}) and semi-supervised setting has received some attention as well.
+Most of the research has been focused on learning a metric from labelled training instances (supervised paradigm), nevertheless, researchers also focus on weakly-supervised tasks, where the labels of the instances are unknown, but the information about the data comes in the form of similar and dissimilar pairs (Equations~\ref{eq:similar}---\ref{eq:dissimilar}).
 
-The Mahalanobis distance originally proposed by~\citep{mahalanobis1936generalized} (Equation~\ref{eq:maha:orig}) uses a Covariance matrix of the data and can be seen as a first \ac{dml} method. Even though it is unsupervised, it still learns from the data. Since then the term Mahalanobis distance has been generalised and is now used with any \ac{psd} matrix, not just Covariance as discussed in more detail in Section~\ref{chap:intro:mah}. This generalised Mahalanobis distance is now used in many linear \ac{dml} methods.
+The Mahalanobis distance originally proposed by~\citep{mahalanobis1936generalized} (Equation~\ref{eq:maha:orig}) uses a Covariance matrix of the data and can be seen as a first \ac{dml} method. Even though it is unsupervised, it still learns from the data. Since then the term Mahalanobis distance has been generalised and is now used with any \ac{psd} matrix, not just Covariance, discussed in more detail in Section~\ref{chap:intro:mah}. This generalised Mahalanobis distance is now used in many linear \ac{dml} methods.
 
-Many methods from the \ac{dml} survey were tested: Covariance (the original Mahalanobis distance), \ac{itml}, \ac{lmnn}, \ac{lsml}, \ac{nca}, \ac{rca}, \ac{sdml}. In our tests we found that \ac{lmnn} and \ac{nca} work well and so we focused on those. Another prominent method called \ac{lfda} emerged and is described in~\citep{sugiyama2007dimensionality}. \Ac{dml} algorithms, trained using evolutionary algorithms, are also receiving some attention. The work of~\citep{fukui2013evolutionary} uses an adaptive evolution strategy to evolve a Mahalanobis distance. Table~\ref{tab:rw:summary} shows methods we consider are the most prominent and we are going to use them further in our experiments. In the next sections the individual \ac{dml} methods will be described in more detail.
+We tested many methods from the \ac{dml} survey, however, in our preliminary tests we found that \ac{lmnn} and \ac{nca} perform well and so we focused on those. Another prominent method called \ac{lfda} emerged and is described in~\citep{sugiyama2007dimensionality}. \Ac{dml} algorithms, trained using evolutionary algorithms, are also receiving some attention. The work of~\citep{fukui2013evolutionary} uses an adaptive evolution strategy to evolve a Mahalanobis distance. Table~\ref{tab:rw:summary} shows methods we consider the most prominent and we are going to use them further in our experiments.
 
 \begin{table}[ht] \centering
 \begin{tabular}{llllll}
@@ -369,9 +390,22 @@ jDE.wFme & 2013 & Full & Local & None & Evolutionary \\
 \caption{Summary of related metric learning methods} \label{tab:rw:summary}
 \end{table}
 
+The individual \ac{dml} methods that were mentioned here will be described in the next sections with more detail.
+
+\section{MMC Xing method} \label{chap:rw:xing}
+The work of~\citep{xing2002distance} is the first Mahalanobis distance learning algorithm leveraging information about the data. It is a weakly supervised method, which takes information in form of pairs of similar and dissimilar instances as defined in Equations~\ref{eq:similar} and~\ref{eq:dissimilar}. The authors formulate a convex optimisation problem that tries to maximize the distance between dissimilar pairs of instances while keeping the sum of the distances between similar pairs as low as possible ($\leq 1$). The convex program is shown in Equation~\ref{eq:rw:xing}.
+
+\begin{align*}
+\max_{\bm{M} \in \mathbb{S}^{d}_+} \quad & \sum_{(x_i,x_j)\in \mathcal{D}} d_{\bm{M}}(x_i,x_j) \\
+\text{s.t.} \quad & \sum_{(x_i,x_j)\in \mathcal{S}} d_{\bm{M}}^2(x_i,x_j) \leq 1 \\
+& \bm{M} \succeq 0 \numberthis \label{eq:rw:xing}
+\end{align*}
+
+This convex program is solved by using gradient ascend to maximize the distances between dissimilar instances, followed by projections to ensure the conditions of the program are held (matrix $\bm{M}$ must stay \ac{psd} and the distances between similar pair must stay low).
+
 \section{k-Nearest Neighbour classifier} \label{alg:knn}
 
-Some \ac{dml} methods were designed to directly improve \ac{knn} classifier effectiveness. The performance of the \ac{knn} classifier largely depends on the metric used. The pseudocode for classifying an unknown sample using \ac{knn} classifier is shown in Algorithm~\ref{pseudo:knn}. Any metric can be used in the algorithm simply by changing the distance metric on Line~\ref{pseudo:knn:dist}. Modifying the \ac{knn} classifier to use a custom metric is trivial even for faster implementations using trees for nearest neighbour search.
+Some \ac{dml} methods are designed to directly improve \ac{knn} classifier effectiveness. The performance of the \ac{knn} classifier largely depends on the metric used. The pseudocode for classifying an unknown sample using \ac{knn} classifier is shown in Algorithm~\ref{pseudo:knn}. Any metric can be used in the algorithm simply by changing the distance metric on Line~\ref{pseudo:knn:dist}. Modifying the \ac{knn} classifier to use a custom metric is trivial even for faster implementations using trees for nearest neighbour search.
 
 \begin{algorithm}[t]
 \caption{Pseudocode for k-NN classification} \label{pseudo:knn}
@@ -387,17 +421,6 @@ Some \ac{dml} methods were designed to directly improve \ac{knn} classifier effe
   \Return majority class from the $k$ smallest $distances$\;
 }
 \end{algorithm} 
-
-\section{MMC Xing method} \label{chap:rw:xing}
-The work of~\citep{xing2002distance} is the first Mahalanobis distance learning algorithm leveraging information about the data. It is a weakly supervised method, which takes information in form of pairs of similar and dissimilar instances as defined in Equations~\ref{eq:similar} and~\ref{eq:dissimilar}. The authors formulate a convex optimisation problem that tries to maximize the distance between dissimilar pairs of instances while keeping the sum of the distances between similar pairs as low as possible ($\leq 1$). The convex program is shown in Equation~\ref{eq:rw:xing}.
-
-\begin{align*}
-\max_{\bm{M} \in \mathbb{S}^{d}_+} \quad & \sum_{(x_i,x_j)\in \mathcal{D}} d_{\bm{M}}(x_i,x_j) \\
-\text{s.t.} \quad & \sum_{(x_i,x_j)\in \mathcal{S}} d_{\bm{M}}^2(x_i,x_j) \leq 1 \\
-& \bm{M} \succeq 0 \numberthis \label{eq:rw:xing}
-\end{align*}
-
-This convex program is solved by using gradient ascend to maximize the distances between dissimilar instances, followed by projections to ensure the conditions of the program are held (matrix $\bm{M}$ must stay \ac{psd} and the distances between similar pair must stay low).
 
 \section{Large Margin Nearest Neighbour} \label{chap:rw:lmnn}
 \Acf{lmnn} method designed by~\citep{weinberger2009distance} is a very popular method that has been improved by work of many other researchers, such as Multiple-Metrics \ac{lmnn}~\citep{weinberger2008fast}, Multi-task \ac{lmnn}~\citep{parameswaran2010large} and Gradient-Boosted \ac{lmnn}~\citep{kedem2012non}. The goal of this method is to improve the performance of the \ac{knn} classifier, the idea is that $k$-nearest neighbours with the same class should stay together while separating the imposters (instances with a different class) by a large margin. The algorithm works by defining the constraints in a local way: optimising only over similar points that are also in a close neighbourhood of each other as defined in Equations~\ref{eq:rw:lmnn:similar}---\ref{eq:rw:lmnn:dissimilar}. This neighbourhood is usually determined using Euclidean distance.
@@ -715,9 +738,27 @@ Another difficulty with the datasets is that many of them do not have normalised
 
 \section{Experiment: Classification} \label{chap:exp:classification}
 
-This experiment was designed to test how much a distance metric helps in classification task compared to standard Euclidean distance. The error rates were measured on \ac{knn} classifier. It is one of the simplest and yet powerful classifiers and it is very easy to modify to use a custom metric as discussed in Section~\ref{alg:knn}.
+This experiment was designed to test how much a distance metric helps in classification task compared to standard Euclidean distance. The error rates were measured on \ac{knn} classifier. It is one of the simplest and yet powerful classifiers and it is very easy to modify to use a custom metric, discussed in Section~\ref{alg:knn}.
 
-The metric learning algorithms tested in the experiments are Covariance (original Mahalanobis metric with a covariance matrix defined in Equation~\ref{eq:maha:orig}), \ac{lmnn}, \ac{nca} and \ac{jdefme}, which is based on the method presented by~\citep{fukui2013evolutionary}. All these methods were described in Chapter~\ref{chap:rw}. \ac{cmaesknn} proposed in Chapter~\ref{chap:our-method} was tested next. Finally, in order to tell, what is the effect of the different optimisation algorithm and what is the effect of the different fitness function, \ac{jde} with \ac{knn} (\ac{jdeknn}) fitness function and \ac{cmaes} with F-measure (\ac{cmaesfme}) fitness function were tested as well. \ac{cmaesknn} should be able to obtain good results as the mapping created by the algorithm aims to optimize the performance of the classifier directly. The baseline in the experiments is the Euclidean distance.
+The metric learning algorithms tested in the experiments are 
+
+\begin{itemize}
+\item Covariance (original Mahalanobis metric with a covariance matrix defined in Equation~\ref{eq:maha:orig})
+\item \ac{lmnn}, described in Section~\ref{chap:rw:lmnn}
+\item \ac{nca}, described in Section~\ref{chap:rw:nca}
+\item \ac{jdefme}, which is based on the method presented by~\citep{fukui2013evolutionary}
+
+\item \ac{cmaesknn} proposed in Chapter~\ref{chap:our-method}
+
+\item \acf{jdeknn}
+\item \acf{cmaesfme}
+
+\item Euclidean distance, acting as a baseline method
+\end{itemize}
+
+\ac{cmaesknn} should be able to obtain good results in this experiment as the mapping created by the algorithm aims to optimize the performance of the classifier directly.
+
+\ac{cmaesfme} and \ac{jdeknn} were tested as well, in order to tell, what is the effect of the different optimisation algorithm and what is the effect of the different fitness function.
 
 To assess performance of the metric learning algorithms, the datasets listed in Section~\ref{chap:exp:datasets} were used. The datasets were then split into training and testing sets using 10-fold cross validation. For each fold data were first preprocessed and standardised as described in Section~\ref{chap:exp:preprocessing}, then the metric was trained using one of the methods and finally the metric was evaluated using \ac{knn} classifier.
 
@@ -737,7 +778,9 @@ The population sizes for \ac{cmaes} and \ac{jde} were set to the recommended val
 
 \subsection{Results}
 
-The error rates and their standard deviations (across 10 runs from the cross validation) of the final \ac{knn} classifier for every dataset and every method are presented in Table~\ref{tab:error-rates}. If the method name is prefixed with ``s:'' it means the dataset was standardised as described in Section~\ref{chap:exp:preprocessing}. The best average performance for each dataset is in bold. \ac{nca} did not finish on the 3 largest datasets due to the memory limitations and so the corresponding cells are marked with ``Memory''. Some other methods did not finish because a numerical error occurred, these are marked as ``Error''. The Covariance method failed for some datasets because the matrix was not \ac{pd} and so it was not possible to use Cholesky decomposition. \ac{lfda} also failed for some datasets because a factorisation of a matrix failed during the calculation. \ac{nca} failed for \dataset{gaussians} and \dataset{mice-protein} datasets because the computation was unstable and the numbers overflowed to infinity during the computation.
+The error rates and their standard deviations (across 10 runs from the cross validation) of the final \ac{knn} classifier for every dataset and every method are presented in Table~\ref{tab:error-rates}. If the method name is prefixed with ``s:'' it means the dataset was standardised as described in Section~\ref{chap:exp:preprocessing}. The best average performance for each dataset is in bold. \ac{nca} did not finish on the 3 largest datasets due to the memory limitations and so the corresponding cells are marked with ``Memory''.
+
+Some other methods did not finish because a numerical error occurred, these are marked as ``Error''. The Covariance method failed for some datasets because the matrix was not \ac{pd} and so it was not possible to use Cholesky decomposition. \ac{lfda} also failed for some datasets because a factorisation of a matrix failed during the calculation. \ac{nca} failed for \dataset{gaussians} and \dataset{mice-protein} datasets because the computation was unstable and the numbers overflowed to infinity during the computation.
 
 \input{results/error-rates}
 
@@ -746,7 +789,7 @@ The results are also plotted in Figures~\ref{fig:cl:sr1} and~\ref{fig:cl:sr2} us
 
 The results in the Table~\ref{tab:error-rates} and Figures~\ref{fig:cl:sr1} and~\ref{fig:cl:sr2} indicate that the standardisation of the data is generally a good idea, only datasets \dataset{digits6}, \dataset{digits10} and \dataset{iris} have the lowest error rates when unstandardised, although the standardised versions follow up with such a small margin that it is not a statistically significant difference. On the other hand, standardising data can have a large impact as can be seen on the \dataset{gaussians}, \dataset{sonar} and \dataset{wine} datasets, where the difference between standardised and unstandardised data can be tens of percents difference. It shows that metric learning algorithms cannot fully replace the data standardisation.
 
-Overall, three methods perform very well across all datasets: \ac{lmnn} with 6 best results, followed by \ac{cmaesknn} with 4 best results and \ac{lfda} with one best result. \ac{nca} method was not best in any dataset, but it closely followed the best methods. The differences between these methods are small and statistically insignificant. The statistical significance tables for all methods are attached in Attachments (Tables~\ref{tab:statsign:classification:balance-scale}--\ref{tab:statsign:classification:wine}). The worst method is clearly Covariance algorithm, possibly because it is an unsupervised method. It is also important to note that the Euclidean distance (a baseline) is outperformed by a metric learning algorithm on almost every dataset. This suggests metric learning algorithms can have a large impact in the machine learning tasks.
+Overall, three methods perform very well across all datasets: \ac{lmnn} with 6 best results, followed by \ac{cmaesknn} with 4 best results and \ac{lfda} with one best result. \ac{nca} method was not best in any dataset, but it closely followed the best methods. The differences between these methods are small and statistically insignificant. The statistical significance tables for all methods are attached in Attachments (Tables~\ref{tab:statsign:classification:balance-scale}---\ref{tab:statsign:classification:wine}). The worst method is clearly Covariance algorithm, possibly because it is an unsupervised method. It is also important to note that the Euclidean distance (a baseline) is outperformed by a metric learning algorithm on almost every dataset. This suggests metric learning algorithms can have a large impact in the machine learning tasks.
 
 When comparing \ac{jde} and \ac{cmaes}, it can be noticed that the type of the fitness (F-measure or \ac{knn}) affects the performance more than the optimisation algorithm. However, \ac{jde} has an advantage in the population size, therefore we believe \ac{cmaes} is overall better than \ac{jde} for this task, as it has similar performance with much lower number of fitness evaluations. It is interesting to note that both \ac{jdefme} and \ac{jdeknn} won on the artificial \dataset{gaussians} dataset, however, they were closely followed by \ac{cmaesknn} method. \ac{cmaesfme} and \ac{jdefme} methods perform the worst on most of the datasets.
 
@@ -754,29 +797,45 @@ When comparing \ac{jde} and \ac{cmaes}, it can be noticed that the type of the f
 
 \cenfig{graphs/classification/sr_2.pdf}{Success rates for classification experiment for the next 4 datasets}{fig:cl:sr2}
 
+\clearpage
+
 To see how the hyperparameters influence the success rate of \ac{knn} classifier, one hyperparameter is inspected at a time. By fixing this hyperparameter and inspecting its values, the best success rate across the rest of the hyperparameters is searched.
 
-First we look at the $k$ hyperparameter in the final \ac{knn} classifier. In Figure~\ref{fig:cl:kpar} there is one graph for every dataset (\dataset{digits6} dataset is omitted because it performs very similarly to \dataset{digits10} dataset) in which each line corresponds to one algorithm. The best value for this hyperparameter differs for each dataset, however, most of the curves have a tip near $k=8$. From individual graphs it is possible to see some trends among all the methods, in particular that the lines tend to copy a downwards parabola shape, meaning that $k$ values of 1 and 2 are too small to generalise well and values 64 and 128 are too large for these small datasets. The best shape for any particular method would be a flat line near the top of the graph, which would imply that the method separated the instances into a well separable and homogeneous clusters in which all instances have the same label. Some of the methods seem to handle the change of this parameter more gracefully. This is the most prominent with \ac{lmnn} and \ac{nca} methods in the \dataset{mice-protein} dataset: these two methods have large success rates even when the $k$ parameter increases, whereas the other methods' success rates drop significantly. This phenomenon is visible in other datasets and even in other methods, for example in \dataset{gaussians} dataset for \ac{cmaesknn} as well as the two already mentioned. The Covariance method has a bad success rate altogether, but it also drops down the fastest when the $k$ hyperparameter increases.
+First we look at the $k$ hyperparameter in the final \ac{knn} classifier. In Figure~\ref{fig:cl:kpar} there is one graph for every dataset (\dataset{digits6} dataset is omitted because it performs very similarly to \dataset{digits10} dataset) in which each line corresponds to one algorithm. The best value for this hyperparameter differs for each dataset, however, most of the curves have a tip near $k=8$.
+
+From individual graphs it is possible to see some trends among all the methods, in particular that the lines tend to copy a downwards parabola shape, meaning that $k$ values of 1 and 2 are too small to generalise well and values 64 and 128 are too large for these small datasets.
+
+The best shape for any particular method would be a flat line near the top of the graph, which would imply that the method separated the instances into a well separable and homogeneous clusters in which all instances have the same label.
+
+Some of the methods seem to handle the change of this parameter more gracefully. This is the most prominent with \ac{lmnn} and \ac{nca} methods in the \dataset{mice-protein} dataset: these two methods have large success rates even when the $k$ parameter increases, whereas the other methods' success rates drop significantly. This phenomenon is visible in other datasets and even in other methods, for example in \dataset{gaussians} dataset for \ac{cmaesknn} as well as the two already mentioned.
+
+The Covariance method has a bad success rate altogether, but it also drops down the fastest when the $k$ hyperparameter increases.
 
 \cenfig{graphs/classification/sr_knn}{Success rates of individual algorithms when fixing $k$ in the final \ac{knn} classifier}{fig:cl:kpar}
 
-Next, we focus on the hyperparameters of the individual methods shown in Figure~\ref{fig:cl:hyp}. For each hyperparameter there is a different graph and each curve in a graph represents one dataset.
+\clearpage
 
-The first graph shows the $k$ hyperparameter for \ac{lmnn}, which is number of neighbours that the method takes into account when optimising as discussed in Section~\ref{chap:rw:lmnn}. It is clear that this hyperparameter influences the success rate of this method by a large amount and it seems to peak at values between 4 and 16.
+The hyperparameters of the individual methods are shown in Figure~\ref{fig:cl:hyp}. For each hyperparameter there is a different graph and each curve in a graph represents one dataset. These hyperparameters are shown in the nine graphs:
 
-Second graph represents maximum number of iterations (max\_iter) for \ac{lmnn} from which it is clear that running the algorithm for 250 iterations works very well, but it starts to overfit slightly afterwards.
+\begin{enumerate}
+\item $k$ hyperparameter for \ac{lmnn}, which is number of neighbours that the method takes into account when optimising as discussed in Section~\ref{chap:rw:lmnn}. It is clear that this hyperparameter influences the success rate of this method by a large amount and it seems to peak at values between 4 and 16.
 
-Regularisation parameter also improves the success rate when it is higher for all datasets except the \dataset{sonar}, shown in the third graph.
+\item maximum number of iterations (max\_iter) for \ac{lmnn} from which it is clear that running the algorithm for 250 iterations works very well, but it starts to overfit slightly afterwards.
 
-Fourth graph shows that learning rate is not that important for \ac{nca}. Weighted metric works slightly better than orthonormalised for \ac{lfda}.
+\item regularisation parameter for \ac{lmnn} also improves the success rate when it is higher for all datasets except the \dataset{sonar}.
 
-Fifth graph shows that both orthonormalised and weighted intialisations of \ac{lfda} work equally well.
+\item learning rate does not affect the performance of \ac{nca}
 
-Sixth graphs shows a comparison between evolving a diagonal and full Mahalanobis matrix in \ac{cmaes}. For all except two datasets (\dataset{pima-indians} and \dataset{mice-protein}) evolving the full matrix worked better. Most likely \ac{cmaes} could not explore the whole $d^2$-dimensional space well because \dataset{pima-indians} is a high-dimensional dataset.
+\item metric initialization for \ac{lfda} shows that both weighted and orthonormalised intialisations work equally well.
 
-In the seventh and eighth graphs there are two more hyperparameters for \ac{cmaesknn}, more precisely for its \ac{knn} fitness method, where the best combination of the hyperparameters is to have 8 neighbours and uniform weights.
+\item transformer shape for \ac{cmaesknn}, shows a comparison between evolving a diagonal and full Mahalanobis matrix. For all except two datasets (\dataset{pima-indians} and \dataset{mice-protein}) evolving the full matrix worked better. Most likely \ac{cmaes} could not explore the whole $d^2$-dimensional space well because \dataset{pima-indians} is a high-dimensional dataset.
 
-The type of transformer for \ac{jdefme} method is shown in the last graph. Evolving a full matrix works clearly better for all datasets.
+\item number of neighbours in \ac{cmaesknn}, shows it is best to select 8 neighbours.
+
+\item weights in \ac{cmaesknn} do not influence the performace too much.
+
+\item transformer shape for \ac{jdefme}, evolving a full matrix works clearly better for all datasets.
+\end{enumerate}
 
 \cenfig{graphs/classification/sr_hyp}{Success rates of individual algorithms when fixing some of their hyperparameters}{fig:cl:hyp}
 
@@ -792,7 +851,7 @@ To measure the performance of the fitness function, the fitness values of all in
 
 \subsection{Results}
 
-Figures~\ref{fig:fitness:balance-scale}--\ref{fig:fitness:wine} show the results for each dataset. In each Figure, the top four methods learn a full matrix, meanwhile the bottom four methods learn a diagonal matrix. Both \ac{knn} and F-measure fitness functions output values in a closed range $[0,1]$. The final \ac{knn} classifier used to measure performance outputs values in the same exact range and all values are plotted in the same graph. Therefore each individual graph shows minimal and maximal (both in orange) fitnesses, median fitness (in green) with the area between 25th and 75th percentiles coloured in light green, the blue line represents the test success rate of the individual with the highest fitness and the pink line represents the test success rate of the individual with the lowest fitness in every generation. A black line representing a test success rate of \ac{knn} using standard Euclidean distance is also added to the graphs. Unfortunately \ac{jde} did not finish on the four largest datasets and those graphs are marked with ``Timeout''.
+Figures~\ref{fig:fitness:balance-scale}---\ref{fig:fitness:wine} show the results for each dataset. In each Figure, the top four methods learn a full matrix, meanwhile the bottom four methods learn a diagonal matrix. Both \ac{knn} and F-measure fitness functions output values in a closed range $[0,1]$. The final \ac{knn} classifier used to measure performance outputs values in the same exact range and all values are plotted in the same graph. Therefore each individual graph shows minimal and maximal (both in orange) fitnesses, median fitness (in green) with the area between 25th and 75th percentiles coloured in light green, the blue line represents the test success rate of the individual with the highest fitness and the pink line represents the test success rate of the individual with the lowest fitness in every generation. A black line representing a test success rate of \ac{knn} using standard Euclidean distance is also added to the graphs. Unfortunately \ac{jde} did not finish on the four largest datasets and those graphs are marked with ``Timeout''.
 
 Important aspect to also keep in mind when looking at the graphs is that the left four graphs all use \ac{knn} for both fitness evaluation as well as test success rate evaluation, meanwhile the right four graphs use F-measure fitness for learning, but the test success rate is still evaluated using the \ac{knn} classifier. This means that the left four graphs have fitnesses and their test success rates directly comparable, meanwhile in the right four graphs only general trends can be followed and the fitness values cannot be directly compared with the test success rates.
 
@@ -882,7 +941,7 @@ We were also interested in whether \ac{cmaes} would help \ac{tsne} make a better
 
 The results are presented in Table~\ref{tab:dim-error-rates}. The error rates and standard deviations are shown for each method on each dataset from the 10-fold cross validation. The best inductive method (i.e. of those that do not use t-SNE) for every dataset is in a bold font. The best method among methods that have a transformation function (all except \ac{tsne}) is emphasised in italics.
 
-Generally, \ac{cmaesknn} works very well for dimensionality reduction and also very fast because only a $d\times2$ matrix is evolved. \ac{cmaesknn} has the lowest error only on \dataset{pima-indians}, however the difference between this method and the best method on each dataset is never statistically significant. Again, the statistical significance tables for this experiment are provided in Attachments (Tables~\ref{tab:statsign:dimred:balance-scale}--\ref{tab:statsign:dimred:wine}). \ac{tsne} works the best on large datasets, namely \dataset{digits6} and \dataset{digits10} and the preprocessing with \ac{cmaes} helps \ac{tsne} on the majority of the datasets. \ac{lfda} and \ac{nca} have both also very good results, but \ac{nca} runs out of memory on three datasets (marked with ``Memory'' in the results table).
+Generally, \ac{cmaesknn} works very well for dimensionality reduction and also very fast because only a $d\times2$ matrix is evolved. \ac{cmaesknn} has the lowest error only on \dataset{pima-indians}, however the difference between this method and the best method on each dataset is never statistically significant. Again, the statistical significance tables for this experiment are provided in Attachments (Tables~\ref{tab:statsign:dimred:balance-scale}---\ref{tab:statsign:dimred:wine}). \ac{tsne} works the best on large datasets, namely \dataset{digits6} and \dataset{digits10} and the preprocessing with \ac{cmaes} helps \ac{tsne} on the majority of the datasets. \ac{lfda} and \ac{nca} have both also very good results, but \ac{nca} runs out of memory on three datasets (marked with ``Memory'' in the results table).
 
 \input{results/dim-red}
 
@@ -1029,7 +1088,7 @@ In spite of our best effort, not everything was finished and there is space for 
 %%% should be uploaded to SIS and optionally also included in the thesis on a~CD/DVD.
 \chapwithtoc{Attachments} \label{chap:attachments}
 
-The tables showing statistical significance between individual methods are attached below, one table per dataset. Tables~\ref{tab:statsign:classification:balance-scale}--\ref{tab:statsign:classification:wine} correspond to experiment from Section~\ref{chap:exp:classification} and Tables~\ref{tab:statsign:dimred:balance-scale}--\ref{tab:statsign:dimred:wine} correspond to experiment from Section~\ref{chap:exp:dimred}. All experiments were performed using a 10-fold cross validation and then the t-test was used to calculate the $p$-value. The p-values are not shown in the tables directly, but they are encoded in asterisks: the smaller the $p$-value, the larger the significance between the models. More asterisks signify larger significance.
+The tables showing statistical significance between individual methods are attached below, one table per dataset. Tables~\ref{tab:statsign:classification:balance-scale}---\ref{tab:statsign:classification:wine} correspond to experiment from Section~\ref{chap:exp:classification} and Tables~\ref{tab:statsign:dimred:balance-scale}---\ref{tab:statsign:dimred:wine} correspond to experiment from Section~\ref{chap:exp:dimred}. All experiments were performed using a 10-fold cross validation and then the t-test was used to calculate the $p$-value. The p-values are not shown in the tables directly, but they are encoded in asterisks: the smaller the $p$-value, the larger the significance between the models. More asterisks signify larger significance.
 
 \input{results/stat-significance_classification}
 \input{results/stat-significance_dimred}

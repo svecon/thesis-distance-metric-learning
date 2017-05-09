@@ -10,18 +10,12 @@ Notes from Adam
 - ization, ize, izing -> isation, ise, ising (GB)
 
 TODOs:
-- bullet points:
-	\section{Metric learning} \label{chap:intro:ml}
-	\item [Form of metric]
-	\chapter{Related work} \label{chap:rw}
-	The metric learning algorithms tested in the experiments 
-	Next, we focus on the hyperparameters of the individual
-- correlated, uncorrelated figures: name points X,Y,Z
-- eqref for equations?
 - testsuccessrate in figures
-- read Dim Reduction
 
 Done:
+- read Dim Reduction
+- eqref for equations?
+- correlated, uncorrelated figures: name points X,Y,Z
 - remove all \acl, \acf, ...
 - remove 'algorithm' when preceeded by \ac{lfda}
 - Restricted vs diagonal
