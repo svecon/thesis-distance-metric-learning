@@ -3,17 +3,17 @@
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.sigm (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.sigm (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
 s:\ac{pca} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{nca} & **** & . & . & . & **** & . & . & . & . & . & ** & * \\
 s:\ac{lfda} & **** & . & . & . & **** & . & . & . & . & . & *** & * \\
 s:\ac{cmaesknn} & **** & . & . & . & **** & . & . & . & . & * & *** & ** \\
 s:\ac{tsne} & *** & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{cmaesknn}+\ac{tsne} & **** & * & ** & . & **** & . & * & . & ** & *** & **** & **** \\
-s:NN.\ac{sigm} (shallow) & **** & . & . & . & **** & . & . & . & . & . & *** & * \\
+s:NN.sigm (shallow) & **** & . & . & . & **** & . & . & . & . & . & *** & * \\
 s:NN.\ac{tanh} (shallow) & **** & . & * & . & **** & . & . & . & * & ** & **** & *** \\
 s:NN.\ac{relu} (shallow) & **** & . & . & . & **** & . & . & . & . & . & ** & . \\
-s:NN.\ac{sigm} (deep) & **** & . & . & . & *** & . & . & . & . & . & . & . \\
+s:NN.sigm (deep) & **** & . & . & . & *** & . & . & . & . & . & . & . \\
 s:NN.\ac{tanh} (deep) & **** & . & . & . & * & . & . & . & . & . & . & . \\
 s:NN.\ac{relu} (deep) & **** & . & . & . & **** & . & . & . & . & . & * & . \\
 \bottomrule
@@ -28,17 +28,17 @@ s:NN.\ac{relu} (deep) & **** & . & . & . & **** & . & . & . & . & . & * & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.sigm (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.sigm (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
 s:\ac{pca} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{nca} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{lfda} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{cmaesknn} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{tsne} & . & . & . & . & . & . & . & . & . & . & ** & . \\
 s:\ac{cmaesknn}+\ac{tsne} & . & . & ** & . & . & . & . & . & . & . & . & . \\
-s:NN.\ac{sigm} (shallow) & . & . & . & . & . & . & . & . & ** & . & . & . \\
+s:NN.sigm (shallow) & . & . & . & . & . & . & . & . & ** & . & . & . \\
 s:NN.\ac{tanh} (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{relu} (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.\ac{sigm} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.sigm (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{tanh} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{relu} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
@@ -53,17 +53,17 @@ s:NN.\ac{relu} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.sigm (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.sigm (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
 s:\ac{pca} & . & ? & ** & . & . & . & . & . & . & **** & **** & *** \\
 s:\ac{nca} & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
 s:\ac{lfda} & . & ? & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{cmaesknn} & *** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
 s:\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
 s:\ac{cmaesknn}+\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
-s:NN.\ac{sigm} (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
+s:NN.sigm (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
 s:NN.\ac{tanh} (shallow) & **** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
 s:NN.\ac{relu} (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
-s:NN.\ac{sigm} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
+s:NN.sigm (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{tanh} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{relu} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
@@ -78,17 +78,17 @@ s:NN.\ac{relu} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.sigm (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.sigm (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
 s:\ac{pca} & . & ? & *** & . & . & . & . & . & . & **** & **** & **** \\
 s:\ac{nca} & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
 s:\ac{lfda} & . & ? & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{cmaesknn} & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
 s:\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
 s:\ac{cmaesknn}+\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
-s:NN.\ac{sigm} (shallow) & *** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
+s:NN.sigm (shallow) & *** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
 s:NN.\ac{tanh} (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
 s:NN.\ac{relu} (shallow) & ** & ? & **** & . & . & . & . & . & . & **** & **** & **** \\
-s:NN.\ac{sigm} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
+s:NN.sigm (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{tanh} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{relu} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
@@ -103,17 +103,17 @@ s:NN.\ac{relu} (deep) & . & ? & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.sigm (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.sigm (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
 s:\ac{pca} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{nca} & **** & . & . & . & * & . & * & * & * & **** & **** & *** \\
 s:\ac{lfda} & **** & . & . & . & ** & . & ** & * & ** & **** & **** & *** \\
 s:\ac{cmaesknn} & **** & . & . & . & . & . & . & . & . & **** & *** & *** \\
 s:\ac{tsne} & *** & . & . & . & . & . & . & . & . & ** & ** & ** \\
 s:\ac{cmaesknn}+\ac{tsne} & **** & . & . & . & . & . & . & . & . & *** & *** & ** \\
-s:NN.\ac{sigm} (shallow) & **** & . & . & . & . & . & . & . & . & *** & *** & ** \\
+s:NN.sigm (shallow) & **** & . & . & . & . & . & . & . & . & *** & *** & ** \\
 s:NN.\ac{tanh} (shallow) & *** & . & . & . & . & . & . & . & . & ** & ** & ** \\
 s:NN.\ac{relu} (shallow) & **** & . & . & . & . & . & . & . & . & *** & *** & ** \\
-s:NN.\ac{sigm} (deep) & . & . & . & . & . & . & . & . & . & . & * & . \\
+s:NN.sigm (deep) & . & . & . & . & . & . & . & . & . & . & * & . \\
 s:NN.\ac{tanh} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{relu} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
@@ -128,17 +128,17 @@ s:NN.\ac{relu} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.sigm (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.sigm (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
 s:\ac{pca} & . & . & . & . & * & * & . & . & . & . & * & . \\
 s:\ac{nca} & *** & . & . & . & *** & *** & . & . & . & * & **** & . \\
 s:\ac{lfda} & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
 s:\ac{cmaesknn} & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
 s:\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{cmaesknn}+\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.\ac{sigm} (shallow) & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
+s:NN.sigm (shallow) & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
 s:NN.\ac{tanh} (shallow) & . & . & . & . & ** & * & . & . & . & . & * & . \\
 s:NN.\ac{relu} (shallow) & . & . & . & . & ** & ** & . & . & . & . & ** & . \\
-s:NN.\ac{sigm} (deep) & . & . & . & . & * & . & . & . & . & . & . & . \\
+s:NN.sigm (deep) & . & . & . & . & * & . & . & . & . & . & . & . \\
 s:NN.\ac{tanh} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{relu} (deep) & * & . & . & . & ** & ** & . & . & . & . & *** & . \\
 \bottomrule
@@ -153,17 +153,17 @@ s:NN.\ac{relu} (deep) & * & . & . & . & ** & ** & . & . & . & . & *** & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.sigm (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.sigm (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
 s:\ac{pca} & . & ? & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{nca} & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? & ? \\
 s:\ac{lfda} & . & ? & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{cmaesknn} & **** & ? & **** & . & . & . & ** & ** & ** & **** & **** & **** \\
 s:\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
 s:\ac{cmaesknn}+\ac{tsne} & **** & ? & **** & **** & . & . & **** & **** & **** & **** & **** & **** \\
-s:NN.\ac{sigm} (shallow) & **** & ? & ** & . & . & . & . & . & . & *** & **** & *** \\
+s:NN.sigm (shallow) & **** & ? & ** & . & . & . & . & . & . & *** & **** & *** \\
 s:NN.\ac{tanh} (shallow) & **** & ? & ** & . & . & . & . & . & . & *** & **** & *** \\
 s:NN.\ac{relu} (shallow) & **** & ? & *** & . & . & . & . & . & . & *** & **** & *** \\
-s:NN.\ac{sigm} (deep) & **** & ? & . & . & . & . & . & . & . & . & . & . \\
+s:NN.sigm (deep) & **** & ? & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{tanh} (deep) & ** & ? & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{relu} (deep) & *** & ? & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
@@ -178,17 +178,17 @@ s:NN.\ac{relu} (deep) & *** & ? & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.sigm (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.sigm (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
 s:\ac{pca} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{nca} & ** & . & . & . & . & . & . & . & . & ** & ** & . \\
 s:\ac{lfda} & * & . & . & . & . & . & . & . & . & ** & * & . \\
 s:\ac{cmaesknn} & * & . & . & . & . & . & . & . & . & ** & * & . \\
 s:\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{cmaesknn}+\ac{tsne} & * & . & . & . & . & . & . & . & . & ** & * & . \\
-s:NN.\ac{sigm} (shallow) & . & . & . & . & . & . & . & . & . & * & . & . \\
+s:NN.sigm (shallow) & . & . & . & . & . & . & . & . & . & * & . & . \\
 s:NN.\ac{tanh} (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{relu} (shallow) & * & . & . & . & . & . & . & . & . & ** & * & . \\
-s:NN.\ac{sigm} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.sigm (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{tanh} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{relu} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \bottomrule
@@ -203,17 +203,17 @@ s:NN.\ac{relu} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.sigm (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.sigm (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
 s:\ac{pca} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{nca} & **** & . & . & * & *** & ** & . & * & * & *** & * & . \\
 s:\ac{lfda} & **** & . & . & ** & *** & ** & . & * & * & **** & * & . \\
 s:\ac{cmaesknn} & * & . & . & . & * & . & . & . & . & * & . & . \\
 s:\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{cmaesknn}+\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.\ac{sigm} (shallow) & *** & . & . & * & *** & * & . & . & . & *** & * & . \\
+s:NN.sigm (shallow) & *** & . & . & * & *** & * & . & . & . & *** & * & . \\
 s:NN.\ac{tanh} (shallow) & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{relu} (shallow) & * & . & . & . & * & . & . & . & . & * & . & . \\
-s:NN.\ac{sigm} (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
+s:NN.sigm (deep) & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:NN.\ac{tanh} (deep) & . & . & . & . & . & * & . & . & . & . & . & . \\
 s:NN.\ac{relu} (deep) & * & . & . & . & * & . & . & . & . & * & . & . \\
 \bottomrule
@@ -228,17 +228,17 @@ s:NN.\ac{relu} (deep) & * & . & . & . & * & . & . & . & . & * & . & . \\
 \setlength{\tabcolsep}{1pt}
 \begin{tabular}{rC{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}C{2em}}
 \toprule
- & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.\ac{sigm} (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.\ac{sigm} (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
+ & \rot{s:\ac{pca}} & \rot{s:\ac{nca}} & \rot{s:\ac{lfda}} & \rot{s:\ac{cmaesknn}} & \rot{s:\ac{tsne}} & \rot{s:\ac{cmaesknn}+\ac{tsne}} & \rot{s:NN.sigm (shallow)} & \rot{s:NN.\ac{tanh} (shallow)} & \rot{s:NN.\ac{relu} (shallow)} & \rot{s:NN.sigm (deep)} & \rot{s:NN.\ac{tanh} (deep)} & \rot{s:NN.\ac{relu} (deep)} \\ \midrule
 s:\ac{pca} & . & . & . & . & **** & **** & . & . & * & * & ** & . \\
 s:\ac{nca} & . & . & . & * & **** & **** & . & * & ** & ** & *** & * \\
 s:\ac{lfda} & . & * & . & * & **** & **** & . & * & ** & ** & *** & * \\
 s:\ac{cmaesknn} & . & . & . & . & *** & **** & . & . & . & . & . & . \\
 s:\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
 s:\ac{cmaesknn}+\ac{tsne} & . & . & . & . & . & . & . & . & . & . & . & . \\
-s:NN.\ac{sigm} (shallow) & . & . & . & . & **** & **** & . & . & . & . & * & . \\
+s:NN.sigm (shallow) & . & . & . & . & **** & **** & . & . & . & . & * & . \\
 s:NN.\ac{tanh} (shallow) & . & . & . & . & **** & **** & . & . & . & . & * & . \\
 s:NN.\ac{relu} (shallow) & . & . & . & . & **** & **** & . & . & . & . & . & . \\
-s:NN.\ac{sigm} (deep) & . & . & . & . & *** & *** & . & . & . & . & . & . \\
+s:NN.sigm (deep) & . & . & . & . & *** & *** & . & . & . & . & . & . \\
 s:NN.\ac{tanh} (deep) & . & . & . & . & ** & *** & . & . & . & . & . & . \\
 s:NN.\ac{relu} (deep) & . & . & . & . & *** & **** & . & . & . & . & . & . \\
 \bottomrule
