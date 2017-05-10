@@ -13,7 +13,6 @@
 \setlength\headheight{0mm}
 % \openright makes the following text appear on a right-hand page
 \let\openright=\clearpage
-\renewcommand{\baselinestretch}{1.25}
 
 %% Settings for two-sided (duplex) printing
 % \documentclass[12pt,a4paper,twoside,openright]{report}
@@ -26,14 +25,14 @@
 % \setlength\headheight{0mm}
 % \let\openright=\cleardoublepage
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %% Generate PDF/A-2u
 \usepackage[a-2u]{pdfx}
 
 %% Character encoding: usually latin2, cp1250 or utf8:
 \usepackage[utf8]{inputenc}
+
+%% Prefer Latin Modern fonts
+\usepackage{lmodern}
 
 %% Further useful packages (included in most LaTeX distributions)
 \usepackage{amsmath}        % extensions for typesetting of math
@@ -77,6 +76,8 @@
 \makeatletter
 \renewcommand{\@algocf@capt@plain}{above}% formerly {bottom}
 \makeatother
+
+\renewcommand{\baselinestretch}{1.25}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
