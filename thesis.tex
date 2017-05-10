@@ -29,6 +29,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% Generate PDF/A-2u
+\usepackage[a-2u]{pdfx}
+
 %% Character encoding: usually latin2, cp1250 or utf8:
 \usepackage[utf8]{inputenc}
 
@@ -133,13 +136,16 @@ V této práci jsme navrhli novou metodu pro supervised redukci dimenze, která 
 
 %% The hyperref package for clickable links in PDF and also for storing
 %% metadata to PDF (including the table of contents).
-\usepackage[pdftex,unicode]{hyperref}   % Must follow all other packages
-% \usepackage[hidelinks]{hyperref}
+% \usepackage[pdftex,unicode]{hyperref}   % Must follow all other packages
+% % \usepackage[hidelinks]{hyperref}
+% \hypersetup{breaklinks=true}
+% \hypersetup{pdftitle={\ThesisTitle}}
+% \hypersetup{pdfauthor={\ThesisAuthor}}
+% \hypersetup{pdfkeywords=\Keywords}
+% \hypersetup{urlcolor=blue}
+
+\hypersetup{unicode}
 \hypersetup{breaklinks=true}
-\hypersetup{pdftitle={\ThesisTitle}}
-\hypersetup{pdfauthor={\ThesisAuthor}}
-\hypersetup{pdfkeywords=\Keywords}
-\hypersetup{urlcolor=blue}
 
 % Definitions of macros (see description inside)
 \include{macros}
