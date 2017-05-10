@@ -119,7 +119,7 @@ I also want to thank my family for their continued support and encouragement dur
 
 % Abstract (recommended length around 80-200 words; this is not a copy of your thesis assignment!)
 \def\Abstract{%
-In this work, we propose a novel method for a supervised dimensionality reduction, which learns weights of a neural network using an evolutionary algorithm, CMA-ES, optimising the success rate of the $k$-NN classifier. If no activation functions are used in the neural network, the algorithm essentially performs a linear transformation. This linear transformation can also be used inside of the Mahalanobis distance and thus our method can be considered to be a metric learning algorithm. By adding activations to the neural network, the algorithm can learn non-linear transformations as well. We consider reductions to low-dimensional spaces, which are useful for data visualisation, and demonstrate that the resulting projections provide better performance than other dimensionality reduction techniques and also that the visualisations provide better distinctions between the classes in the data thanks to the locality of the $k$-NN classifier.%
+In this work, we propose a novel method for a supervised dimensionality reduction, which learns weights of a neural network using an evolutionary algorithm, CMA-ES, optimising the success rate of the $k$-NN classifier. If no activation functions are used in the neural network, the algorithm essentially performs a linear transformation, which can also be used inside of the Mahalanobis distance. Therefore our method can be considered to be a metric learning algorithm. By adding activations to the neural network, the algorithm can learn non-linear transformations as well. We consider reductions to low-dimensional spaces, which are useful for data visualisation, and demonstrate that the resulting projections provide better performance than other dimensionality reduction techniques and also that the visualisations provide better distinctions between the classes in the data thanks to the locality of the $k$-NN classifier.%
 }
 
 \def\AbstractCzech{%
@@ -202,9 +202,13 @@ Another important area of machine learning is dimensionality reduction, whose go
 % http://scikit-learn.org/stable/modules/decomposition.html#pca
 % http://scikit-learn.org/stable/modules/lda_qda.html#id4
 % http://scikit-learn.org/stable/modules/manifold.html
-One of the most common unsupervised dimensionality reduction methods is \ac{pca}~\citep{jolliffe1986principal}, which decomposes the dataset in a set of successive orthogonal components that explain a maximum amount of the variance inside of the data. Other well-known methods are for example \ac{ica}~\citep{comon1994independent} and \ac{lda}~\citep{fisher1936use}. A specific area of non-linear dimensionality reduction is called manifold learning, which is based on the idea that the dimensionality of many datasets is only artificially high but the intrinsic dimensionality is low and the data lie on an embedded low-dimensional manifold within the higher-dimensional space. A popular manifold algorithm receiving a lot of traction recently is \ac{tsne}~\citep{maaten2008visualizing}, which tries to preserve a local structure of the data and therefore is especially useful in visualisation. Other known manifold methods are \ac{lle}~\citep{roweis2000nonlinear}, \ac{mds}~\citep{kruskal1978multidimensional} and many others. More dimensionality reduction methods were reviewed by~\citep{fodor2002survey} and~\citep{van2009dimensionality}.
+One of the most common unsupervised dimensionality reduction methods is \ac{pca}~\citep{jolliffe1986principal}, which decomposes the dataset in a set of successive orthogonal components that explain a maximum amount of the variance inside of the data. Other well-known methods are for example \ac{ica}~\citep{comon1994independent} and \ac{lda}~\citep{fisher1936use}.
 
-In this thesis, we review existing state-of-the-art methods for learning global Mahalanobis distance metric and propose a new method using evolutionary algorithms (EA). In the experiments the methods are compared on several popular datasets to see how they improve classification. Learning the full Mahalanobis metric means learning $d^2$ parameters, however by restricting the methods to learn only a diagonal of the Mahalanobis distance metric, only $d$ parameters are needed. Moreover, we explore the usage of metric learning algorithms for visualisation of the data (dimensionality reduction to 2 dimensions) and compare them with traditional approaches.
+A specific area of non-linear dimensionality reduction is called manifold learning, which is based on the idea that the dimensionality of many datasets is only artificially high but the intrinsic dimensionality is low and the data lie on an embedded low-dimensional manifold within the higher-dimensional space.
+
+A popular manifold algorithm receiving a lot of traction recently is \ac{tsne}~\citep{maaten2008visualizing}, which tries to preserve a local structure of the data and therefore is especially useful in visualisation. Other known manifold methods are \ac{lle}~\citep{roweis2000nonlinear}, \ac{mds}~\citep{kruskal1978multidimensional} and many others. More dimensionality reduction methods were reviewed by~\citep{fodor2002survey} and~\citep{van2009dimensionality}.
+
+In this thesis, we review existing state-of-the-art methods for learning global Mahalanobis distance metric and propose a new method using evolutionary algorithms (EA). In the experiments the methods are compared on several popular datasets to see how they improve classification. Learning the full Mahalanobis distance means learning $d^2$ parameters, however by restricting the methods to learn only a diagonal of the Mahalanobis distance metric, only $d$ parameters are needed. Moreover, we explore the usage of metric learning algorithms for visualisation of the data (dimensionality reduction to 2 dimensions) and compare them with traditional approaches.
 
 \section{Metric learning} \label{chap:intro:ml}
 
@@ -212,7 +216,7 @@ The origins of metric learning can be traced back to~\citep{short1981optimal}, h
 
 The goal of the metric learning is to find a pairwise real valued metric function $d(x,y)$ for the given problem such that it leverages the most information it can using the training samples. Every metric learning algorithm has some defining properties. These properties are well described and categorised in a survey done by~\citep{bellet2013survey}. All these properties and their categories are summarised in Figure~\ref{fig:metric-learning}.
 
-\cenfig{graphs/metric_learning}{Properties of metric learning algorithm. This work is focused on the highlighted categories.}{fig:metric-learning}
+\cenfig{graphs/metric_learning}{Properties of metric learning algorithms. This work focuses on the highlighted categories.}{fig:metric-learning}
 
 \newpage
 
@@ -258,13 +262,19 @@ There are three large fields that benefit from \ac{dml}. In \textit{Computer vis
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Mahalanobis metric} \label{chap:intro:mah}
+\section{Mahalanobis distance} \label{chap:intro:mah}
 % http://blogs.sas.com/content/iml/2012/02/15/what-is-mahalanobis-distance.html
 % https://en.wikipedia.org/wiki/Mahalanobis_distance
 
 The problem with the Euclidean distance is that it does not account for variances in different directions and correlations between pairs of dimensions in the data. For normally distributed data, the distance from the mean can be specified by computing the z-score, defined as $z = \frac{x-\mu}{\sigma}$, where $\mu$ is the population mean and $\sigma$ is the population standard deviation. The z-score of $x$ can seen as a dimensionless quantity and can be interpreted as the number of standard deviations of $x$ away from the mean.
 
-Figure~\ref{fig:corrdata} demonstrates this problem in two dimensions: the figure visualises a dataset with both dimensions highly correlated and with the first dimension highly variable. In the plot the coloured ellipses show the probability density function of the Gaussian mixture model, which is high for ellipses near the origin and low for ellipses further away. In the figure there is origin $O$ at coordinates $[0,0]$ and two other red points: $A$ at coordinates $[2,0]$ and $B$ at coordinates $[0,1]$. It is clear that in Euclidean distance $d_2(A,O)>d_2(B,O)$. However, because the first axis has larger variance, it is clear that seeing point $A$ is much more likely in our dataset than it is seeing point $B$ because $A$ lies on the edge of the first ellipsis, meanwhile point $B$ lies beyond the edge of the second ellipsis. Using the terminology of the z-score, point $B$ is more standard deviations away from the origin than point $A$.
+Figure~\ref{fig:corrdata} demonstrates this problem in two dimensions: the figure visualises a dataset with both dimensions highly correlated and with the first dimension highly variable. In the plot the coloured ellipses show the probability density function of the Gaussian mixture model, which is high for ellipses near the origin and low for ellipses further away. In the figure there are three red points: 
+\begin{itemize}
+\item origin $O$ at coordinates $[0,0]$,
+\item $A$ at coordinates $[2,0]$,
+\item $B$ at coordinates $[0,1]$.
+\end{itemize}
+It is clear that in Euclidean distance $d_2(A,O)>d_2(B,O)$. However, because the first axis has larger variance, it is clear that seeing point $A$ is much more likely in our dataset than it is seeing point $B$ because $A$ lies on the edge of the first ellipsis, meanwhile point $B$ lies beyond the edge of the second ellipsis. Using the terminology of the z-score, point $B$ is more standard deviations away from the origin than point $A$.
 
 \cenfig{graphs/correlated_data}{Correlated data centred around origin}{fig:corrdata}
 
@@ -317,7 +327,7 @@ d(\textbf{x},\textbf{y}) &= d(\textbf{y},\textbf{x}) & symmetry \label{eq:metric
 d(\textbf{x},\textbf{z}) &\leq d(\textbf{x},\textbf{y}) + d(\textbf{y},\textbf{z}) & triangle \ inequality \label{eq:metricdef-4}
 \end{align} 
 
-In order for the Mahalanobis metric (Equation~\ref{eq:maha}) to be a metric, the matrix $\bf{M}$ that parametrizes the distance needs to fulfil the conditions in Equations~\ref{eq:metricdef-1}---\ref{eq:metricdef-4}. It turns out that a strictly \ac{pd} matrix $\bm{M} \succ 0$ fulfils all conditions and therefore the Mahalanobis distance with a \ac{pd} matrix is a distance metric.
+In order for the Mahalanobis distance (Equation~\ref{eq:maha}) to be a metric, the matrix $\bf{M}$ that parametrizes the distance needs to fulfil the conditions in Equations~\ref{eq:metricdef-1}---\ref{eq:metricdef-4}. A strictly \ac{pd} matrix $\bm{M} \succ 0$ fulfils all conditions and therefore the Mahalanobis distance with a \ac{pd} matrix is a distance metric.
 
 Sometimes, however, it is not easy to guarantee the positive definiteness of a matrix. For this reason the \textit{identity of indiscernibles} condition (Equation~\ref{eq:metricdef-2}) is usually relaxed into a condition of \textit{identity} (Equation~\ref{eq:pseudodef-2}) which allows $d(x,y)=0$ for two distinct values $x \neq y$. Together with the rest of the conditions, this rule forms a new set of conditions (Equations~\ref{eq:pseudodef-1}---\ref{eq:pseudodef-4}) which together define a \textit{pseudo-metric}. Therefore a Mahalanobis distance with a \ac{psd} matrix $\bf{M} \succeq 0$ is a pseudo-metric, which is enough in most applications.
 
@@ -341,8 +351,8 @@ Note that if the $\bm{M}$ matrix is low rank, i.e., $rank(\bm{M})=k<d$ then the 
 
 Learning Mahalanobis distance comes with two challenges:
 \begin{enumerate}
-\item ensuring that the matrix $\bm{M}$ stays \ac{psd} during the learning process. A simple way to ensure this constraint is to use a projection onto a \ac{psd} cone by setting the negative eigenvalues to zero, which is described in~\citep{qian2015efficient}. Still, the eigenvalue decomposition takes $\mathcal{O}(d^3)$ and therefore is intractable for high-dimensional datasets.
-\item learning a low-rank matrix $\bm{M}$ instead of the full-rank one. This would imply having the transformation to the low-dimensional space with all the advantages described earlier. Unfortunately, finding a minimum-rank solution of a \ac{sdp} is NP-hard as described in~\citep{lemon2016low}.
+\item ensuring that the matrix $\bm{M}$ stays \ac{psd} during the learning process. A~simple way to ensure this constraint is to use a projection onto a \ac{psd} cone by setting the negative eigenvalues to zero, which is described in~\citep{qian2015efficient}. Still, the eigenvalue decomposition takes $\mathcal{O}(d^3)$ and therefore is intractable for high-dimensional datasets.
+\item learning a low-rank matrix $\bm{M}$ instead of the full-rank one. This would imply having the transformation to the low-dimensional space with all the advantages described earlier. Unfortunately, finding a minimum-rank solution of a semidefinite program is NP-hard as described in~\citep{lemon2016low}.
 \end{enumerate}
 
 \section{Outline}
@@ -356,31 +366,29 @@ Current approaches to \ac{dml} are described in Chapter~\ref{chap:rw}, the notio
 
 As already mentioned in Chapter~\ref{chap:intro}, \ac{dml} has been gaining traction in the recent years and it has found many applications in many fields as discussed in Section~\ref{chap:intro:applications}. The survey from~\citep{bellet2013survey} is a comprehensive review of the supervised Mahalanobis distance learning methods. In the survey categorises \ac{dml} methods into the following categories: 
 \begin{itemize}
-\item \textit{Linear methods} are the simplest methods, they are typically using Mahalanobis metric.
-\item \textit{Online methods} are updated after each individual instance.
+\item \textit{Linear methods} are the simplest methods, which are easy to optimise and are less prone to overfitting. Typical example is Mahalanobis distance.
+\item \textit{Online methods} process the samples piece-by-piece, without having the entire input available from the start.
 \item \textit{Multi-Task methods} learn the metric for multiple related tasks at once to improve the performance.
-\item \textit{Nonlinear methods} no longer have linear metric, typically achieved by kernelisation of a linear method.
+\item \textit{Nonlinear methods} no longer have linear metric; it is typically achieved by kernelisation of a linear method.
 \item \textit{Local Metric methods} learn multiple metrics for different parts of the space.
 \item \textit{Semi-Supervised methods} in are designed to work well in semi-supervised paradigm, where most of the instances do not have labels.
 \end{itemize}
 This work mostly focuses on linear \ac{dml} methods because the rest of the categories extend these simpler methods and build on top of them.
-
-Most of the research has been focused on learning a metric from labelled training instances (supervised paradigm), nevertheless, researchers also focus on weakly-supervised tasks, where the labels of the instances are unknown, but the information about the data comes in the form of similar and dissimilar pairs (Equations~\ref{eq:similar}---\ref{eq:dissimilar}).
 
 The Mahalanobis distance originally proposed by~\citep{mahalanobis1936generalized} (Equation~\ref{eq:maha:orig}) uses a Covariance matrix of the data and can be seen as a first \ac{dml} method. Even though it is unsupervised, it still learns from the data. Since then the term Mahalanobis distance has been generalised and is now used with any \ac{psd} matrix, not just Covariance, discussed in more detail in Section~\ref{chap:intro:mah}. This generalised Mahalanobis distance is now used in many linear \ac{dml} methods.
 
 The individual \ac{dml} methods that were mentioned here will be described in the next sections with more detail.
 
 \section{MMC Xing method} \label{chap:rw:xing}
-The work of~\citep{xing2002distance} is the first Mahalanobis distance learning algorithm leveraging information about the data. It is a weakly supervised method, which takes information in form of pairs of similar and dissimilar instances as defined in Equations~\ref{eq:similar} and~\ref{eq:dissimilar}. The authors formulate a convex optimisation problem that tries to maximize the distance between dissimilar pairs of instances while keeping the sum of the distances between similar pairs as low as possible ($\leq 1$). The convex program is shown in Equation~\ref{eq:rw:xing}.
+The work of~\citep{xing2002distance} is the first Mahalanobis distance learning algorithm leveraging information about the data. It is a weakly supervised method, which takes information in form of pairs of similar and dissimilar instances as defined in Equations~\ref{eq:similar} and~\ref{eq:dissimilar}. The authors formulate a convex optimisation problem that tries to maximize the distance between dissimilar pairs of instances while keeping the sum of the distances between similar pairs as low as possible ($\leq 1$):
 
 \begin{align*}
 \max_{\bm{M} \in \mathbb{S}^{d}_+} \quad & \sum_{(x_i,x_j)\in \mathcal{D}} d_{\bm{M}}(x_i,x_j) \\
 \text{s.t.} \quad & \sum_{(x_i,x_j)\in \mathcal{S}} d_{\bm{M}}^2(x_i,x_j) \leq 1 \\
-& \bm{M} \succeq 0 \numberthis \label{eq:rw:xing}
+& \bm{M} \succeq 0
 \end{align*}
 
-This convex program is solved by using gradient ascend to maximize the distances between dissimilar instances, followed by projections to ensure the conditions of the program are held (matrix $\bm{M}$ must stay \ac{psd} and the distances between similar pair must stay low).
+This convex program is solved by using gradient ascend to maximize the distances between dissimilar instances, followed by projections to ensure the conditions of the program are held (matrix $\bm{M}$ must stay \ac{psd} and the distances between similar pairs must stay low).
 
 \section{k-Nearest Neighbour classifier} \label{alg:knn}
 
@@ -408,20 +416,20 @@ The performance of the \ac{knn} largely depends on the metric used. Some \ac{dml
 \Acf{lmnn} method designed by~\citep{weinberger2009distance} is a very popular method that has been improved by work of many other researchers, such as Multiple-Metrics \ac{lmnn}~\citep{weinberger2008fast}, Multi-task \ac{lmnn}~\citep{parameswaran2010large} and Gradient-Boosted \ac{lmnn}~\citep{kedem2012non}. The goal of this method is to improve the performance of the \ac{knn} classifier, the idea is that $k$-nearest neighbours with the same class should stay together while separating the imposters (instances with a different class) by a large margin. The algorithm works by defining the constraints in a local way: optimising only over similar points that are also in a close neighbourhood of each other as defined in Equations~\ref{eq:rw:lmnn:similar}---\ref{eq:rw:lmnn:dissimilar}. This neighbourhood is usually determined using Euclidean distance.
 
 \begin{align}
-\mathcal{S} &= \lbrace(\bm{x}_i,\bm{x}_j): y_i = y_j \text{ and } \bm{x}_j \text{ is in the }k\text{-neighbourhood of } \bm{x}_i \rbrace  \label{eq:rw:lmnn:similar} \\
+\mathcal{S} &= \lbrace(\bm{x}_i,\bm{x}_j): y_i = y_j \text{ and } \bm{x}_j \text{ is in the }k\text{-neighbourhood of } \bm{x}_i \rbrace \label{eq:rw:lmnn:similar} \\
 \mathcal{R} &= \lbrace(\bm{x}_i,\bm{x}_j,\bm{x}_k): (\bm{x}_i,\bm{x}_j) \in \mathcal{S}, y_i \neq y_k \rbrace \label{eq:rw:lmnn:dissimilar}
 \end{align}
 
-The distance metric is then learnt using the convex program defined in Equation~\ref{eq:rw:lmnn}. The authors exploited the locality of the constraints and designed their own solver, able to solve the program even with billions of constraints. The $\mu$ parameter controls the pull/push trade-off which influences how much the algorithm will push the imposters away and pull the similar instances together.
+The distance metric is then learnt using the convex program defined in Equations~\ref{eq:rw:lmnn}---\ref{eq:rw:lmnn:last}. The authors exploited the locality of the constraints and designed their own solver, able to solve the program even with billions of constraints. The $\mu$ parameter controls the pull/push trade-off which influences how much the algorithm will push the imposters away and pull the similar instances together.
 
-\begin{align*}
-\min_{\bm{M} \in \mathbb{S}^{d}_+} \quad & (1-\mu)\sum_{(\bm{x}_i,\bm{x}_j)\in \mathcal{S}} d_{\bm{M}}^2(\bm{x}_i,\bm{x}_j) + \mu \sum_{i,j,k} \xi_{ijk} \\
-\text{s.t.} \quad & d_{\bm{M}}^2(\bm{x}_i,\bm{x}_k) - d_{\bm{M}}^2(\bm{x}_i,\bm{x}_j) \geq 1 - \xi_{ijk} \quad \forall(\bm{x}_i,\bm{x}_j,\bm{x}_k) \in \mathcal{R} \numberthis \label{eq:rw:lmnn}
-\end{align*}
+\begin{align}
+\min_{\bm{M} \in \mathbb{S}^{d}_+} \quad & (1-\mu)\sum_{(\bm{x}_i,\bm{x}_j)\in \mathcal{S}} d_{\bm{M}}^2(\bm{x}_i,\bm{x}_j) + \mu \sum_{i,j,k} \xi_{ijk} \label{eq:rw:lmnn} \\
+\text{s.t.} \quad & d_{\bm{M}}^2(\bm{x}_i,\bm{x}_k) - d_{\bm{M}}^2(\bm{x}_i,\bm{x}_j) \geq 1 - \xi_{ijk} \quad \forall(\bm{x}_i,\bm{x}_j,\bm{x}_k) \in \mathcal{R} \label{eq:rw:lmnn:last}
+\end{align}
 
 Figure~\ref{fig:rw:lmnn} illustrates how \ac{lmnn} works. The left diagram shows neighbourhood of the points before training and the right diagram after training. The distance metric is optimised so that the points lie inside of a smaller neighbourhood, while the instances with different classes are pushed outside of this neighbourhood.
 
-\cenfig{graphs/lmnn}{LMNN algorithm illustration before and after training}{fig:rw:lmnn}
+\cenfig{graphs/lmnn}{Illustration of the input space before and after training using \ac{lmnn}}{fig:rw:lmnn}
 
 % \section{Information Theoretic Metric Learning (ITML)} \label{chap:rw:itml}
 %~\citep{davis2007information}
@@ -485,7 +493,9 @@ Evolutionary algorithm is typically used when the objective function is non-diff
 % Source: http://www.maths.uq.edu.au/MASCOS/Multi-Agent04/Fleetwood.pdf
 \cenfig{graphs/ea_scheme}{Schema of an evolutionary algorithm}{fig:rw:ea:schema}
 
-Differential evolution is a special case of an evolutionary algorithm which is a stochastic, population based algorithm suitable for solving a real-valued objective function with many parameters. Differential evolution is an evolutionary algorithm with special mutation and crossover operations. The pseudocode for differential evolution is shown in Algorithm~\ref{pseudo:de}. It follows the schema from Figure~\ref{fig:rw:ea:schema} and the special crossover operation is defined on Line~\ref{pseudo:de:mut}, where three different individuals are combined to create a new offspring. Differential evolution algorithm has two hyperparameters apart from the size of the population: crossover probability $CR$ and differential weight $F$. Differential evolution can be very sensitive to the choice of these two hyperparameters.~\citep{fukui2013evolutionary} uses an improved version of differential evolution called \acf{jde}~\citep{brest2006self}, which alleviates this problem by encoding the hyperparameters $CR$ and $F$ inside of every single individual. When an offspring is created using the mutation and crossover, the $CR$ and $F$ parameters from the parent individuals are used. Therefore these two hyperparameters do not need to be specified for \ac{jde} and the algorithm itself is more robust.
+Differential evolution is a special case of an evolutionary algorithm which is a stochastic, population based algorithm suitable for solving a real-valued objective function with many parameters. Differential evolution is an evolutionary algorithm with special mutation and crossover operations. The pseudocode for differential evolution is shown in Algorithm~\ref{pseudo:de}. It follows the schema from Figure~\ref{fig:rw:ea:schema} and the special crossover operation is defined on Line~\ref{pseudo:de:mut}, where three different individuals are combined to create a new offspring.
+
+Differential evolution algorithm has two hyperparameters apart from the size of the population: crossover probability $CR$ and differential weight $F$. Differential evolution can be very sensitive to the choice of these two hyperparameters.~\citep{fukui2013evolutionary} uses an improved version of differential evolution called \acf{jde}~\citep{brest2006self}, which alleviates this problem by encoding the hyperparameters $CR$ and $F$ inside of every single individual. When an offspring is created using the mutation and crossover, the $CR$ and $F$ parameters from the parent individuals are used. Therefore these two hyperparameters do not need to be specified for \ac{jde} and the algorithm itself is more robust.
 
 \begin{algorithm}[t]
 \caption{Pseudocode for differential evolution} \label{pseudo:de}
@@ -516,29 +526,29 @@ d_{i,j}^{repair} = \frac{m_{i,j}}{\sum_j \abs{m_{i,j}}}, \; (i \neq j)
 
 \citep{fukui2013evolutionary} focuses on improving clustering algorithms and thus uses external clustering indexes as the fitness function. External clustering indexes, compared to internal clustering indexes, use the class labels of the data for the evaluation. In their work they use purity, \mbox{F-measure} (harmonic mean of precision and recall of the classes assigned by clustering) and entropy. The authors also use a so called ``neighbour relation'' to improve the performance of the indexes by incorporating a weighted function inside of the indexes. 
 
-\mbox{F-measure} performed the best in their experimental results and so we chose to experiment with this index. \mbox{F-measure} is defined in Equation~\ref{eq:rw:fme} where $C$ is a cluster set, $Y$ are class labels, $N_{s,i}$ is number of data points with class $s \in Y$ and in $i^{th}$ cluster, $y(k)$ and $c(k)$ denote the class/cluster assignment for $x_k$.
+\mbox{F-measure} performed the best in their experimental results and so we chose to experiment with this index. \mbox{F-measure} is defined in Equations~\ref{eq:rw:fme}---\ref{eq:rw:fme:last} where $C$ is a cluster set, $Y$ are class labels, $N_{s,i}$ is number of data points with class $s \in Y$ and in $i^{th}$ cluster, $y(k)$ and $c(k)$ denote the class/cluster assignment for $x_k$.
 
-\begin{align*}
-Fme(s,C_i) &= \frac{2 \cdot Prec(s,C_i) \cdot Rec(s, C_i)}{Prec(s,C_i) + Rec(s, C_i)} \\
+\begin{align}
+Fme(s,C_i) &= \frac{2 \cdot Prec(s,C_i) \cdot Rec(s, C_i)}{Prec(s,C_i) + Rec(s, C_i)} \label{eq:rw:fme} \\
 Prec(s,C_i) &= N_{s,i}/N_i \\
 Rec(s,C_i) &= N_{s,i}/N_s \\
 N_{s,i} &= \#\{x_k | y(k)=s, c(k)=C_i\} \\
 N_s &= \#\{x_k | y(k)=s \in Y\} \\
-N_i &= \#\{x_k | c(k)=C_i\} \numberthis \label{eq:rw:fme}
-\end{align*}
+N_i &= \#\{x_k | c(k)=C_i\} \label{eq:rw:fme:last}
+\end{align}
 
-The weighted versions of the previous definitions are shown in Equation~\ref{eq:rw:wfme}. $h_{i,j}$ can be any monotonically decreasing function, the authors used Gaussian function $h_{i,j}=\exp(-r_{i,j}/\sigma)$, where $r_{i,j}$ is inter-cluster distance between $C_i$ and $C_j$, and $\sigma$ is a smoothing radius.
+The weighted versions of the previous definitions are shown in Equations~\ref{eq:rw:wfme}---\ref{eq:rw:wfme:last}. $h_{i,j}$ can be any monotonically decreasing function, the authors used Gaussian function $h_{i,j}=\exp(-r_{i,j}/\sigma)$, where $r_{i,j}$ is inter-cluster distance between $C_i$ and $C_j$, and $\sigma$ is a smoothing radius.
 
-\begin{align*}
-wFme(C) &= \sum_{s \in Y} \frac{N_s}{N} \max_{C_i \in C} Fme(s,C_i) \\
+\begin{align}
+wFme(C) &= \sum_{s \in Y} \frac{N_s}{N} \max_{C_i \in C} Fme(s,C_i) \label{eq:rw:wfme} \\
 Prec(s,C_i) &= \widetilde{N}_{s,i}/\widetilde{N}_i \\
 Rec(s,C_i) &= \widetilde{N}_{s,i}/N_s \\
 \widetilde{N}_{s,i} &= \sum_{C_j \in C} h_{i,j}N_{s,j} \\
 \widetilde{N}_i &= \sum_{s\in Y}\widetilde{N}_{s,i}=\sum_{s\in Y}\sum_{C_j \in C} h_{i,j}N_{s,j} \\
-\widetilde{N} &= \sum_{C_i \in C}\widetilde{N}_i = \sum_{C_i \in C}\sum_{s\in Y}\sum_{C_j \in C} h_{i,j}N_{s,j} \numberthis \label{eq:rw:wfme}
-\end{align*}
+\widetilde{N} &= \sum_{C_i \in C}\widetilde{N}_i = \sum_{C_i \in C}\sum_{s\in Y}\sum_{C_j \in C} h_{i,j}N_{s,j} \label{eq:rw:wfme:last}
+\end{align}
 
-After certain number of generations of the evolutionary algorithm, the individual with the best fitness value is selected and the matrix encoded in this individual is used for the final Mahalanobis metric.
+After certain number of generations of the evolutionary algorithm, the individual with the best fitness value is selected and the matrix encoded in this individual is used for the final Mahalanobis distance.
 
 \section{Dimensionality Reduction}
 
@@ -596,7 +606,7 @@ The \ac{knn} classifier function is not differentiable and so we focus on findin
 The high level pseudocode for an evolutionary algorithm evolving the mapping is shown in Algorithm~\ref{pseudo:our-method}. First, all parameters are initialised randomly along with an empty \ac{hof}. The individuals are vectors of real numbers that encode the mapping. In case of evolving the matrix $L$ for the Mahalanobis distance, this is a vector of $d^2$ numbers. In case of evolving the neural networks, the individual contains all the weights from the network. Then the evolutionary algorithm is run until a stopping criterion is met. In each generation new individuals are sampled and the fitnesses of the individuals are evaluated. The \ac{hof} and the internal parameters of the evolutionary algorithm are updated. After the evolution, the best individual from the \ac{hof} is returned. The individual contains the weights that represent the corresponding mapping.
 
 \begin{algorithm}[t]
-\caption{Evolving the mapping using an evolutionary algorithm} \label{pseudo:our-method}
+\caption{Evolving a mapping using an evolutionary algorithm} \label{pseudo:our-method}
 \DontPrintSemicolon
 \LinesNumbered
 \Begin{
@@ -640,7 +650,9 @@ The most important step here is the evaluation of the fitness function, which is
 
 It is important to note that the splitting of the data into training and testing sets is done for each fitness evaluation and therefore the sets are split differently for each individual. The idea behind this is that the evolution should find different individuals that generalise well.
 
-\Ac{dml} algorithms can also be used for dimensionality reduction as already discussed in Chapter~\ref{chap:rw}. Our mapping $f: O \to T$ is very general and can take any form. By evolving transformation matrix $\bm{L} \in \mathcal{R}^{m\times d}$, where $m < d$, a singular transformation matrix is obtained that will transform the original $d$-dimensional space into $m$-dimensional. To perform a dimensionality reduction using the neural network, the shape and the activation functions need to be chosen beforehand, the only criteria is that the first layer has size $d$ and the last layer has the size of the target dimension $m$. Without activation functions a fully connected neural network essentially reduces to a linear transformation and can therefore be used in Mahalanobis distance. The individuals in the evolution contain weights corresponding to all parameters of the neural network. Typical activation functions used in neural networks are sigmoid function ($\sigma(x)$), \ac{tanh} and \ac{relu}, which are defined in Equations~\ref{eq:nn:sigm}---\ref{eq:nn:relu}. Experiments with the activation functions and the depth of the neural network used for visualisation are described in the next chapter.
+\Ac{dml} algorithms can also be used for dimensionality reduction as already discussed in Chapter~\ref{chap:rw}. Our mapping $f: O \to T$ is very general and can take any form. By evolving transformation matrix $\bm{L} \in \mathcal{R}^{m\times d}$, where $m < d$, a singular transformation matrix is obtained that will transform the original $d$-dimensional space into $m$-dimensional.
+
+To perform a dimensionality reduction using the neural network, the shape and the activation functions need to be chosen beforehand, the only criteria is that the first layer has size $d$ and the last layer has the size of the target dimension $m$. Without activation functions a fully connected neural network essentially reduces to a linear transformation and can therefore be used in Mahalanobis distance. The individuals in the evolution contain weights corresponding to all parameters of the neural network. Typical activation functions used in neural networks are sigmoid function ($\sigma(x)$), \ac{tanh} and \ac{relu}, which are defined in Equations~\ref{eq:nn:sigm}---\ref{eq:nn:relu}. Experiments with the activation functions and the depth of the neural network used for visualisation are described in the next chapter.
 
 \begin{align}
 \sigma(x)      &= 1/(1+e^{-x}) \label{eq:nn:sigm} \\
@@ -651,13 +663,14 @@ It is important to note that the splitting of the data into training and testing
 The algorithm described here is similar to the algorithm described by~\citep{fukui2013evolutionary}, however, there are some important differences:
 \begin{itemize}
 \item~\citep{fukui2013evolutionary} focuses on improving clustering and used the \mbox{F-measure} as the fitness function. On the other hand, we deal with classification and therefore we minimize the error rate of the \ac{knn} classifier;
-\item a mapping is evolved instead of the matrix for the Mahalanobis distance, therefore the matrix does not have to be ``adjusted'' during the evolution to stay \ac{pd}, as proved in Equation~\ref{eq:mah:proof};
-\item \ac{cmaes} is used instead of \ac{jde}, therefore smaller population size can be used, leading to faster optimisation (recommended population size for \ac{cmaes} is only $4+\floor{3\log{d}}$~\citep{hansen2006cma} whereas for \ac{jde} it is $10d$~\citep{brest2006self}, where $d$ is number of parameters to evolve).
-\end{itemize}
+\item a mapping is evolved instead of the matrix for the Mahalanobis distance, therefore the matrix does not have to be ``adjusted'' during the evolution to stay \ac{pd}, as proved in Equation~\ref{eq:mah:proof}:
 
 \begin{equation}
 \bm{x}^\top \bm{L}^\top \bm{L}\bm{x}=(\bm{Lx})^\top(\bm{Lx})=(\bm{Lx})\cdot (\bm{Lx})\geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:mah:proof}
 \end{equation}
+
+\item \ac{cmaes} is used instead of \ac{jde}, therefore smaller population size can be used, leading to faster optimisation (recommended population size for \ac{cmaes} is only $4+\floor{3\log{d}}$~\citep{hansen2006cma} whereas for \ac{jde} it is $10d$~\citep{brest2006self}, where $d$ is number of parameters to evolve).
+\end{itemize}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -756,7 +769,7 @@ This experiment was designed to test how much a distance metric helps in classif
 The metric learning algorithms tested in the experiments are 
 
 \begin{itemize}
-\item Covariance (original Mahalanobis metric with a covariance matrix defined in Equation~\ref{eq:maha:orig})
+\item Covariance (original Mahalanobis distance with a covariance matrix defined in Equation~\ref{eq:maha:orig})
 \item \ac{lmnn}, described in Section~\ref{chap:rw:lmnn}
 \item \ac{nca}, described in Section~\ref{chap:rw:nca}
 \item \ac{jdefme}, which is based on the method presented by~\citep{fukui2013evolutionary}
@@ -773,13 +786,13 @@ The metric learning algorithms tested in the experiments are
 
 \ac{cmaesfme} and \ac{jdeknn} were tested as well, in order to tell, what is the effect of the different optimisation algorithm and what is the effect of the different fitness function.
 
-To assess performance of the metric learning algorithms, the datasets listed in Section~\ref{chap:exp:datasets} were used. The datasets were then split into training and testing sets using 10-fold cross validation. For each fold data were first preprocessed and standardised as described in Section~\ref{chap:exp:preprocessing}, then the metric was trained using one of the methods and finally the metric was evaluated using \ac{knn} classifier.
+To assess performance of the metric learning algorithms, the datasets listed in Section~\ref{chap:exp:datasets} were used. The datasets were split into training and testing sets using 10-fold cross validation. For each fold data were first preprocessed and standardised as described in Section~\ref{chap:exp:preprocessing}, then the metric was trained using one of the methods and finally the metric was evaluated using \ac{knn} classifier.
 
 We also wanted to test how standardisation influences the learnt metrics and whether the metric learning algorithms can handle unnormalised data and so all of the experiments were run again, but without standardising the data. The experiments on preprocessed data are prefixed by ``s:'' in the tables with the results of the metric learning experiment.
 
 \subsection{Hyperperameter search} \label{chap:exp:hypsearch}
 
-Every metric learning algorithm has a set of hyperparameters which highly influence the learnt metric. For each hyperparameter, sensible values from a reasonable range were selected. All hyperparameters for each algorithm are shown in Table~\ref{tab:hyperparams}. From the hyperparameter table it is clear that all the \ac{dml} algorithms except Covariance and \ac{lfda} are iterative (\textit{max\_iter} and \textit{n\_gen} hyperparameters) and the iterations were limited to 25, 50, 100, 250 and 1000 for all these iterative algorithms (only the maximum number of iterations was lowered to 500 for the evolutionary approaches on the larger datasets, as otherwise the computations take too long to finish). The transformer parameter means whether the algorithm uses the full matrix or it is restricted to a diagonal transformation matrix. Unfortunately the library did not offer learning metrics restricted to a diagonal matrix and so the restricted versions were tested only with the evolutionary methods that we implemented ourselves.
+Every metric learning algorithm has a set of hyperparameters which highly influence the learnt metric. For each hyperparameter, sensible values from a reasonable range were selected. All hyperparameters for each algorithm are shown in Table~\ref{tab:hyperparams}. From the hyperparameter table it is clear that all the \ac{dml} algorithms (except Covariance and \ac{lfda}) are iterative (\textit{max\_iter} and \textit{n\_gen} hyperparameters) and the iterations were limited to 25, 50, 100, 250 and 1000 for all these iterative algorithms (only the maximum number of iterations was lowered to 500 for the evolutionary approaches on the larger datasets, as otherwise the computations take too long to finish). The transformer parameter means whether the algorithm uses the full matrix or it is restricted to a diagonal transformation matrix. Unfortunately the library did not offer learning metrics restricted to a diagonal matrix and so the restricted versions were tested only with the evolutionary methods that we implemented ourselves.
 
 \input{results/hyperparameters}
 
@@ -798,7 +811,7 @@ Some other methods did not finish because a numerical error occurred, these are 
 \input{results/error-rates}
 
 % https://en.wikipedia.org/wiki/Interquartile_range
-The results are also plotted in Figures~\ref{fig:cl:sr1} and~\ref{fig:cl:sr2} using the box plots. Each dataset has its own graph where all the methods that finished correctly are drawn with their specific colour using the box plot graph. The median success rate is marked with a thick black line, the area of the box is an \ac{iqr} defined as the third quartile minus first quartile: $IQR = Q_3 - Q_1$. The whiskers extend $1.5*IQR$ to both sides of the box plot and anything beyond whiskers is considered to be an outlier value.
+The results are also plotted in Figures~\ref{fig:cl:sr1} and~\ref{fig:cl:sr2} using the box plots. Each dataset has its own graph where all the methods that finished correctly are drawn with their specific colour using the box plot graph. The median success rate is marked with a thick black line, the area of the box is an interquartile range (IQR) defined as the third quartile minus first quartile: $IQR = Q_3 - Q_1$. The whiskers extend $1.5*IQR$ to both sides of the box plot and anything beyond whiskers is considered to be an outlier value.
 
 The results in the Table~\ref{tab:error-rates} and Figures~\ref{fig:cl:sr1} and~\ref{fig:cl:sr2} indicate that the standardisation of the data is generally a good idea, only datasets \dataset{digits6}, \dataset{digits10} and \dataset{iris} have the lowest error rates when unstandardised, although the standardised versions follow up with such a small margin that it is not a statistically significant difference. On the other hand, standardising data can have a large impact as can be seen on \dataset{gaussians}, \dataset{sonar} and \dataset{wine} datasets, where the difference between standardised and unstandardised data can be tens of percents. It shows that metric learning algorithms cannot fully replace the data standardisation.
 
@@ -824,7 +837,7 @@ Some of the methods seem to handle the change of this parameter more gracefully.
 
 The Covariance method has a bad success rate altogether, but it also drops down the fastest when the $k$ hyperparameter increases.
 
-\cenfig{graphs/classification/sr_knn}{Success rates of individual algorithms when fixing $k$ in the final \ac{knn} classifier}{fig:cl:kpar}
+\cenfig{graphs/classification/sr_knn}{Success rates of \ac{dml} algorithms while fixing $k$ in the final \ac{knn} classifier}{fig:cl:kpar}
 
 \clearpage
 
@@ -850,7 +863,7 @@ The hyperparameters of the individual methods are shown in Figure~\ref{fig:cl:hy
 \item transformer shape for \ac{jdefme}, evolving a full matrix works clearly better for all datasets.
 \end{enumerate}
 
-\cenfig{graphs/classification/sr_hyp}{Success rates of individual algorithms when fixing some of their hyperparameters}{fig:cl:hyp}
+\cenfig{graphs/classification/sr_hyp}{Success rates of \ac{dml} algorithms when fixing given hyperparameters}{fig:cl:hyp}
 
 \section{Experiment: Generalisation of EAs} \label{chap:exp:fitness}
 
@@ -858,7 +871,7 @@ To test out how well solutions from evolutionary \ac{dml} methods evolve and gen
 
 \ac{cmaes} and \ac{jde} were tested with both fitnesses (\ac{knn} and \mbox{F-measure}): \ac{cmaesknn}, \ac{cmaesfme}, \ac{jdeknn}, and \ac{jdefme}. All algorithms were tested with full and diagonal Mahalanobis matrices.
 
-All methods have some hyperparameters and in order to avoid the time consuming hyperparameter search, the hyperparameters for the models in this experiment were selected according to results from the previous experiment in Section~\ref{chap:exp:classification}. Only one set of hyperparameters was selected for all datasets. The number of nearest neighbours used in the \ac{knn} fitness function was chosen to be 8 and the number of nearest neighbours in the final \ac{knn} classifier was set to 4.
+All methods have some hyperparameters and in order to avoid the time consuming hyperparameter search, the hyperparameters for the models in this experiment were selected according to results from the previous experiment in Section~\ref{chap:exp:classification}. Only one set of the hyperparameters was selected for all datasets. The number of nearest neighbours used in the \ac{knn} fitness function was chosen to be 8 and the number of nearest neighbours in the final \ac{knn} classifier was set to 4.
 
 Datasets described in Section~\ref{chap:exp:datasets} were used as well for this experiment. Data were preprocessed and standardised the same way as in previous experiments, both methods are described in Section~\ref{chap:exp:preprocessing}. Data were split into training and testing sets using a 67:33 ratio in a stratified fashion, keeping the sizes of classes balanced between the two splits.
 
@@ -1062,7 +1075,7 @@ In spite of our best effort, not everything was finished and there is space for 
 
 \item Additional objectives can be added to the fitness function together with the \ac{knn} classifier to improve the generalisation. Some clustering indexes (e.g. purity, homogeneity) could perform well with \ac{knn} in describing the final embedding. \ac{cmaes} can be naturally extended to handle multi-objective optimisation~\citep{igel2007covariance}.
 
-\item In our work we evolved a transformation matrix that could be used to form Mahalanobis metric. We focused on evolving a full and a diagonal matrix, however, evolving a triangular matrix could be a good compromise between model performance and computation feasibility.
+\item In our work we evolved a transformation matrix that could be used to form Mahalanobis distance. We focused on evolving a full and a diagonal matrix, however, evolving a triangular matrix could be a good compromise between model performance and computation feasibility.
 
 \item It might be possible to evaluate the fitness on subsamples of the dataset to speed up the evolution, similarly to the way how batches are used in stochastic gradient descend to improve the speed of the algorithm.
 \end{itemize}
