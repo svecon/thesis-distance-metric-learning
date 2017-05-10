@@ -123,7 +123,7 @@ In this work, we propose a novel method for a supervised dimensionality reductio
 }
 
 \def\AbstractCzech{%
-V této práci jsme navrhli novou metodu pro supervised redukci dimenze, která se učí váhy neuronové sítě pomocí evolučního algoritmu CMA-ES, optimalizujícího úspěšnost k-NN klasifikátoru. Když v dané neuronové síti nejsou použity žádné aktivační funkce, tak algoritmus vykonává lineární transformaci. Tato lineární transformace také může být použita uvnitř Mahalanobisovy vzdálenosti a tím pádem naše metoda může být také považována za distance metric learning algoritmus. Při použití aktivačních funkcí v neuronových sítích se algoritmus může taky naučit nelineární transformace. V naší práci se zaměřujeme na redukci do nízko-dimenzionálních prostorů, které jsou užitečné pro vizualizaci dat. Experimentálně také ukazujeme, že ve srovnání s dalšími technikami pro redukci dimenze naše výsledné projekce fungují lépe a také ukazujeme, že naše vizualizace díky lokalitě k-NN klasifikátoru poskytují lepší interpretaci dat a rozlišení mezi různými třídami v datech.%
+V této práci jsme navrhli novou metodu pro supervised redukci dimenze, která se učí váhy neuronové sítě pomocí evolučního algoritmu CMA-ES, optimalizujícího úspěšnost $k$-NN klasifikátoru. Když v dané neuronové síti nejsou použity žádné aktivační funkce, tak algoritmus vykonává lineární transformaci. Tato lineární transformace také může být použita uvnitř Mahalanobisovy vzdálenosti a tím pádem naše metoda může být také považována za distance metric learning algoritmus. Při použití aktivačních funkcí v neuronových sítích se algoritmus může taky naučit nelineární transformace. V naší práci se zaměřujeme na redukci do nízko-dimenzionálních prostorů, které jsou užitečné pro vizualizaci dat. Experimentálně také ukazujeme, že ve srovnání s dalšími technikami pro redukci dimenze naše výsledné projekce fungují lépe a také ukazujeme, že naše vizualizace díky lokalitě $k$-NN klasifikátoru poskytují lepší interpretaci dat a rozlišení mezi různými třídami v datech.%
 }
 
 % 3 to 5 keywords (recommended), each enclosed in curly braces
@@ -269,33 +269,35 @@ There are three large fields that benefit from \ac{dml}. In \textit{Computer vis
 The problem with the Euclidean distance is that it does not account for variances in different directions and correlations between pairs of dimensions in the data. For normally distributed data, the distance from the mean can be specified by computing the z-score, defined as $z = \frac{x-\mu}{\sigma}$, where $\mu$ is the population mean and $\sigma$ is the population standard deviation. The z-score of $x$ can seen as a dimensionless quantity and can be interpreted as the number of standard deviations of $x$ away from the mean.
 
 Figure~\ref{fig:corrdata} demonstrates this problem in two dimensions: the figure visualises a dataset with both dimensions highly correlated and with the first dimension highly variable. In the plot the coloured ellipses show the probability density function of the Gaussian mixture model, which is high for ellipses near the origin and low for ellipses further away. In the figure there are three red points: 
-\begin{itemize}
-\item origin $O$ at coordinates $[0,0]$,
-\item $A$ at coordinates $[2,0]$,
-\item $B$ at coordinates $[0,1]$.
-\end{itemize}
-It is clear that in Euclidean distance $d_2(A,O)>d_2(B,O)$. However, because the first axis has larger variance, it is clear that seeing point $A$ is much more likely in our dataset than it is seeing point $B$ because $A$ lies on the edge of the first ellipsis, meanwhile point $B$ lies beyond the edge of the second ellipsis. Using the terminology of the z-score, point $B$ is more standard deviations away from the origin than point $A$.
+% \begin{itemize}
+origin $O$ at coordinates $[0,0]$,
+$A$ at coordinates $[2,0]$,
+and $B$ at coordinates $[0,1]$.
+% \end{itemize}
 
 \cenfig{graphs/correlated_data}{Correlated data centred around origin}{fig:corrdata}
 
-% http://blogs.sas.com/content/iml/2012/02/08/use-the-cholesky-transformation-to-correlate-and-uncorrelate-variables.html
-The data can be uncorrelated using the covariance matrix $\bm{\Sigma}$, which is guaranteed to be a \ac{psd} matrix (\ac{psd} is defined in Equation~\ref{eq:psd:def}). Sometimes, however the covariance matrix is even \ac{pd} and thus the Cholesky decomposition $\bm{\Sigma}=\bm{L}\bm{L}^T$ can be used to obtain a lower triangular matrix $\bm{L}$. The inverse of this triangular matrix $\bm{L}$ can be used to remove the correlation from the data defined by $\bm{\Sigma}$. Figure~\ref{fig:uncorrdata} demonstrates the effect of multiplying the original data by $\bm{L}^{-1}$. In this figure with uncorrelated data, it is now clear that $d_2(A,O)<d_2(B,O)$ even in Euclidean distance.
+It is clear that in Euclidean distance $d_2(A,O)>d_2(B,O)$. However, because the first axis has larger variance, it is clear that seeing point $A$ is much more likely in our dataset than it is seeing point $B$ because $A$ lies on the edge of the first ellipsis, meanwhile point $B$ lies beyond the edge of the second ellipsis. Using the terminology of the z-score, point $B$ is more standard deviations away from the origin than point $A$.
 
-\begin{equation}
-\bm{x}^\top \bm{A}\bm{x} \geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:psd:def}
-\end{equation}
+% http://blogs.sas.com/content/iml/2012/02/08/use-the-cholesky-transformation-to-correlate-and-uncorrelate-variables.html
+The data can be uncorrelated using the covariance matrix $\bm{\Sigma}$, which is guaranteed to be a \ac{psd} matrix. Matrix $\bm{A}$ is \ac{psd} if it fulfils
+\begin{equation*}
+\bm{x}^\top \bm{A}\bm{x} \geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0.
+\end{equation*}
+
+Sometimes, however the covariance matrix is even \ac{pd} and thus the Cholesky decomposition $\bm{\Sigma}=\bm{L}^\top\bm{L}$ can be used to obtain a lower triangular matrix $\bm{L}$. The inverse of this triangular matrix $\bm{L}$ can be used to remove the correlation from the data defined by $\bm{\Sigma}$. Figure~\ref{fig:uncorrdata} demonstrates the effect of multiplying the original data by $\bm{L}^{-1}$. In this figure with uncorrelated data, it is now clear that $d_2(A,O)<d_2(B,O)$ even in Euclidean distance.
 
 \cenfig{graphs/uncorrelated_data}{Uncorrelated data using Cholesky decomposition of covariance matrix}{fig:uncorrdata}
 
 Many researchers tackle metric learning by adapting a Mahalanobis distance metric first described by~\citep{mahalanobis1936generalized} and defined in Equation~\ref{eq:maha:orig}, where $\bm{\Sigma}$ is a covariance matrix of the data defined in Equation~\ref{eq:cov}. However this name is now overloaded and Mahalanobis distance now stands for any metric parameterised by a matrix $\bm{M}$ as defined in Equation~\ref{eq:maha}.
 
 \begin{align} \label{eq:maha:orig}
-d_{Mahalanobis}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^T\bm{\Sigma}^{-1}(\textbf{x}-\textbf{y})}  \\
+d_{Mahalanobis}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^\top\bm{\Sigma}^{-1}(\textbf{x}-\textbf{y})}  \\
 \bm{\Sigma} &= \mathrm {E} \left[\left(\mathbf {X} -\mathrm {E} [\mathbf {X} ]\right)\left(\mathbf {X} -\mathrm {E} [\mathbf {X} ]\right)^{\rm {T}}\right] \label{eq:cov}
 \end{align}
 
 \begin{equation} \label{eq:maha}
-d_{\bm{M}}(\textbf{x},\textbf{y}) = \sqrt{(\textbf{x}-\textbf{y})^T\bm{M}(\textbf{x}-\textbf{y})} 
+d_{\bm{M}}(\textbf{x},\textbf{y}) = \sqrt{(\textbf{x}-\textbf{y})^\top\bm{M}(\textbf{x}-\textbf{y})} 
 \end{equation}
 
 The problem of correlation between dimensions does not arise in the Mahalanobis distance (Equation~\ref{eq:maha:orig}) because it decorrelates the data intrinsically before calculating the distance itself. If the Cholesky decomposition is applied directly inside of the Equation~\ref{eq:maha:orig}, then the Mahalanobis distance of the original data is equal to the Euclidean distance of the decorrelated data as shown in Equation~\ref{eq:mahalanobis:decorrelation}.
@@ -338,7 +340,7 @@ d(\textbf{x},\textbf{y}) &= d(\textbf{y},\textbf{x}) & symmetry \label{eq:pseudo
 d(\textbf{x},\textbf{z}) &\leq d(\textbf{x},\textbf{y}) + d(\textbf{y},\textbf{z}) & triangle \ inequality \label{eq:pseudodef-4}
 \end{align} 
 
-If the matrix $\bm{M}$ in the generalised Mahalanobis distance is \ac{pd}, it can be decomposed using a Cholesky decomposition into $\bm{\Sigma}=\bm{L}\bm{L}^T$ and then the same trick from Equation~\ref{eq:mahalanobis:decorrelation} can be used as shown in Equation~\ref{eq:mahalanobis:transform}. Therefore every Mahalanobis distance with a \ac{pd} matrix can be replaced by a linear transformation of the original space using a matrix $\bm{L}$ and then calculating the Euclidean distance in the transformed space. This interesting feature of Mahalanobis distance allows us to look at metric learning algorithms also as a data transformation or data preprocessing.
+If the matrix $\bm{M}$ in the generalised Mahalanobis distance is \ac{pd}, it can be decomposed using a Cholesky decomposition into $\bm{\Sigma}=\bm{L}^\top\bm{L}$ and then the same trick from Equation~\ref{eq:mahalanobis:decorrelation} can be used as shown in Equation~\ref{eq:mahalanobis:transform}. Therefore every Mahalanobis distance with a \ac{pd} matrix can be replaced by a linear transformation of the original space using a matrix $\bm{L}$ and then calculating the Euclidean distance in the transformed space. This interesting feature of Mahalanobis distance allows us to look at metric learning algorithms also as a data transformation or data preprocessing.
 
 \begin{align}
   d_{\bm{M}}(\textbf{x},\textbf{y}) &= \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{M}(\textbf{x}-\textbf{y})} \nonumber\\
@@ -356,7 +358,7 @@ Learning Mahalanobis distance comes with two challenges:
 \end{enumerate}
 
 \section{Outline}
-This work extends upon the ideas from DML and applies them to the problem of dimensionality reduction and visualisation. The connection between dimensionality reduction and DML and the motivation for this work is quite simple. Given a generalised Mahalanobis distance $d_{\bm{M}}(\textbf{x},\textbf{y}) = \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{M}(\textbf{x}-\textbf{y})}$ with a \ac{pd} matrix $\bm{M}$ and its Cholesky decomposition $M=L^TL$, it holds that $d_{\bm{M}}(\textbf{x},\textbf{y}) = d_{2}(\bm{L}\textbf{x},\bm{L}\textbf{y})$, where $d_2$ is the Euclidean distance. Therefore, the matrix $L$ is a mapping from an original space $O$ to another space $T$. This notion can be generalised further to look for general mappings $f: O \to T$. An example of such a mapping is a linear mapping. In such a case the matrix $L$ may have a lower rank and thus it maps the points of the original space to a lower-dimensional space. Another example of mapping may be a neural network, which makes a non-linear transformation of $O$ to $T$. The distances of points in $O$ are then computed as Euclidean distances of their projections to $T$. Mostly mappings to low-dimensional spaces suitable for visualisation are discussed in this work, however, most of the ideas can be extended to higher dimensions, and thus to dimensionality reduction in general. The techniques described here are supervised, and the mappings seek to optimize the accuracy of the \ac{knn} classifier applied in the low-dimensional space. The motivation is that in case the \ac{knn} classifier has a high accuracy, instances from the same class are close together.
+This work extends upon the ideas from DML and applies them to the problem of dimensionality reduction and visualisation. The connection between dimensionality reduction and DML and the motivation for this work is quite simple. Given a generalised Mahalanobis distance $d_{\bm{M}}(\textbf{x},\textbf{y}) = \sqrt{(\textbf{x}-\textbf{y})^{T}\bm{M}(\textbf{x}-\textbf{y})}$ with a \ac{pd} matrix $\bm{M}$ and its Cholesky decomposition $\bm{M}=\bm{L}^\top\bm{L}$, it holds that $d_{\bm{M}}(\textbf{x},\textbf{y}) = d_{2}(\bm{L}\textbf{x},\bm{L}\textbf{y})$, where $d_2$ is the Euclidean distance. Therefore, the matrix $\bm{L}$ is a mapping from an original space $O$ to another space $T$. This notion can be generalised further to look for general mappings $f: O \to T$. An example of such a mapping is a linear mapping. In such a case the matrix $\bm{L}$ may have a lower rank and thus it maps the points of the original space to a lower-dimensional space. Another example of mapping may be a neural network, which makes a non-linear transformation of $O$ to $T$. The distances of points in $O$ are then computed as Euclidean distances of their projections to $T$. Mostly mappings to low-dimensional spaces suitable for visualisation are discussed in this work, however, most of the ideas can be extended to higher dimensions, and thus to dimensionality reduction in general. The techniques described here are supervised, and the mappings seek to optimize the accuracy of the \ac{knn} classifier applied in the low-dimensional space. The motivation is that in case the \ac{knn} classifier has a high accuracy, instances from the same class are close together.
 
 Current approaches to \ac{dml} are described in Chapter~\ref{chap:rw}, the notion of \ac{dml} is generalised to any general mapping and our own method for classification and dimensionality reduction is proposed in Chapter~\ref{chap:our-method}. In Chapter~\ref{chap:exp} our method is compared to other state-of-the-art methods in several different tasks such as classification, visualisation, and time-performance. We conclude our work in Chapter~\ref{chap:conclusion} and suggest some ideas for further investigation and research in Chapter~\ref{chap:future-work}.
 
@@ -395,7 +397,7 @@ This convex program is solved by using gradient ascend to maximize the distances
 \ac{knn} algorithm is a simple non-parametric method for classification and regression. In classification, an unknown sample is classified by a majority vote of $k$ nearest training samples. The pseudocode for classification is shown in Algorithm~\ref{pseudo:knn}. In regression, the output is an average of the values of $k$ nearest neighbours.
 
 \begin{algorithm}[t]
-\caption{Pseudocode for k-NN classification} \label{pseudo:knn}
+\caption{Pseudocode for classification using \ac{knn}} \label{pseudo:knn}
 \DontPrintSemicolon
 \LinesNumbered
 \KwData{set of labelled instances $\mathcal{Z}=\{\bm{z}_i=(\bm{x}_i, y_i): \bm{x}_i \in \mathcal{X}, y_i \in \mathcal{Y}\}^n_{i=1}$, where $\mathcal{X}$ are training data and $\mathcal{Y}$ are their class labels}
@@ -570,9 +572,9 @@ Another dimensionality reduction method is \ac{tsne}~\citep{maaten2008visualizin
 
 \section{Summary of DML methods}
 
-The most prominent \ac{dml} methods were described in the previous sections. We experimented with many other \ac{dml} methods from the survey by~\citep{bellet2013survey}, however, in our preliminary experiments we found that these methods performed the best.
+The most prominent \ac{dml} methods were described in the previous sections. We experimented with many other \ac{dml} methods from the survey by~\citep{bellet2013survey}, however, in our preliminary experiments we found that methods that were summarised here, perform the best.
 
-Table~\ref{tab:rw:summary} shows described methods. These methods are used further in our experiments.
+Table~\ref{tab:rw:summary} shows methods described in this chapter. These methods are used further in our experiments.
 
 \begin{table}[ht] \centering
 \begin{tabular}{llllll}
@@ -580,9 +582,9 @@ Table~\ref{tab:rw:summary} shows described methods. These methods are used furth
 Name & Year & Supervision & Optimum & Regularizer & Notes \\
 \hline
 Covariance & 1936 & None & Global & None & Unsupervised \\
-% MMC & 2002 & Weak & Global & None & — \\
-LMNN & 2005 & Full & Global & None & For k-NN \\
-NCA & 2004 & Full & Local & None & For k-NN \\
+MMC & 2002 & Weak & Global & None & — \\
+LMNN & 2005 & Full & Global & None & Improving \ac{knn} \\
+NCA & 2004 & Full & Local & None & Improving \ac{knn} \\
 LFDA & 2007 & Full & Global & None & — \\
 % RCA & 2003 & Weak & Global & None & — \\
 % ITML & 2007 & Weak & Global & LogDet & Online version \\
@@ -597,13 +599,13 @@ jDE.wFme & 2013 & Full & Local & None & Evolutionary \\
 
 \chapter{Generalising Evolutionary Distance Learning} \label{chap:our-method}
 
-The aim of this work is to find a mapping from the original space $O$ of the input data, to a (potentially low-dimensional) space $T$. The mapping $f: O \to T$ is then used in the distance metric found by the algorithm. The evolved metric is defined as $d_f(x, y) = d_2(f(x), f(y))$, where $d_2$ is the Euclidean metric in the $T$ space. It was already mentioned that in case $f$ is represented by a lower triangular matrix $L$, $d_f$ represents a Mahalanobis distance with matrix $L^TL$. However, the mappings may be more general. If the mapping is represented by a rectangular matrix, the technique can be used for dimensionality reduction. Moreover, we can also look for a non-linear mapping $f$, which is able to transform the input data in such a way that it is easier for the classifier to make the correct prediction.
+The aim of this work is to find a mapping from the original space $O$ of the input data, to a (potentially low-dimensional) space $T$. The mapping $f: O \to T$ is then used in the distance metric found by the algorithm. The evolved metric is defined as $d_f(x, y) = d_2(f(x), f(y))$, where $d_2$ is the Euclidean metric in the $T$ space. It was already mentioned that in case $f$ is represented by a lower triangular matrix $\bm{L}$, $d_f$ represents a Mahalanobis distance with matrix $\bm{L}^\top\bm{L}$. However, the mappings may be more general. If the mapping is represented by a rectangular matrix, the technique can be used for dimensionality reduction. Moreover, we can also look for a non-linear mapping $f$, which is able to transform the input data in such a way that it is easier for the classifier to make the correct prediction.
 
-Only mappings which can be represented as vectors or matrices of real numbers are considered in this work. Such mappings include both linear transformations and non-linear transformation such as neural networks (which can be represented as vectors containing their weights). The goal of the algorithm is to find a mapping that maximizes the performance of the classifier that follows the preprocessing step. In this work, \ac{knn} classifier is considered, however different classifiers can also be used. The performance of the \ac{knn} classifier is used as the fitness in the evolutionary algorithm. One of the reasons is that it is relatively fast, it takes $N\log{N}$ to build the underlying k-d tree structure with $N$ training samples and then $M \log{N}$ to classify $M$ testing samples. Another advantage of using the \ac{knn} classifier is that the resulting mappings should also provide useful visualisations of the data. The \ac{knn} classifier is local, and therefore works best in case instances from the same class are close together.
+Only mappings which can be represented as vectors or matrices of real numbers are considered in this work. Such mappings include both linear transformations and non-linear transformation such as neural networks (which can be represented as vectors containing their weights). The goal of the algorithm is to find a mapping that maximizes the performance of the classifier that follows the preprocessing step. In this work, \ac{knn} classifier is considered, however different classifiers can also be used. The performance of the \ac{knn} classifier is used as the fitness in the evolutionary algorithm. One of the reasons is that it is relatively fast, it takes $N\log{N}$ to build the underlying k-d tree structure with $N$ training samples and then $M \log{N}$ to classify $\bm{M}$ testing samples. Another advantage of using the \ac{knn} classifier is that the resulting mappings should also provide useful visualisations of the data. The \ac{knn} classifier is local, and therefore works best in case instances from the same class are close together.
 
 The \ac{knn} classifier function is not differentiable and so we focus on finding the mapping using evolutionary algorithms. When the evolutionary algorithm is non-elitist (i.e. it can lose the best individual in the search), a concept called \ac{hof} is used, which acts as a storage of the best individuals. It is updated with the best individuals after every generation and only keeps the best ones across all generations.
 
-The high level pseudocode for an evolutionary algorithm evolving the mapping is shown in Algorithm~\ref{pseudo:our-method}. First, all parameters are initialised randomly along with an empty \ac{hof}. The individuals are vectors of real numbers that encode the mapping. In case of evolving the matrix $L$ for the Mahalanobis distance, this is a vector of $d^2$ numbers. In case of evolving the neural networks, the individual contains all the weights from the network. Then the evolutionary algorithm is run until a stopping criterion is met. In each generation new individuals are sampled and the fitnesses of the individuals are evaluated. The \ac{hof} and the internal parameters of the evolutionary algorithm are updated. After the evolution, the best individual from the \ac{hof} is returned. The individual contains the weights that represent the corresponding mapping.
+The high level pseudocode for an evolutionary algorithm evolving the mapping is shown in Algorithm~\ref{pseudo:our-method}. First, all parameters are initialised randomly along with an empty \ac{hof}. The individuals are vectors of real numbers that encode the mapping. In case of evolving the matrix $\bm{L}$ for the Mahalanobis distance, this is a vector of $d^2$ numbers. In case of evolving the neural networks, the individual contains all the weights from the network. Then the evolutionary algorithm is run until a stopping criterion is met. In each generation new individuals are sampled and the fitnesses of the individuals are evaluated. The \ac{hof} and the internal parameters of the evolutionary algorithm are updated. After the evolution, the best individual from the \ac{hof} is returned. The individual contains the weights that represent the corresponding mapping.
 
 \begin{algorithm}[t]
 \caption{Evolving a mapping using an evolutionary algorithm} \label{pseudo:our-method}
@@ -663,10 +665,10 @@ To perform a dimensionality reduction using the neural network, the shape and th
 The algorithm described here is similar to the algorithm described by~\citep{fukui2013evolutionary}, however, there are some important differences:
 \begin{itemize}
 \item~\citep{fukui2013evolutionary} focuses on improving clustering and used the \mbox{F-measure} as the fitness function. On the other hand, we deal with classification and therefore we minimize the error rate of the \ac{knn} classifier;
-\item a mapping is evolved instead of the matrix for the Mahalanobis distance, therefore the matrix does not have to be ``adjusted'' during the evolution to stay \ac{pd}, as proved in Equation~\ref{eq:mah:proof}:
+\item a mapping is evolved instead of the matrix for the Mahalanobis distance, therefore the matrix $\bm{L}$ does not have to be ``repaired'' during the evolution. Matrix $\bm{M}=\bm{L}^\top\bm{L}$ can be used in Mahalanobis distance, because it is \ac{psd}:
 
 \begin{equation}
-\bm{x}^\top \bm{L}^\top \bm{L}\bm{x}=(\bm{Lx})^\top(\bm{Lx})=(\bm{Lx})\cdot (\bm{Lx})\geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:mah:proof}
+\bm{x}^\top \bm{L}^\top\bm{L}\bm{x}=(\bm{Lx})^\top(\bm{Lx})=(\bm{Lx})\cdot (\bm{Lx})\geq 0 \quad \forall \bm{x} \in \mathbb{R}^d, \bm{x} \neq 0 \label{eq:mah:proof}
 \end{equation}
 
 \item \ac{cmaes} is used instead of \ac{jde}, therefore smaller population size can be used, leading to faster optimisation (recommended population size for \ac{cmaes} is only $4+\floor{3\log{d}}$~\citep{hansen2006cma} whereas for \ac{jde} it is $10d$~\citep{brest2006self}, where $d$ is number of parameters to evolve).
@@ -680,7 +682,7 @@ The algorithm described here is similar to the algorithm described by~\citep{fuk
 Five different experiments were performed to assess the performance of the metric learning algorithm presented in this work. In Section~\ref{chap:exp:classification} a metric for the \ac{knn} classifier is learnt and the classification errors are compared on various datasets, which are described in Section~\ref{chap:exp:datasets}. In the next experiment in Section~\ref{chap:exp:fitness} different evolutionary algorithms together with various fitnesses  are compared and examined to see how well they evolve and generalise, while in Section~\ref{chap:exp:logjde} the performance of different population sizes of \ac{jde} is compared. In Section~\ref{chap:exp:learning-times} the training times of the \ac{dml} algorithms are measured and in the last experiment in Section~\ref{chap:exp:dimred} metric learning algorithms are used for visualisation and the resulting embeddings are compared with more traditional methods, \ac{pca} and \ac{tsne}.
 
 \section{Experimental settings} 
-In our experiments metric learning algorithms listed in Chapter~\ref{chap:rw} (\ac{lmnn}, \ac{nca}, \ac{lfda}) are compared. They are implementated in Python \textit{metric-learn} library\footnote{\url{https://github.com/all-umass/metric-learn}}. We implemented a \ac{jde}-based method similar to~\citep{fukui2013evolutionary} and our algorithm described in Chapter~\ref{chap:our-method}. The implementation is an extension of \textit{metric-learn} library and the source codes are available in our GitHub repository\footnote{\url{https://github.com/svecon/metric-learn/tree/ecml2017}}, but we hope the source codes will be accepted into the library. The scripts used to perform the experiments and create the results in this chapter are also available on GitHub\footnote{\url{https://github.com/svecon/metric-learn-playground/tree/ecml2017}}.
+In our experiments metric learning algorithms listed in Chapter~\ref{chap:rw} (\ac{lmnn}, \ac{nca}, \ac{lfda}) are compared. They are implementated in Python \textit{metric-learn} library\footnote{\url{https://github.com/all-umass/metric-learn}}. We implemented a \ac{jde}-based method similar to~\citep{fukui2013evolutionary}, and our algorithm described in Chapter~\ref{chap:our-method}. The implementation is an extension of \textit{metric-learn} library and the source codes are available in our GitHub repository\footnote{\url{https://github.com/svecon/metric-learn/tree/ecml2017}}, but we hope the source codes will be accepted into the library. The scripts used to perform the experiments and create the results in this chapter are also available on GitHub\footnote{\url{https://github.com/svecon/metric-learn-playground/tree/ecml2017}}.
 
 \subsection{Datasets} \label{chap:exp:datasets}
 Datasets that were most commonly found in literature were used for the experiments, particularly in~\citep{xing2002distance},~\citep{weinberger2009distance},~\citep{jacobgoldberger2004neighbourhood} and~\citep{fukui2013evolutionary}. The most common among all these papers were \dataset{balance-scale}, \dataset{breast-cancer}, \dataset{iris}, \dataset{mice-protein}, \dataset{pima-indians}, \dataset{sonar} and \dataset{wine} datasets. All these datasets were obtained from a well-known UCI Machine Learning Repository\footnote{\url{https://archive.ics.uci.edu/ml/datasets/}}. Among these datasets \dataset{mice-protein} and \dataset{sonar} have high dimensionality, nevertheless, they are small in terms of number of samples. We also decided to add \dataset{digits6} and \dataset{digits10} datasets, also obtained from the same archive, which are relatively larger datasets containing $8\times 8$ pixel images of digits with 6 and 10 classes, respectively.
@@ -819,9 +821,9 @@ Overall, three methods perform very well across all datasets: \ac{lmnn} with 6 b
 
 When comparing \ac{jde} and \ac{cmaes}, it can be noticed that the type of the fitness (\mbox{F-measure} or \ac{knn}) affects the performance more than the optimisation algorithm. However, \ac{jde} has an advantage in the population size, therefore we believe \ac{cmaes} is overall better than \ac{jde} for this task, as it has similar performance with much lower number of fitness evaluations. It is interesting to note that both \ac{jdefme} and \ac{jdeknn} won on the artificial \dataset{gaussians} dataset, however, they were closely followed by \ac{cmaesknn} method. \ac{cmaesfme} and \ac{jdefme} methods perform the worst on most of the datasets.
 
-\cenfig{graphs/classification/sr_1.pdf}{Success rates for classification experiment for \dataset{balance-scale}, \dataset{breast-cancer}, \dataset{digits6}, \dataset{digits10}, \dataset{gaussians}, and \dataset{iris} datasets}{fig:cl:sr1}
+\cenfig{graphs/classification/sr_1.pdf}{Success rates for classification experiment on \dataset{balance-scale}, \dataset{breast-cancer}, \dataset{digits6}, \dataset{digits10}, \dataset{gaussians}, and \dataset{iris} datasets}{fig:cl:sr1}
 
-\cenfig{graphs/classification/sr_2.pdf}{Success rates for classification experiment for \dataset{mice-protein}, \dataset{pima-indians}, \dataset{sonar}, and \dataset{wine} datasets}{fig:cl:sr2}
+\cenfig{graphs/classification/sr_2.pdf}{Success rates for classification experiment on \dataset{mice-protein}, \dataset{pima-indians}, \dataset{sonar}, and \dataset{wine} datasets}{fig:cl:sr2}
 
 \clearpage
 
